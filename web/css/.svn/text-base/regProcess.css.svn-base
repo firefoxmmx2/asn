@@ -1,0 +1,38 @@
+.tbtitle{font-size:24px;font-weight:700;color: #FF0000;}
+.tbl{font-size:14px;font-weight:700;}
+.pbg{float:left;padding:0px;margin:0px;color:white; width:190px;height:23px;background:url(../image/flow_steps_bg.png) no-repeat scroll -12px -92px; background-color:#66c00b;}
+.pbg1{float:left;padding:0px;margin:0px;color:white; width:190px;height:23px;background-color:#66c00b;}
+.spw{float:left;width:175px;text-align:center;height:23px; line-height:23px; vertical-align:middle;}
+.spg{float:left;background:url(../image/flow_steps_bg.png) no-repeat 0px 0px;width:15px;height:23px;}
+
+.pbgray{float:left; padding:0px;margin:0px; width:190px;height:23px; background-color:#E4E4E4;}
+.pbgray1{float:left; padding:0px;margin:0px; width:190px;height:23px; background:url(../image/flow_steps_bg.png) no-repeat scroll -12px -69px; background-color:#E4E4E4;}
+
+.spgray{float:left;background:url(../image/flow_steps_bg.png) no-repeat 0px -23px;width:15px;height:23px;}
+
+.spgrayend{float:left;background:url(../image/flow_steps_bg.png) no-repeat 100% -138px;width:15px;height:23px;}
+
+.pbyello{float:left;padding:0px;margin:0px;color:#FF6600; width:190px;height:23px;background:url(../image/flow_steps_bg.png) no-repeat scroll -12px -115px; background-color:#FFE6BA;}
+.pbyello1{float:left;padding:0px;margin:0px;color:#FF6600; width:190px;height:23px;background-color:#FFE6BA;}
+
+.spyello{float:left;background:url(../image/flow_steps_bg.png) no-repeat 0px -46px;width:15px;height:23px;}
+
+.spgreenend{float:left;background:url(../image/flow_steps_bg.png) no-repeat 100% -161px;width:15px;height:23px;}
+
+#totbl_1{font-size:12px; color:#666666; margin-top:10px;}
+#totbl_1 a:link { color: #0057AE; text-decoration: none; }
+#totbl_1 a:visited { color: #0057AE; text-decoration: none; }
+#totbl_1 a:hover { color: #FF6600; text-decoration: underline; }
+
+.daohang {FONT-SIZE: 14px; COLOR:#fff; FONT-FAMILY:"新宋体";padding-left:25px;font-weight:bold;background:url(../image/daohang_bg630.jpg) no-repeat;}
+
+.button5{ background:url(../image/button80.gif) no-repeat; height:21px; line-height:21px; vertical-align:middle;color:#000000; text-align:center; width:80px; border: 0px;}
+.button7{ background:url(../image/button126.gif) no-repeat; height:21px; line-height:21px; vertical-align:middle;color:#000000; text-align:center; width:126px;border: 0px;}
+
+
+.wz_left{ padding-right:10px; text-align:right; font-size:12px; color:#000000;}
+/* 文字align属性样式*/
+.zuo{ text-align:left;}/* 文字居左*/
+.middle{ text-align:center;}/* 文字居中*/
+.you{ text-align:right;}/* 文字居右*/
+.wz_bold{ font-weight:bold;}/* 文字加粗*/

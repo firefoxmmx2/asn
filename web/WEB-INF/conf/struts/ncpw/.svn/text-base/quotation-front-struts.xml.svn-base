@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<!-- 启用了TILES框架后，如果需要使用TILES跳转，package 需要继承tiles-default -->
+	<package name="platform_quotation" extends="tiles-default" namespace="/front/mall/quotation">
+		
+		<!-- 首页 行情嵌入页面 -->
+		<action name="QuoMainPage" class="com.bornsoft.asn.action.quotation.QuoMainPage">
+			<result name="success">/quotation/quoMain.jsp</result>
+		</action>
+		
+		<!-- 前台 行情列表 -->
+		<action name="QuotationList" class="com.bornsoft.asn.action.quotation.QuotationList">
+			<result name="success" type="tiles">ncpw.quotation.quolistView</result>
+		</action>
+		<!-- 前台 单个行情 -->
+		<action name="QuotationShow" class="com.bornsoft.asn.action.quotation.QuotationShow">
+			<result name="error"></result>
+			<result name="success" type="tiles">ncpw.quotation.quoView</result>
+			<result name="input" type="tiles">ncpw.quotation.quolistView</result>
+		</action>
+		<action name="QuotationCurve" class="com.bornsoft.asn.action.quotation.QuotationCurve">
+			<result name="success" type="tiles">ncpw.quotation.curveView</result>
+			<result name="input" type="tiles">ncpw.quotation.quoView</result>
+		</action>
+	</package>
+</struts>

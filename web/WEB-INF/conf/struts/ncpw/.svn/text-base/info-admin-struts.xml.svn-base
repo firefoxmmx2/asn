@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+
+	<package name="info-admin" extends="struts-asn" namespace="/admin/info">
+		<action name="toAllSupplyInfoList" class="com.bornsoft.asn.action.information.InfoAction" method="toAllSupplyInfoList">
+			<result name="success" type="tilesmap">/admin/information/allSupplyInfoList.jsp</result>
+		</action>
+		<action name="toAllPurchaseInfoList" class="com.bornsoft.asn.action.information.InfoAction" method="toAllPurchaseInfoList">
+			<result name="success" type="tilesmap">/admin/information/allPurchaseInfoList.jsp</result>
+		</action>
+		<action name="setSupplyInfoCensor" class="com.bornsoft.asn.action.information.InfoAction" method="setInfoCensor">
+			<result name="success" type="chain">toAllSupplyInfoList</result>
+		</action>
+		<action name="checkSupplyInfo" class="com.bornsoft.asn.action.information.InfoAction" method="checkSupplyInfo">
+		</action>
+		<action name="setPurchaseInfoCensor" class="com.bornsoft.asn.action.information.InfoAction" method="setInfoCensor">
+			<result name="success" type="chain">toAllPurchaseInfoList</result>
+		</action>
+		<action name="checkPurchaseInfo" class="com.bornsoft.asn.action.information.InfoAction" method="checkPurchaseInfo">
+		</action>
+		
+	</package>
+
+</struts>  

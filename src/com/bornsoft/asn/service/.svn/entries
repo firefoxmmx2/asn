@@ -1,0 +1,128 @@
+10
+
+dir
+5101
+svn://192.168.0.250/xinhe/code/new/asn2/src/com/bornsoft/asn/service
+svn://192.168.0.250/xinhe
+
+
+
+2011-01-21T09:17:26.648617Z
+5095
+chenl
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+90703fd5-c851-f543-b138-8bd635ccb602
+
+
+
+
+
+
+0
+
+account
+dir
+
+accounting
+dir
+
+activity
+dir
+
+advert
+dir
+
+bank
+dir
+
+channel
+dir
+
+client
+dir
+
+crm
+dir
+
+customer
+dir
+
+discount
+dir
+
+example
+dir
+
+facade
+dir
+
+groupPurchase
+dir
+
+idmaker
+dir
+
+infoCenter
+dir
+
+infoOrder
+dir
+
+information
+dir
+
+license
+dir
+
+member
+dir
+
+order
+dir
+
+product
+dir
+
+productType
+dir
+
+quotation
+dir
+
+recruitment
+dir
+
+report
+dir
+
+ship
+dir
+
+shoppingCart
+dir
+
+storage
+dir
+
+supplier
+dir
+
+systemconfig
+dir
+
+tradeReview
+dir
+

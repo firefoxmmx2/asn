@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+  
+<sqlMap>
+    <cacheModel id="recruitCache" type="OSCACHE">
+        <flushInterval hours="24"/>
+        <flushOnExecute statement="insertRecruitment"/>
+        <flushOnExecute statement="updateRecruitment"/>
+        <flushOnExecute statement="setRecruitmentStatus"/>
+        <flushOnExecute statement="setRecruitmentPublishedTime"/>
+    </cacheModel>
+    <cacheModel id="employeeCache" type="OSCACHE">
+        <flushInterval hours="24"/>
+        <flushOnExecute statement="insertEmployee"/>
+        <flushOnExecute statement="deleteEmployeeById"/>
+        <flushOnExecute statement="setEmployeeUse"/>
+    </cacheModel>
+    <cacheModel id="eduCache" type="OSCACHE">
+        <flushInterval hours="24"/>
+        <flushOnExecute statement="insertEdu"/>
+        <flushOnExecute statement="deleteEduByEid"/>
+    </cacheModel>
+    <cacheModel id="experienceCache" type="OSCACHE">
+        <flushInterval hours="24"/>
+        <flushOnExecute statement="insertExperience"/>
+        <flushOnExecute statement="deleteExperienceByEid"/>
+    </cacheModel>
+    <cacheModel id="PurposeCache" type="OSCACHE">
+        <flushInterval hours="24"/>
+        <flushOnExecute statement="insertPurpose"/>
+        <flushOnExecute statement="deletePurposeByEid"/>
+    </cacheModel>
+
+    <typeAlias alias="Recruitment" type="com.bornsoft.asn.bean.recruitment.Recruitment"/>
+    <resultMap class="Recruitment" id="RecruitmentMap">
+        <result property="id" column="id"/>
+        <result property="jobName" column="job_name"/>
+        <result property="workPlace" column="work_place"/>
+        <result property="amount" column="amount"/>
+        <result property="workYears" column="work_years"/>
+        <result property="eduRecord" column="edu_record"/>
+        <result property="jobDescription" column="job_description"/>
+        <result property="jobRequirement" column="job_requirement"/>
+        <result property="workType" column="work_type"/>
+        <result property="treatment" column="treatment"/>
+        <result property="promptMesg" column="prompt_mesg"/>
+        <result property="phoneNo" column="phone_no"/>
+        <result property="mailNo" column="mail_no"/>
+        <result property="publishedTime" column="published_time"/>
+        <result property="createTime" column="create_time"/>
+        <result property="belongTo" column="belong_to"/>
+        <result property="status" column="status"/>
+    </resultMap>
+	
+    <insert id="insertRecruitment" parameterClass="Recruitment">
+		insert into TBL_JOBS (id,job_name,work_place,amount,work_years,edu_record,job_description,job_requirement,work_type,treatment,prompt_mesg,phone_no,mail_no,published_time,create_time,belong_to,status)
+		values(#id#,#jobName#,#workPlace#,#amount#,#workYears#,#eduRecord#,#jobDescription#,#jobRequirement#,#workType#,#treatment#,#promptMesg#,#phoneNo#,#mailNo#,#publishedTime#,#createTime#,#belongTo#,#status#)
+    </insert>
+    <statement id="getRecruitmentList" parameterClass="java.util.HashMap" resultMap="RecruitmentMap" cacheModel="recruitCache">
+		select * from(select t.*,rownum r from ( select * from TBL_JOBS
+        <dynamic prepend="where">
+            <isNotNull prepend="and" property="jobName">
+				job_name like '%'||#jobName#||'%'
+            </isNotNull>
+            <isNotNull prepend="and" property="belongTo">
+				belong_to=#belongTo#
+            </isNotNull>
+            <isNotNull prepend="and" property="status">
+				status=#status#
+            </isNotNull>
+        </dynamic>
+		<![CDATA[
+		order by id desc )t) where r>=#startCount# and r<=#endCount# 
+		 ]]>
+    </statement>
+    <statement id="getRecruitmentListCount" parameterClass="java.util.HashMap" resultClass="Integer" cacheModel="recruitCache">
+		select count(*) from TBL_JOBS
+        <dynamic prepend="where">
+            <isNotNull prepend="and" property="jobName">
+				job_name like '%'||#jobName#||'%'
+            </isNotNull>
+            <isNotNull prepend="and" property="belongTo">
+				belong_to=#belongTo#
+            </isNotNull>
+            <isNotNull prepend="and" property="status">
+				status=#status#
+            </isNotNull>
+        </dynamic>
+    </statement>
+    <update id="setRecruitmentStatus" parameterClass="java.util.HashMap">
+		update TBL_JOBS set status=#status# where id=#id#
+    </update>
+    <select id="getRecruitmentById" resultMap="RecruitmentMap" parameterClass="String" cacheModel="recruitCache">
+		select * from TBL_JOBS where id=#id#
+    </select>
+    <update id="updateRecruitment" parameterClass="Recruitment" >
+		update TBL_JOBS set job_name=#jobName#,
+		work_place=#workPlace#,
+		amount=#amount#,
+		work_years=#workYears#,
+		edu_record=#eduRecord#,
+		job_description=#jobDescription#,
+		job_requirement=#jobRequirement#,
+		work_type=#workType#,
+		treatment=#treatment#,
+		prompt_mesg=#promptMesg#,
+		phone_no=#phoneNo#,
+		mail_no=#mailNo#,
+		published_time=#publishedTime#,
+		status=#status#
+		where id=#id# 
+    </update>
+    <update id="setRecruitmentPublishedTime" parameterClass="java.util.HashMap">
+		update TBL_JOBS set published_time=#publishedTime# where id=#id#
+    </update>
+	
+   
+	<typeAlias alias="Employee" type="com.bornsoft.asn.bean.recruitment.Employee"/>
+	<resultMap class="Employee" id="EmployeeMap">
+		<result property="id" column="id"/>
+		<result property="jobId" column="job_id"/>
+		<result property="name" column="name"/>
+		<result property="sex" column="sex"/>
+		<result property="birthday" column="birthday"/>
+		<result property="workYear" column="work_year"/>
+		<result property="certType" column="cert_type"/>
+		<result property="certNo" column="cert_no"/>
+		<result property="address" column="address"/>
+		<result property="phoneNo" column="phone_no"/>
+		<result property="mailBox" column="mail_box"/>
+		<result property="curYearlySalary" column="CUR_YEARLY_SALARY"/>
+		<result property="isUse" column="IS_USE"/>
+		<result property="photoPath" column="photo_path"/>
+	</resultMap>
+	<insert id="insertEmployee" parameterClass="Employee">
+		insert into TBL_JOBS_EMPLOY (id,job_id,name,sex,birthday,work_year,cert_type,cert_no,address,phone_no,mail_box,CUR_YEARLY_SALARY,is_use,photo_path)
+		values(#id#,#jobId#,#name#,#sex#,#birthday#,#workYear#,#certType#,#certNo#,#address#,#phoneNo#,#mailBox#,#curYearlySalary#,#isUse#,#photoPath#)
+    </insert>
+    <select id="getEmployeeList" parameterClass="java.util.HashMap" resultMap="EmployeeMap" cacheModel="employeeCache">
+		select * from(select t.*,rownum r from ( select * from TBL_JOBS_EMPLOY
+        <dynamic prepend="where">
+            <isNotNull prepend="and" property="jobId">
+				job_id=#jobId#
+            </isNotNull>
+            <isNotNull prepend="and" property="isUse">
+				is_use=#isUse#
+            </isNotNull>
+        </dynamic>
+		<![CDATA[
+		order by id desc )t) where r>=#startCount# and r<=#endCount# 
+		 ]]>
+    </select>
+    <select id="getEmployeeListCount" parameterClass="java.util.HashMap" resultClass="Integer" cacheModel="employeeCache">
+		select count(*) from TBL_JOBS_EMPLOY 
+        <dynamic prepend="where">
+            <isNotNull prepend="and" property="jobId">
+				job_id=#jobId#
+            </isNotNull>
+            <isNotNull prepend="and" property="isUse">
+				is_use=#isUse#
+            </isNotNull>
+        </dynamic>
+    </select>
+    <delete id="deleteEmployeeById" parameterClass="String">
+		delete from TBL_JOBS_EMPLOY where id=#id#
+    </delete>
+    <select id="getEmployeeById" parameterClass="String" resultMap="EmployeeMap" cacheModel="employeeCache">
+		select * from TBL_JOBS_EMPLOY where id=#id#
+    </select>
+    <update id="setEmployeeUse" parameterClass="java.util.HashMap">
+		update TBL_JOBS_EMPLOY set is_use=#isUse# where id=#id#
+    </update>
+	
+	
+    <typeAlias alias="Edu" type="com.bornsoft.asn.bean.recruitment.Edu"/>
+    <resultMap class="Edu" id="EduMap">
+        <result property="id" column="id"/>
+        <result property="employId" column="EMPLOY_ID"/>
+        <result property="eduTimes" column="EDU_TIMES"/>
+        <result property="schoolName" column="SCHOOL_NAME"/>
+        <result property="discripline" column="DISCRIPLINE"/>
+        <result property="educationalBackground" column="EDUCATIONAL_BACKGROUND"/>
+        <result property="discriplineDescription" column="DISCRIPLINE_DESCRIPTION"/>
+        <result property="studyAbroad" column="STUDY_ABROAD"/>
+    </resultMap>
+    <insert id="insertEdu" parameterClass="Edu">
+		insert into TBL_JOBS_EDU(id,EMPLOY_ID,EDU_TIMES,SCHOOL_NAME,DISCRIPLINE,EDUCATIONAL_BACKGROUND,DISCRIPLINE_DESCRIPTION,STUDY_ABROAD)
+		values(#id#,#employId#,#eduTimes#,#schoolName#,#discripline#,#educationalBackground#,#discriplineDescription#,#studyAbroad#)
+    </insert>
+    <delete id="deleteEduByEid" parameterClass="String">
+		delete from TBL_JOBS_EDU where employ_id=#id#
+    </delete>
+    <select id="getEduByEid" parameterClass="String" resultMap="EduMap" cacheModel="eduCache">
+		select * from TBL_JOBS_EDU where employ_id=#id#
+    </select>
+	
+    <typeAlias alias="Experience" type="com.bornsoft.asn.bean.recruitment.Experience"/>
+    <resultMap class="Experience" id="ExperienceMap">
+        <result property="id" column="id"/>
+        <result property="employId" column="EMPLOY_ID"/>
+        <result property="workTimes" column="WORK_TIMES"/>
+        <result property="company" column="COMPANY"/>
+        <result property="businessNature" column="BUSINESS_NATURE"/>
+        <result property="companySize" column="COMPANY_SIZE"/>
+        <result property="trade" column="TRADE"/>
+        <result property="department" column="DEPARTMENT"/>
+        <result property="position" column="POSITION"/>
+        <result property="workPlace" column="WORK_PLACE"/>
+        <result property="jobNature" column="JOB_NATURE"/>
+        <result property="jobDuty" column="JOB_DUTY"/>
+        <result property="studyAbroad" column="STUDY_ABROAD"/>
+    </resultMap>
+    <insert id="insertExperience" parameterClass="Experience">
+		insert into TBL_JOBS_WORK_EXPERIENCE(id,EMPLOY_ID,WORK_TIMES,COMPANY,BUSINESS_NATURE,COMPANY_SIZE,TRADE,DEPARTMENT,
+		POSITION,WORK_PLACE,JOB_NATURE,JOB_DUTY,STUDY_ABROAD)
+		values(#id#,#employId#,#workTimes#,#company#,#businessNature#,#companySize#,#trade#,#department#,#position#,
+		#workPlace#,#jobNature#,#jobDuty#,#studyAbroad#) 
+    </insert>
+    <delete id="deleteExperienceByEid" parameterClass="String">
+		delete from TBL_JOBS_WORK_EXPERIENCE where employ_id=#id#
+    </delete>
+    <select id="getExperienceByEid" parameterClass="String" resultMap="ExperienceMap" cacheModel="experienceCache">
+		select * from TBL_JOBS_WORK_EXPERIENCE where employ_id=#id#
+    </select>
+	
+    <typeAlias alias="Purpose" type="com.bornsoft.asn.bean.recruitment.Purpose"/>
+    <resultMap class="Purpose" id="PurposeMap">
+        <result property="id" column="id"/>
+        <result property="employId" column="EMPLOY_ID"/>
+        <result property="expectedSalary" column="EXPECTED_SALARY"/>
+        <result property="dutyTime" column="DUTY_TIME"/>
+        <result property="selfEvaluation" column="SELF_EVALUATION"/>
+    </resultMap>
+    <insert id="insertPurpose" parameterClass="Purpose">
+		insert into TBL_JOBS_PURPOSE (id,EMPLOY_ID,EXPECTED_SALARY,DUTY_TIME,SELF_EVALUATION)
+		values(#id#,#employId#,#expectedSalary#,#dutyTime#,#selfEvaluation#) 
+    </insert>
+    <delete id="deletePurposeByEid" parameterClass="String">
+		delete from TBL_JOBS_PURPOSE where employ_id=#id#
+    </delete>
+    <select id="getPurposeByEid" parameterClass="String" resultMap="PurposeMap" cacheModel="PurposeCache">
+		select * from TBL_JOBS_PURPOSE where employ_id=#id#
+    </select>
+</sqlMap>  
+   

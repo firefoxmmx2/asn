@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+     PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+     "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="OrderInfo">
+<cacheModel id="orderCache" type="OSCACHE">
+    <flushInterval hours="24"/>
+    <flushOnExecute statement="addOrder"/>
+    <flushOnExecute statement="updateOrderInfo"/>
+</cacheModel>
+<typeAlias alias="order" type="com.bornsoft.asn.bean.order.Order"/>
+<resultMap class="order" id="orderResult">
+    <result property="id" column="id" />
+	<result property="city" column="city" />
+	<result property="areaCode" column="areaCode"/>
+	<result property="detailAddress" column="detailAddress" />
+	<result property="drawerName" column="drawerName" />
+	<result property="drawerNumber" column="drawerNumber" />
+	<result property="zipCode" column="zipCode" />
+	<result property="specialExplain" column="specialExplain" />
+	<result property="paymentMethod" column="paymentMethod"/>
+	<result property="orderStatus" column="orderStatus" />
+	<result property="supplierId" column="supplierId"/>
+	<result property="createTime" column="createTime" />
+	<result property="memberId" column="memberId" />
+	<result property="operatorId" column="operatorId" /> 
+	<result property="operatorTime" column="operatorTime" />
+	<result property="postFee" column="postFee"/>
+	<result property="totalAmount" column="totalAmount"/>
+	
+</resultMap>
+
+
+
+<insert id="addOrder" parameterClass="order" >
+	     insert into tbl_order_info(
+			id,
+			city,
+			areaCode,
+			detailAddress,
+			drawerName,
+			drawerNumber,
+			zipCode,
+			specialExplain,
+			paymentMethod,
+			orderStatus,
+			supplierId,
+			createTime,
+			memberId,
+			operatorId,
+			operatorTime,
+			postFee,
+			totalAmount
+	     )
+	     values (
+	        #id#,
+			#city#,
+			#areaCode#,
+			#detailAddress#,
+			#drawerName#,
+			#drawerNumber#,
+			#zipCode#,
+			#specialExplain#,
+			#paymentMethod#,
+			#orderStatus#,
+			#supplierId#,
+			#createTime#,
+			#memberId#,
+			#operatorId#,
+			#operatorTime#,
+			#postFee#,
+			#totalAmount#
+	     )
+	</insert>
+	
+	<!-- 当前会员查询自己的订单 -->
+	<select id="selectOrderInfo" resultMap="orderResult" parameterClass="map" cacheModel="orderCache">
+	  <![CDATA[
+	  	select * from (select A.*, rownum r from (
+	  		select distinct t.* from  tbl_order_info t,tbl_member tm, tbl_order_items ti 
+			where tm.member_id = t.SUPPLIERID and 
+				  t.id = ti.orderid and 
+				  t.memberid = #memberId# 
+	  ]]>
+	    <dynamic>
+	       <isNotEmpty property="orderStatus" prepend="and">
+	          <![CDATA[ t.orderStatus=#orderStatus# ]]>
+	       </isNotEmpty>
+	       <isNotEmpty property="orderId" prepend="and">
+	       		t.id like '%$orderId$%'
+	       </isNotEmpty>
+	       <isNotEmpty property="fullName" prepend="and">
+	       		tm.full_name like '%$fullName$%'
+	       </isNotEmpty>
+	       <isNotEmpty property="productName" prepend="and">
+	       		ti.itemproductname like '%$productName$%'
+	       </isNotEmpty>
+	       <isNotEmpty property="beginDate" prepend="and">
+	       	  <![CDATA[	t.CREATETIME >= to_timestamp('$beginDate$'' 0:0:0', 'syyyy-mm-dd hh24:mi:ss') ]]>
+	       </isNotEmpty>
+	       <isNotEmpty property="beginDate" prepend="and">
+	       	  <![CDATA[	t.CREATETIME <= to_timestamp('$endDate$'' 0:0:0', 'syyyy-mm-dd hh24:mi:ss') ]]>
+	       </isNotEmpty>
+	       
+	       order by t.createTime desc
+	    </dynamic>
+	  <![CDATA[ 
+	  		) A) 
+	    		where r>=#startCount# and r<=#endCount# 
+	    ]]>  
+	</select>
+
+    <!-- 查询当前订单的数量 -->
+	<select id="soldOrderCount" resultClass="int" parameterClass="map" cacheModel="orderCache">
+	   <![CDATA[ select count(id) from tbl_order_info t where t.supplierId=#memberId#]]>
+	   <dynamic>
+	     <isNotEmpty prepend="and" property="orderStatus">
+	         <![CDATA[t.orderStatus=#orderStatus#]]>
+	     </isNotEmpty>
+	   </dynamic>
+	</select>
+	
+    <select id="buyOrderCount" resultClass="int" parameterClass="map" cacheModel="orderCache">
+	   <![CDATA[ 
+	   		select count(distinct t.id) from tbl_order_info t,tbl_member tm, tbl_order_items ti 
+			where tm.member_id = t.SUPPLIERID and 
+				  t.id = ti.orderid and 
+				  t.memberid = #memberId#  
+	   ]]>
+	   <dynamic>
+	      <isNotEmpty property="orderStatus" prepend="and">
+	         <![CDATA[t.orderStatus=#orderStatus#]]>
+	      </isNotEmpty>
+	      <isNotEmpty property="orderId" prepend="and">
+	       		t.id like '%$orderId$%'
+	       </isNotEmpty>
+	       <isNotEmpty property="fullName" prepend="and">
+	       		tm.full_name like '%$fullName$%'	       		
+	       </isNotEmpty>
+	       <isNotEmpty property="productName" prepend="and">
+	       		ti.itemproductname like '%$productName$%'
+	       </isNotEmpty>
+	       <isNotEmpty property="beginDate" prepend="and">
+	       	  <![CDATA[	t.CREATETIME <= to_timestamp('$beginDate$'' 0:0:0', 'syyyy-mm-dd hh24:mi:ss') ]]>
+	       </isNotEmpty>
+	       <isNotEmpty property="beginDate" prepend="and">
+	       	  <![CDATA[	t.CREATETIME >= to_timestamp('$endDate$'' 0:0:0', 'syyyy-mm-dd hh24:mi:ss') ]]>
+	       </isNotEmpty>
+	   </dynamic>
+	</select>
+	
+	<!--供应商查询自己的订单信息  -->
+	<select id="selectBackOrderList"  resultMap="orderResult" parameterClass="map" cacheModel="orderCache">
+	   <![CDATA[
+	   	select * from (select A.*, rownum r from (
+	  		select distinct t.* from  tbl_order_info t,tbl_member tm, tbl_order_items ti 
+			where tm.member_id = t.memberid and 
+				  t.id = ti.orderid and 
+				  t.supplierId=#supplierId#
+	   ]]>
+	   <dynamic>
+	     
+	     <isNotEmpty property="orderStatus" prepend="and">
+	         t.orderStatus = #orderStatus#
+	      </isNotEmpty>
+	      <isNotEmpty property="orderId" prepend="and">
+	       		t.id like '%$orderId$%'
+	       </isNotEmpty>
+	       <isNotEmpty property="fullName" prepend="and">
+	       		tm.full_name like '%$fullName$%'	       		
+	       </isNotEmpty>
+	       <isNotEmpty property="productName" prepend="and">
+	       		ti.itemproductname like '%$productName$%'
+	       </isNotEmpty>
+	       <isNotEmpty property="beginDate" prepend="and">
+	       	  <![CDATA[	t.CREATETIME <= to_timestamp('$beginDate$'' 0:0:0', 'syyyy-mm-dd hh24:mi:ss') ]]>
+	       </isNotEmpty>
+	       <isNotEmpty property="beginDate" prepend="and">
+	       	  <![CDATA[	t.CREATETIME >= to_timestamp('$endDate$'' 0:0:0', 'syyyy-mm-dd hh24:mi:ss') ]]>
+	       </isNotEmpty>
+	     
+	     order by t.createTime desc
+	  </dynamic>
+	   <![CDATA[ 
+	  		) A) 
+	    		where r>=#startCount# and r<=#endCount# 
+	    ]]>  
+	</select>
+	
+	<!-- 供应商查询自己订单数量 -->
+	<select id="selectBackOrderCount" parameterClass="map" resultClass="int" cacheModel="orderCache">
+	  <![CDATA[
+	  
+	  select count(distinct t.id) from  tbl_order_info t,tbl_member tm, tbl_order_items ti 
+			where tm.member_id = t.memberid and 
+				  t.id = ti.orderid and 
+				  t.supplierId=#supplierId#
+	  
+	  ]]>
+	  <dynamic>
+	     <isNotEmpty property="orderStatus" prepend="and">
+	         t.orderStatus = #orderStatus#
+	      </isNotEmpty>
+	      <isNotEmpty property="orderId" prepend="and">
+	       		t.id like '%$orderId$%'
+	       </isNotEmpty>
+	       <isNotEmpty property="fullName" prepend="and">
+	       		tm.full_name like '%$fullName$%'	       		
+	       </isNotEmpty>
+	       <isNotEmpty property="productName" prepend="and">
+	       		ti.itemproductname like '%$productName$%'
+	       </isNotEmpty>
+	       <isNotEmpty property="beginDate" prepend="and">
+	       	  <![CDATA[	t.CREATETIME <= to_timestamp('$beginDate$'' 0:0:0', 'syyyy-mm-dd hh24:mi:ss') ]]>
+	       </isNotEmpty>
+	       <isNotEmpty property="beginDate" prepend="and">
+	       	  <![CDATA[	t.CREATETIME >= to_timestamp('$endDate$'' 0:0:0', 'syyyy-mm-dd hh24:mi:ss') ]]>
+	       </isNotEmpty>
+	  </dynamic>
+	</select>
+	
+	<!-- 当前会员修改自己的订单 -->
+	<update id="updateOrderInfo" parameterClass="map">
+	  <![CDATA[update tbl_order_info t set t.orderStatus=#orderStatus#,t.operatortime=#sysTime# where t.id=#id#]]>
+	</update>
+	
+	<!-- 根据订单ID查询订单信息 -->
+	<select id="selectOrderById" parameterClass="long" resultMap="orderResult" cacheModel="orderCache">
+	   <![CDATA[select * from tbl_order_info t where t.id=#id#]]>
+	</select>
+	
+	<select id="getProductByType" resultMap="orderResult" parameterClass="java.util.HashMap" cacheModel="orderCache">
+	  select * from (select o.*,rownum r from (
+	  	
+	  	select * from tbl_order_info t,tbl_member m 
+	  	
+	  	where t.orderstatus='JYC' and t.SUPPLIERID = m.MEMBER_ID
+	  	<dynamic>
+	  		<isNotEmpty property="areaCode" prepend="and">
+	  			m.AREA like '$areaCode$%'
+	  		</isNotEmpty>
+	  	</dynamic>
+	  	order by t.createtime desc
+	  	
+	  	) o ) 
+	  	<![CDATA[where r<=10 ]]>
+	</select>
+	
+	
+	<!-- 会员需要处理的订单 -->
+	<select id="dealOrderByMember" resultMap="orderResult" parameterClass="long" cacheModel="orderCache">
+     <![CDATA[select * from tbl_order_info t where (t.supplierId=#m_id# or t.memberId=#m_id#) and t.orderStatus not in('JYC','YGB','YQX') order by t.createtime desc]]>
+	</select>
+	
+	
+	<select id="searchAdminOrder" parameterClass="java.util.HashMap" resultMap="orderResult" cacheModel="orderCache">
+		
+		select * from (select m.*, rownum r from (
+		
+		select o.* from tbl_order_info o,tbl_member tm 
+		where tm.member_id = o.memberid 			
+		<dynamic>
+			<isNotEmpty property="ssoAccount" prepend="and">
+				tm.sso_account like '%$ssoAccount$%' 
+			</isNotEmpty>
+			<isNotEmpty property="fullName" prepend="and">
+				tm.full_name like '%$fullName$%' 
+			</isNotEmpty>
+			<isNotEmpty property="email" prepend="and">
+				tm.email like '%$email$%' 
+			</isNotEmpty>
+			<isNotEmpty property="certId" prepend="and">
+				tm.cert_id like '%$certId$%' 
+			</isNotEmpty>
+			<isNotEmpty property="drawerName" prepend="and">
+				o.drawername like '%$drawerName$%' 
+			</isNotEmpty>
+			<isNotEmpty property="detailAddress" prepend="and">
+				o.detailaddress like '%$detailAddress$%' 
+			</isNotEmpty>
+			<isNotEmpty property="mobileNumber" prepend="and">
+				o.drawernumber like '%$mobileNumber$%' 
+			</isNotEmpty>
+			<isNotEmpty property="orderId" prepend="and">
+				o.id like '%$orderId$%' 
+			</isNotEmpty>
+		</dynamic>	
+		) m) 
+    		
+    	<![CDATA[	where r>=#startCount# and r<=#endCount# ]]> 
+	</select>
+	
+	<select id="searchAdminOrderCount" parameterClass="java.util.HashMap" resultClass="integer" cacheModel="orderCache">
+		select count(*) from tbl_order_info o,tbl_member tm 
+		where tm.member_id = o.memberid 			
+		<dynamic>
+			<isNotEmpty property="ssoAccount" prepend="and">
+				tm.sso_account like '%$ssoAccount$%' 
+			</isNotEmpty>
+			<isNotEmpty property="fullName" prepend="and">
+				tm.full_name like '%$fullName$%' 
+			</isNotEmpty>
+			<isNotEmpty property="email" prepend="and">
+				tm.email like '%$email$%' 
+			</isNotEmpty>
+			<isNotEmpty property="certId" prepend="and">
+				tm.cert_id like '%$certId$%' 
+			</isNotEmpty>
+			<isNotEmpty property="drawerName" prepend="and">
+				o.drawername like '%$drawerName$%' 
+			</isNotEmpty>
+			<isNotEmpty property="detailAddress" prepend="and">
+				o.detailaddress like '%$detailAddress$%' 
+			</isNotEmpty>
+			<isNotEmpty property="mobileNumber" prepend="and">
+				o.drawernumber like '%$mobileNumber$%' 
+			</isNotEmpty>
+			<isNotEmpty property="orderId" prepend="and">
+				o.id like '%$orderId$%' 
+			</isNotEmpty>
+		</dynamic>	
+	</select>
+	
+	
+	<insert id="OrderInfo.batchNum.insert" parameterClass="map" >
+		insert into tbl_order_batchnum_mapping(order_id,batch_num)
+		values(#order_id#,#batch_num#)
+	</insert>
+	<delete id="OrderInfo.batchNum.delete" parameterClass="map">
+		delete from tbl_order_batchnum_mapping where batch_num=#batch_num#
+	</delete>
+	<select id="OrderInfo.order.findByBatchNum" parameterClass="map" resultMap="orderResult" cacheModel="orderCache">
+		select t.* from tbl_order_info t left join tbl_order_batchnum_mapping m on t.id=m.order_id where 
+		m.batch_num=#batch_num#
+	</select>
+	<select id="OrderInfo.batchNum.checkExistOrder" parameterClass="long" resultClass="integer">
+		select count(*) from tbl_order_batchnum_mapping t where t.order_id=#value#
+	</select>
+</sqlMap>

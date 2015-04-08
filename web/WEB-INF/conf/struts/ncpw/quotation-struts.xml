@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<!-- 启用了TILES框架后，如果需要使用TILES跳转，package 需要继承tiles-default -->
+	<package name="com.bornsoft.asn.action.quotation" extends="struts-asn"
+		namespace="/admin/quotation">
+		<action name="goBackQuotation" class="com.opensymphony.xwork2.ActionSupport">
+			<!-- 使用tiles,result的type需要指定为tiles，不填为默认JSP -->
+			<result name="success" type="tiles">quotation.backQuotation</result>
+		</action>
+		<!-- 行情查询列表 -->
+		<action name="quotation-control!toView"
+			class="com.bornsoft.asn.action.quotation.QuotationControl" method="toView">
+			<result name="toViewlist" type="tiles">quotation.backQuotation
+			</result>
+			<result name="input" type="tiles">quotation.backQuotation</result>
+		</action>
+		<!-- 行情新增 -->
+		<action name="quotation-control!toNew"
+			class="com.bornsoft.asn.action.quotation.QuotationControl" method="toNew">
+			<result name="toNew" type="tiles">quotation.backQuotationNew</result>
+		</action>
+
+		<!-- 行情修改初始化，通过 行情编号快速定位 -->
+		<action name="quotation-control!toUpdate"
+			class="com.bornsoft.asn.action.quotation.QuotationControl" method="toUpdate">
+			<result name="toUpdate" type="tiles">quotation.backQuotationUpdate
+			</result>
+		</action>
+		<!-- 行情修改页面 -->
+		<action name="quotation-control!toUpdate2"
+			class="com.bornsoft.asn.action.quotation.QuotationControl" method="toUpdate2">
+			<result name="toUpdate" type="tiles">quotation.backQuotationUpdate
+			</result>
+			<result name="input" type="tiles">quotation.backQuotationUpdate
+			</result>
+		</action>
+		<!-- 执行 行情删除 -->
+		<action name="quotation-control!doDelete"
+			class="com.bornsoft.asn.action.quotation.QuotationControl" method="doDelete">
+			<result name="toViewlist" type="tiles">quotation.backQuotation
+			</result>
+			<result name="input" type="tiles">quotation.backQuotation</result>
+		</action>
+		<!-- 执行 行情新增 -->
+		<action name="quotation-control!doNew"
+			class="com.bornsoft.asn.action.quotation.QuotationControl" method="doNew">
+			<result name="toViewlist" type="tiles">quotation.backQuotation
+			</result>
+			<result name="input" type="tiles">quotation.backQuotationNew</result>
+		</action>
+		<!-- 执行 行情修改 -->
+		<action name="quotation-control!doUpdate"
+			class="com.bornsoft.asn.action.quotation.QuotationControl" method="doUpdate">
+			<result name="toViewlist" type="tiles">quotation.backQuotation
+			</result>
+			<result name="input" type="tiles">quotation.backQuotationUpdate
+			</result>
+		</action>
+		<!-- 行情预览 -->
+		<action name="quotation-control!doPreview"
+			class="com.bornsoft.asn.action.quotation.QuotationControl" method="doPreview">
+			<result name="success" type="tiles">quotation.backQuotationPreview
+			</result>
+			<result name="toNews" type="tiles">quotation.backQuotationNews
+			</result>
+		</action>
+		<!-- 执行 批量新增 -->
+		<action name="quotation-control!doNews"
+			class="com.bornsoft.asn.action.quotation.QuotationControl" method="doNews">
+			<result name="input" type="tiles">quotation.backQuotationNews</result>
+			<result name="toViewlist" type="tiles">quotation.backQuotation
+			</result>
+		</action>
+		<!-- 行情批量新增 -->
+		<action name="quotation-control!toNews"
+			class="com.bornsoft.asn.action.quotation.QuotationControl" method="toNews">
+			<result name="toNews" type="tiles">quotation.backQuotationNews
+			</result>
+		</action>
+		<!-- 行情产品控制 -->
+		<action name="*"
+			class="com.bornsoft.asn.action.quotation.QuotationProductControlAction"
+			method="{1}">
+			<result name="产品选择器">/admin/quotation/quoProductSelect.jsp
+			</result>
+			<result name="市场选择器">/admin/quotation/quoMarketSelect.jsp</result>
+			<result name="产品类型选择器">/admin/quotation/quoPTSelect.jsp</result>
+			<result name="添加产品页面">/admin/quotation/newQuoProduct.jsp</result>
+			<result name="市场信息" type="tilesmap">/admin/quotation/quoMarket.jsp
+			</result>
+			<result name="市场列表" type="tilesmap">/admin/quotation/quoMarketViewList.jsp
+			</result>
+			<result name="产品信息" type="tilesmap">/admin/quotation/quoPdt.jsp</result>
+			<result name="产品列表" type="tilesmap">/admin/quotation/quoPdtViewList.jsp
+			</result>
+			<result name="产品类型信息" type="tilesmap">/admin/quotation/quoPT.jsp</result>
+			<result name="产品类型列表" type="tilesmap">/admin/quotation/quoPTViewList.jsp
+			</result>
+		</action>
+
+	</package>
+</struts>

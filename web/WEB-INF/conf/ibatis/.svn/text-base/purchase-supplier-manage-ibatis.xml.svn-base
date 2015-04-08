@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap>
+	<!-- 求购类型 --><!-- 供应类型 -->
+	<typeAlias alias="psBean" type="com.bornsoft.asn.bean.product.PurchaseSupplierType"/>
+	
+	<resultMap class="psBean" id="psBM">
+		<result property="typeId" column="IT_ID"/>
+		<result property="typeCode" column="IT_CODE"/>
+		<result property="typeName" column="IT_TYPENAME"/>
+		<result property="parentId" column="IT_PARENTID"/>
+		<result property="priority" column="PRIORITY"/>
+	</resultMap>
+	
+	<select id="getpsTypeAll" resultMap="psBM">
+		select * from TBL_INFO_TYPE
+	</select>
+	
+	<insert id="insertPSType" parameterClass="psBean">
+		insert into TBL_INFO_TYPE
+		values(
+			#typeId#,
+			#typeCode#,
+			#typeName#,
+			#parentId#,
+			#priority#
+		)
+	</insert>
+	
+	<update id="updatePSType" parameterClass="psBean">
+		update TBL_INFO_TYPE set
+			IT_CODE=#typeCode#,
+			IT_TYPENAME=#typeName#,
+			IT_PARENTID=#parentId#,
+			PRIORITY=#priority#
+		where IT_ID=#typeId#
+	</update>
+	<delete id="deletePSType" parameterClass="int">
+		delete from TBL_INFO_TYPE where IT_ID=#typeId# or IT_PARENTID=#typeId#
+	</delete>
+</sqlMap>

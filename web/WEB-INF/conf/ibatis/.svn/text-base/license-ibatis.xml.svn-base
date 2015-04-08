@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="License">
+	<typeAlias alias="License" type="com.bornsoft.asn.bean.license.License"/>
+	<resultMap class="License" id="LicenseResult">
+		<result property="licenseid" column="LICENSE_ID"/>
+		<result property="memberid" column="MEMBER_ID"/>
+		<result property="title" column="TITLE"/>
+		<result property="authority" column="AUTHORITY"/>
+		<result property="serial" column="SERIAL"/>
+		<result property="verifyState" column="VERIFY_STATE"/>
+		<result property="verifyMemberid" column="VERIFY_MEMBER_ID"/>
+		<result property="verifyRemark" column="VERIFY_REMARK"/>
+	</resultMap>
+	
+	<insert id="addLicense" parameterClass="License">
+		insert into TBL_LICENSE(
+					LICENSE_ID,MEMBER_ID,
+					TITLE,
+					AUTHORITY,
+					SERIAL,
+					VERIFY_STATE,
+					VERIFY_MEMBER_ID,
+					VERIFY_REMARK
+				)
+				values(
+					#licenseid#,
+					#memberid#,
+					#title#,
+					#authority#,
+					#serial#,
+					#verifyState#,
+					#verifyMemberid#,
+					#verifyRemark#
+				)
+	
+	</insert>
+	
+	<select id="getLicenseById" parameterClass="Long" resultMap="LicenseResult">
+		select * from TBL_LICENSE
+			where MEMBER_ID=#memberid#
+	</select>
+	
+	<update id="updateLicense" parameterClass="License">
+		update TBL_LICENSE set
+					TITLE = #title#,
+					AUTHORITY = #authority#,
+					SERIAL = #serial#,
+					VERIFY_STATE = #verifyState#,
+					VERIFY_MEMBER_ID = #verifyMemberid#,
+					VERIFY_REMARK = #verifyRemark#
+		where LICENSE_ID = #licenseid#
+	</update>
+	
+	<delete id="delLicenseById" parameterClass="Long">
+		delete from TBL_LICENSE where LICENSE_ID = #licenseid#
+	</delete>
+	
+	<delete id="delLicense" parameterClass="Long">
+		delete from TBL_LICENSE where MEMBER_ID=#memberid#
+	</delete>
+
+</sqlMap>

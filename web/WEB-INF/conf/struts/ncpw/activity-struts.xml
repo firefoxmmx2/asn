@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+
+	<package name="activityFront" extends="struts-asn" namespace="/front/activity">
+		<action name="secKill" method="secKill" class="com.bornsoft.asn.action.activity.ActivityAction">
+			<result name="success">/front/activity/secKill.jsp</result>
+		</action>
+		<action name="getSystemTime" method="getSystemTime" class="com.bornsoft.asn.action.activity.ActivityAction">
+			<result name="success"></result>
+		</action>
+	</package>
+
+</struts>

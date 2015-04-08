@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+    <struts>
+          <package name="reportInfo" extends="struts-asn" namespace="/admin">
+            
+            <!-- 会员 -->
+            <action name="getM"
+                    class="com.bornsoft.asn.action.report.ReportAction"
+                    method="getM"> 
+              <result name="success" type="tilesmap">/admin/report/memberReport.jsp</result>
+            </action>
+            
+            <!-- 点击率 -->
+            <action name="getC"
+                    class="com.bornsoft.asn.action.report.ReportAction"
+                    method="getC"> 
+              <result name="success" type="tilesmap">/admin/report/clickReport.jsp</result>
+            </action>
+            
+            <!-- 成交率 -->
+            <action name="getT"
+                    class="com.bornsoft.asn.action.report.ReportAction"
+                    method="getT"> 
+              <result name="success" type="tilesmap">/admin/report/transReport.jsp</result>
+            </action>
+            
+       </package>
+    
+    </struts>

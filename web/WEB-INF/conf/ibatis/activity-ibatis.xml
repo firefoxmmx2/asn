@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="activity">
+	
+
+	<resultMap class="HashMap" id="activityMap">
+		<result property="activityId" column="ACTIVITY_ID"/>
+		<result property="discountName" column="NAME"/>
+		<result property="beginTime" column="BEGIN_TIME" javaType="java.util.Date"/>
+		<result property="endTime" column="END_TIME" javaType="java.util.Date"/>
+		<result property="script" column="SCRIPT"/>
+		<result property="activityType" column="ACTIVITY_TYPE"/>
+		<result property="productName" column="PRODUCT_NAME" />
+		<result property="wareCount" column="WARE_COUNT" />
+		<result property="secKillPrice" column="PRICE1" />
+		<result property="productId" column="PRODUCT_ID" />		
+		<result property="bigPicPath" column="BIG_PIC_PATH" />	
+		<result property="productUnit" column="PRODUCT_UNIT" />
+		<result property="marketPrice" column="MARKET_PRICE"/>
+	</resultMap>
+
+	<select id="getSecKillActivity" resultMap="activityMap">
+		select 
+				d.*, 
+				p.price1, 
+				p.product_id, 
+				p.product_name, 
+				p.ware_count,
+				p.BIG_PIC_PATH,
+				p.PRODUCT_UNIT,
+				p.MARKET_PRICE
+		from  	(select * from ( select  * from tbl_activity_discount where activity_type = '2' and end_time > SYSDATE order by begin_time asc) where rownum =1) d, 
+          		tbl_activity_discount2product dp, 
+          		tbl_product p
+		where 
+				dp.activity_id = d.activity_id and 
+				p.product_id = dp.product_id
+	</select>
+
+</sqlMap>

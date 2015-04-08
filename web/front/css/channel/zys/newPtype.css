@@ -1,0 +1,37 @@
+/*
+	專業社分类样式
+	继承自css/newPtype/newPtye.css
+*/ /*
+边框 颜色 #b2cbe1
+内容底色 #f4fafa
+分类项底色 #dce8f4
+2级类颜色 #0162c1
+*/
+.item {
+	border-color: #e2e0eb;
+}
+
+.second {
+	color: #777777;
+}
+
+.extend_item {
+	color: #0263c1;
+	font-weight: bold;
+	text-align: left;
+	padding-left: 10px;
+}
+
+.p10 {
+	color: #777777;
+}
+
+.pop_subentry {
+	background-color: #f4fafa;
+	border-color: #e2e0eb;
+}
+
+.bottom_line{
+	border-bottom: 1px dotted;
+	border-color: #e2e0eb;
+}

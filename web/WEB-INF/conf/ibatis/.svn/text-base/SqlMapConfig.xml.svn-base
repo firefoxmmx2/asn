@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMapConfig      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map Config 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-config-2.dtd">
+
+<sqlMapConfig>
+
+	<!-- Configure a built-in transaction manager. If you're using an app server, 
+		you probably want to use its transaction manager and a managed datasource -->
+	<!--<transactionManager type="JDBC" commitRequired="false"> <dataSource 
+		type="SIMPLE"> <property name="JDBC.Driver" value="org.hsqldb.jdbcDriver"/> 
+		<property name="JDBC.ConnectionURL" value="jdbc:hsqldb:."/> <property name="JDBC.Username" 
+		value="sa"/> <property name="JDBC.Password" value="sa"/> </dataSource> </transactionManager> -->
+	<settings classInfoCacheEnabled="true" cacheModelsEnabled="true"
+		errorTracingEnabled="true" statementCachingEnabled="true"
+		enhancementEnabled="true" lazyLoadingEnabled="true" maxRequests="100"
+		maxSessions="60" maxTransactions="20" />
+	<transactionManager type="JDBC">
+		<dataSource type="dbcp">
+			<property name="JDBC.Driver" value="oracle.jdbc.driver.OracleDriver" />
+			<property name="JDBC.ConnectionURL" value="jdbc:oracle:thin:@192.168.5.10:1521:ptn" />
+			<property name="JDBC.Username" value="asn" />
+			<property name="JDBC.Password" value="asn86815300" />
+			<property name="Pool.MaximumActiveConnections" value="10" />
+			<property name="Pool.MaximumIdleConnections" value="5" />
+			<property name="Pool.MaximumCheckoutTime" value="120000" />
+			<property name="Pool.TimeToWait" value="500" />
+			<property name="Pool.ping" value="select count(*) from tbl_member"/>
+		</dataSource>
+
+		<!--<dataSource type="SIMPLE"> <property name="JDBC.Driver" value="com.mysql.jdbc.Driver"/> 
+			<property name="JDBC.ConnectionURL" value="jdbc:mysql://127.0.0.1/test"/> 
+			<property name="JDBC.Username" value="root"/> <property name="JDBC.Password" 
+			value="root"/> <property name="Pool.MaximumActiveConnections" value="10"/> 
+			<property name="Pool.MaximumIdleConnections" value="5"/> <property name="Pool.MaximumCheckoutTime" 
+			value="120000"/> <property name="Pool.TimeToWait" value="500"/> </dataSource> -->
+	</transactionManager>
+	<!-- List the SQL Map XML files. They can be loaded from the classpath, 
+		as they are here (com.domain.data...) -->
+	<!--<sqlMap resource="com/mydomain/data/Account.xml"/> -->
+	<!-- List more here... <sqlMap resource="com/mydomain/data/Order.xml"/> 
+		<sqlMap resource="com/mydomain/data/Documents.xml"/> -->
+	<sqlMap resource="quotation-ibatis.xml" />
+	<sqlMap resource="idmaker-ibatis.xml" />
+	<sqlMap resource="member-ibatis.xml" />
+	<sqlMap resource="supplier-ibatis.xml" />
+	<sqlMap resource="productType-ibatis.xml" />
+	<!--<sqlMap resource="quotation-example-ibatis.xml"/> -->
+	<sqlMap resource="product-manage-ibatis.xml" />
+	<sqlMap resource="saleProduct-ibatis.xml" />
+	<sqlMap resource="shoppingCart-ibatis.xml" />
+	<sqlMap resource="facade-ibatis.xml" />
+	<sqlMap resource="bankinfo-ibatis.xml" />
+	<sqlMap resource="orderInfo-ibatis.xml" />
+	<sqlMap resource="orderItemInfo-ibatis.xml" />
+	<sqlMap resource="orderOperateLog-ibatis.xml" />
+	<sqlMap resource="license-ibatis.xml" />
+	<sqlMap resource="purchase-supplier-manage-ibatis.xml" />
+	<sqlMap resource="info-ibatis.xml" />
+	<sqlMap resource="discount-ibatis.xml" />
+	<sqlMap resource="drawerAddress-ibatis.xml" />
+	<sqlMap resource="tradeReview-ibatis.xml" />
+	<sqlMap resource="report-ibates.xml" />
+	<sqlMap resource="system-config-ibatis.xml" />
+	<sqlMap resource="censor-key-ibatis.xml" />
+	<sqlMap resource="info-order-ibatis.xml" />
+	<sqlMap resource="sms-ibatis.xml" />
+	<sqlMap resource="recruitment-ibatis.xml" />
+	<sqlMap resource="advert-ibatis.xml" />
+	<sqlMap resource="advert-proposer-ibatis.xml" />
+	<sqlMap resource="special-product-ibatis.xml" />
+	<sqlMap resource="infoCenter-ibatis.xml" />
+	<sqlMap resource="storage-ibatis.xml" />
+	<sqlMap resource="delivery-ibatis.xml" />
+	<sqlMap resource="bizOpp-ibatis.xml" />
+	<sqlMap resource="huazhang-ibatis.xml" />
+	<!-- crm service -->
+	<sqlMap resource="crm-service-ibatis.xml" />
+	<sqlMap resource="customer-statistics-ibatis.xml" />
+
+	<sqlMap resource="clientmember-ibatis.xml" />
+	<sqlMap resource="groupPurchase-ibatis.xml"/>
+	<!-- account -->
+	<sqlMap resource="account-ibatis.xml"/>
+	<sqlMap resource="activity-ibatis.xml"/>
+	<!-- 广告图片管理 -->
+	<!--<sqlMap resource="adPic-ibatis.xml"/>-->
+	<sqlMap resource="orderDetail-ibatis.xml"/>
+</sqlMapConfig>

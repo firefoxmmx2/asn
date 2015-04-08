@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+
+
+    <package name="facade" extends="struts-asn" namespace="/do/facade">
+		<action name="listFacadeDef" class="com.bornsoft.asn.action.facade.FacadeAction" method="listFacadeDefineByPt">
+		</action>
+		<!-- 测试除法，如果产生错误，会转向messagePage -->
+		<action name="devide" class="com.bornsoft.asn.test.TestMessage" method="devide">
+		</action>
+		<!-- 测试tiles -->
+		<action name="testTiles" class="com.bornsoft.asn.action.facade.FacadeAction" method="testTiles">
+			<result name="success" type="tilesmap">/test/test-tiles.jsp</result>
+		</action>
+	</package>
+</struts>

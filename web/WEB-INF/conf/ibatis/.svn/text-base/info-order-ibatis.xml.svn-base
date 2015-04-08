@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+  
+<sqlMap>
+	<typeAlias alias="InfoOrderMan" type="com.bornsoft.asn.bean.infoOrder.InfoOrderMan"/>
+	<resultMap class="InfoOrderMan" id="InfoOrderManMap">
+		<result property="id" column="id"/>
+		<result property="infoTypeId" column="info_type_id"/>
+		<result property="memberId" column="member_id"/>
+		<result property="email" column="receive_email"/>
+		<result property="cancel" column="is_cancle"/>
+		<result property="createTime" column="create_time"/>
+		<result property="modifyTime" column="modify_time"/>
+	</resultMap>
+	<typeAlias alias="InfoOrderType" type="com.bornsoft.asn.bean.infoOrder.InfoOrderType"/>
+	<resultMap class="InfoOrderType" id="InfoOrderTypeMap">
+		<result property="id" column="id"/>
+		<result property="typeName" column="type_name"/>
+		<result property="typeLevel" column="type_level"/>
+		<result property="amount" column="amount"/>
+		<result property="subscribeIco" column="subscribe_ico"/>
+		<result property="unsubscribeIco" column="unsubscribe_ico"/>
+		<result property="indexNo" column="index_no"/>
+	</resultMap>
+	
+	<select id="getInfoOrderManByMemberId" resultMap="InfoOrderManMap" parameterClass="Long">
+		select * from TBL_SUBSCRIBER where member_id=#id# 
+	</select>
+	
+	<insert id="insertInfoOrderMan" parameterClass="InfoOrderMan">
+		insert into TBL_SUBSCRIBER (id,info_type_id,member_id,receive_email,is_cancle,create_time,modify_time)
+		values(#id#,#infoTypeId#,#memberId#,#email#,#cancel#,#createTime#,#modifyTime#)
+	</insert>
+	<update id="setInfoOrderManCancel" parameterClass="java.util.HashMap">
+		update TBL_SUBSCRIBER set is_cancle=#cancel#,modify_time=#modifyTime# where id=#id#
+	</update>
+	<update id="setInfoOrderManEmail" parameterClass="java.util.HashMap">
+		update TBL_SUBSCRIBER set receive_email=#email# where member_id=#memberId#
+	</update>
+	<update id="setInfoOrderManAllCancel" parameterClass="java.util.HashMap">
+		update TBL_SUBSCRIBER set is_cancle=#cancel#,modify_time=#modifyTime# where member_id=#memberId#
+	</update>
+	
+	<select id="getInfoOrderType" resultMap="InfoOrderTypeMap">
+		select * from TBL_SUBSCRIBE_TYPE
+	</select>
+	
+	<!--管理员方法  -->
+	<typeAlias alias="InfoOrderManAll" type="com.bornsoft.asn.vo.InfoOrderManAll"/>
+	<resultMap class="InfoOrderManAll" id="InfoOrderManAllMap">
+		<result property="id" column="id"/>
+		<result property="infoTypeId" column="info_type_id"/>
+		<result property="memberId" column="member_id"/>
+		<result property="email" column="receive_email"/>
+		<result property="cancel" column="is_cancle"/>
+		<result property="createTime" column="create_time"/>
+		<result property="modifyTime" column="modify_time"/>
+		<result property="fullName" column="full_name"/>
+	</resultMap>
+	<select id="getInfoOrderManAll" resultMap="InfoOrderManAllMap" parameterClass="java.util.HashMap">
+		select * from(
+		select t.*,rownum r from(
+		select ts.*,tm.full_name from TBL_SUBSCRIBER ts inner join TBL_MEMBER tm on ts.member_id=tm.member_id
+		<dynamic prepend="where">
+			<isNotNull prepend="and" property="fullName">
+				tm.full_name like '%'||#fullName#||'%'
+			</isNotNull>
+			<isNotNull prepend="and" property="cancel">
+				ts.is_cancle=#cancel#		
+			</isNotNull>
+			<isNotNull prepend="and" property="infoTypeId">
+				ts.INFO_TYPE_ID=#infoTypeId#
+			</isNotNull>
+		</dynamic>
+		order by ts.id desc 
+		)t
+		)
+		<![CDATA[
+		where r>=#startCount# and r<=#endCount# 
+		 ]]>
+	</select>
+	<select id="getInfoOrderManAllCount" resultClass="Integer" parameterClass="java.util.HashMap">
+		select count(*) from TBL_SUBSCRIBER ts inner join TBL_MEMBER tm on ts.member_id=tm.member_id
+		<dynamic prepend="where">
+			<isNotNull prepend="and" property="fullName">
+				tm.full_name like '%'||#fullName#||'%'
+			</isNotNull>
+			<isNotNull prepend="and" property="cancel">
+				ts.is_cancle=#cancel#		
+			</isNotNull>
+			<isNotNull prepend="and" property="infoTypeId">
+				ts.INFO_TYPE_ID=#infoTypeId#
+			</isNotNull>
+		</dynamic>
+	</select>
+	<typeAlias alias="InfoOrder" type="com.bornsoft.asn.bean.infoOrder.InfoOrder"/>
+	<resultMap class="InfoOrder" id="InfoOrderMap">
+		<result property="id" column="id"/>
+		<result property="infoName" column="info_name"/>
+		<result property="infoContent" column="info_content"/>
+		<result property="infoTypeId" column="info_type_id"/>
+		<result property="createTime" column="create_time"/>
+		<result property="isSend" column="is_send"/>
+		<result property="sendTime" column="send_time"/>
+		<result property="receiveEmail" column="receive_email"/>
+	</resultMap>
+	<select id="getInfoOrderList" resultMap="InfoOrderMap" parameterClass="java.util.HashMap">
+		select * from (
+		select t.*,rownum r from(
+		select tsi.* from TBL_SUBSCRIBE_INFO tsi
+		<dynamic prepend="where">
+			<isNotNull prepend="and" property="infoName">
+				tsi.info_name like '%'||#infoName#||'%'
+			</isNotNull>
+			<isNotNull prepend="and" property="infoTypeId">
+				tsi.INFO_TYPE_ID=#infoTypeId#
+			</isNotNull>
+			<isNotNull prepend="and" property="receiveEmail">
+				tsi.RECEIVE_EMAIL=#receiveEmail#
+			</isNotNull>
+		</dynamic> 
+		order by tsi.id desc
+		)t 
+		)	
+		<![CDATA[
+		where r>=#startCount# and r<=#endCount# 
+		 ]]>
+	</select>
+	<select id="getInfoOrderListCount" resultClass="Integer" parameterClass="java.util.HashMap">
+		select count(*) from TBL_SUBSCRIBE_INFO tsi
+		<dynamic prepend="where">
+			<isNotNull prepend="and" property="infoName">
+				tsi.info_name like '%'||#infoName#||'%'
+			</isNotNull>
+			<isNotNull prepend="and" property="infoTypeId">
+				tsi.INFO_TYPE_ID=#infoTypeId#
+			</isNotNull>
+			<isNotNull prepend="and" property="receiveEmail">
+				tsi.RECEIVE_EMAIL=#receiveEmail#
+			</isNotNull>
+		</dynamic> 
+	</select>
+	<select id="getInfo" resultMap="InfoOrderMap" parameterClass="String">
+		select * from TBL_SUBSCRIBE_INFO where id=#id#
+	</select>
+</sqlMap>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+
+	<package name="infoc" extends="struts-asn" namespace="/do/infoc">
+		<action name="toCreateInfoCenter" class="com.bornsoft.asn.action.infoCenter.InfoCenterAction" method="toCreateInfoCenter">
+			<result name="success" type="tilesmap">/do/infoCenter/createInfoCenter.jsp</result>
+			<result name="input" type="tilesmap">/do/infoCenter/input.jsp</result>
+		</action>
+		<action name="toInfoCenterList" class="com.bornsoft.asn.action.infoCenter.InfoCenterAction" method="toInfoCenterList">
+			<result name="success" type="tilesmap">/do/infoCenter/infoCenterList.jsp</result>
+			<result name="input" type="tilesmap">/do/infoCenter/input.jsp</result>
+		</action>
+		<action name="createInfoCenter" class="com.bornsoft.asn.action.infoCenter.InfoCenterAction" method="createInfoCenter">
+			<result name="success" type="chain">toInfoCenterList</result>
+			<result name="input" type="tilesmap">/do/infoCenter/input.jsp</result>
+		</action>
+		<action name="setInfoCenterStatus" class="com.bornsoft.asn.action.infoCenter.InfoCenterAction" method="setInfoCenterStatus">
+			<result name="success" type="chain">toInfoCenterList</result>
+			<result name="input" type="tilesmap">/do/infoCenter/input.jsp</result>
+		</action>
+		<action name="toUpdateInfoCenter" class="com.bornsoft.asn.action.infoCenter.InfoCenterAction" method="toUpdateInfoCenter">
+			<result name="success" type="tilesmap">/do/infoCenter/updateInfoCenter.jsp</result>
+			<result name="input" type="tilesmap">/do/infoCenter/input.jsp</result>
+		</action>
+		<action name="updateInfoCenter" class="com.bornsoft.asn.action.infoCenter.InfoCenterAction" method="updateInfoCenter">
+			<result name="success" type="chain">toInfoCenterList</result>
+			<result name="input" type="tilesmap">/do/infoCenter/input.jsp</result>
+		</action>
+		<action name="deleteInfoCenter" class="com.bornsoft.asn.action.infoCenter.InfoCenterAction" method="deleteInfoCenter">
+			<result name="success" type="chain">toInfoCenterList</result>
+			<result name="input" type="tilesmap">/do/infoCenter/input.jsp</result>
+		</action>
+	</package>
+
+</struts>   

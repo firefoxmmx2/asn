@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<package name="shoppingCart" extends="struts-asn" namespace="/front/shoppingCart">
+		<action name="addShoppingCart" 
+		        class="com.bornsoft.asn.action.shoppingCart.ShoppingCartAction"
+		        method="saveShoppingCartInfo">
+			<result name="success" type="tilesmap">/front/shoppingCart/shoppingCart.jsp</result>		
+		</action>
+		
+		<!-- 将购物车中的商品进行删除 -->
+		<action name="deleteaShoppingCartInfo" 
+		        class="com.bornsoft.asn.action.shoppingCart.ShoppingCartAction"
+		        method="deleteaShoppingCartInfo">
+			<result name="success" type="tilesmap">/front/shoppingCart/shoppingCart.jsp</result>			
+		</action>
+		
+		<!-- 讲商品添加到购物车中 -->
+		<action name="toShoppingCart" 
+		        class="com.bornsoft.asn.action.shoppingCart.ShoppingCartAction"
+		        method="saveShoppingCartInfo">
+			<result name="success" type="tilesmap">/front/shoppingCart/shoppingCart.jsp</result>			
+		</action>
+		
+		<!-- 是否可以更改数量到指定的值 -->
+		<action name="canSetQuantity" 
+		        class="com.bornsoft.asn.action.shoppingCart.ShoppingCartAction"
+		        method="canSetQuantity">
+		</action>
+		
+		<!-- 修改购物车里面的数量 -->
+		<action name="setQuantity" 
+		        class="com.bornsoft.asn.action.shoppingCart.ShoppingCartAction"
+		        method="setQuantity">
+		       <result name="success" type="tilesmap">/front/shoppingCart/shoppingCart.jsp</result> 		
+		</action>
+		
+		<!-- 对session中购物车里面的信息进行清除 -->
+		<action name="flushCart" 
+		        class="com.bornsoft.asn.action.shoppingCart.ShoppingCartAction"
+		        method="flushCart">		
+		</action>
+		
+		<!-- 获取购物车列表 -->
+		<action name="listCart" 
+		        class="com.bornsoft.asn.action.shoppingCart.ShoppingCartAction"
+		        method="listCart">		
+		</action>
+		
+		
+	</package>
+</struts>   

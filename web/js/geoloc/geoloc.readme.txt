@@ -1,0 +1,9 @@
+The geoloc is a location component written in javascript.
+The script file is geoloc.js, and the data file is geoloc.data 
+Check the following URL for update of the administrative geography location of China.
+http://www.stats.gov.cn/tjbz/xzqhdm/index.htm
+
+view source of geoloc.example.jsp for you fast starting up. 
+
+-- change log --
+20 Jan, 2010, Initialized by Ken Liu Kunyun

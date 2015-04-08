@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+     PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+     "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="Product">
+   <typeAlias alias="shoppingCart" type="com.bornsoft.asn.bean.shoppingCart.ShoppingCart"/>
+      <resultMap class="shoppingCart" id="get_shoppingCart_result">
+           <result property="id"  column="id"/>
+           <result property="productId" column="productId"/>
+           <result property="productName" column="productName"/>
+           <result property="price" column="price"/>
+           <result property="count" column="count"/>
+           <result property="totalPrice" column="totalPrice"/>
+           <result property="isdelete" column="isdelete"/>
+           <result property="putInDate" column="putInDate"/>
+           <result property="memberId" column="memberId"/>
+           <result property="isbargain" column="isbargain"/>
+   </resultMap>
+   <select id="isExistProductInShopCart" resultClass="int" parameterClass="map">
+      <![CDATA[select count(*) as count from tbl_shop_cart where memberId=#memberId# and productId=#productId# and isdelete='Y']]>
+   </select>
+         <!-- 向购物车中添加商品信息 -->
+      <insert id="insertShoppingCart" parameterClass="shoppingCart">
+      <![CDATA[
+      insert into tbl_shop_cart(id,productId,productName,price,count,totalPrice,isdelete,putInDate,memberId,isbargain)
+       values(#id#,#productId#,#productName#,#price#,#count#,#totalPrice#,#isdelete#,#putInDate#,#memberId#,#isbargain#)]]>
+      </insert>
+      
+      <select id="usefulShoppingCartInfo" resultMap="get_shoppingCart_result" parameterClass="java.lang.Long">
+         <![CDATA[select * from tbl_shop_cart where isdelete='Y' and memberId=#memberId# and isbargain='N']]>
+      </select>
+      
+      <update id="logicalDeleteProduct" parameterClass="java.lang.Long">
+         <![CDATA[update tbl_shop_cart set isdelete='N' where id=#shoppingCartId#]]>
+      </update>
+      
+      <!-- 修改一个购物车中某个商品的购买数量 -->
+      <update id="updateCountProductInfo" parameterClass="map">
+         update tbl_shop_cart set count=count+#count#
+         where memberId=#memberId# and productId=#productId#
+      </update>
+      
+      <!-- 将生成了订单的商品信息进行修改
+      <update id="" parameterClass="map">
+         update tbl_shop_cart set isbargain='Y' where memberId=#memberId#
+      </update>
+       -->
+      
+</sqlMap>

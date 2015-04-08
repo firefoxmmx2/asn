@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+  
+<sqlMap>
+	<select id="getCensor" resultClass="java.lang.String">
+		select item_value from TBL_SYSTEM_CONFIG where item_name='sensitivity'
+	</select>
+	<insert id="updateCensorword" parameterClass="String">
+		update TBL_SYSTEM_CONFIG set item_value=#s# where item_name='sensitivity'
+	</insert>
+	<select id="getKeyword" resultClass="java.lang.String">
+		select item_value from TBL_SYSTEM_CONFIG where item_name='keyword'
+	</select>
+	<insert id="updateKeyword" parameterClass="String">
+		update TBL_SYSTEM_CONFIG set item_value=#s# where item_name='keyword'
+	</insert>
+</sqlMap>  

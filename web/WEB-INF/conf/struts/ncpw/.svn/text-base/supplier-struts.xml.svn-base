@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+
+	<!-- 会员后台 -->
+	<package name="tosupplier" extends="struts-asn" namespace="/do/supplier">
+		<action name="enrollPersonal" class="com.bornsoft.asn.action.supplier.SupplierAction" method="enrollPersonal">
+			<result name="success" type="tilesmap">/do/supplier/supplier_vouch.jsp</result>
+		</action>
+		
+		<action name="enrollGuarantee" class="com.bornsoft.asn.action.supplier.SupplierAction" method="enrollGuarantee">
+			<result name="success" type="tilesmap">/do/supplier/supplier_others.jsp</result>
+		</action>
+		
+		<action name="supplierOpen" class="com.bornsoft.asn.action.supplier.SupplierAction" method="supplierOpen">
+			<result name="personal" type="tilesmap">/do/supplier/supplier_personalinfo.jsp</result>
+			<result name="guarantee" type="tilesmap">/do/supplier/supplier_guaranteeinfo.jsp</result>
+		</action>
+		
+		<action name="updateSupplier" class="com.bornsoft.asn.action.supplier.SupplierAction" method="updateSupplier">
+			<result name="updpersonal" type="tilesmap">/do/supplier/upd_supplier_personal.jsp</result>
+			<result name="updguarantee" type="tilesmap">/do/supplier/upd_supplier_guarantee.jsp</result>
+			<result name="addpersonal" type="tilesmap">/do/supplier/supplier_personalinfo.jsp</result>
+			<result name="addguarantee" type="tilesmap">/do/supplier/supplier_guaranteeinfo.jsp</result>
+		</action>
+		
+		<action name="updateGuarantee" class="com.bornsoft.asn.action.supplier.SupplierAction" method="updateGuarantee">
+			<result name="success" type="tilesmap">/do/supplier/supplier_others.jsp</result>
+		</action>
+		
+		<action name="updatePersonal" class="com.bornsoft.asn.action.supplier.SupplierAction" method="updatePersonal">
+			<result name="success" type="tilesmap">/do/supplier/supplier_others.jsp</result>
+		</action>
+		
+		<action name="delLicense" method="delLicense" class="com.bornsoft.asn.action.supplier.SupplierAction" >
+			<result name="success" type="chain">updateSupplier</result>
+		</action>	
+		
+	</package>
+	
+	<!-- 前台 查询 -->
+	<package name="tosupplier2" extends="struts-asn" namespace="/front/supplier">
+		<action name="searchSupplier" method="searchSupplier" class="com.bornsoft.asn.action.supplier.SupplierAction" >
+			<result name="success" type="tilesmap">/front/supplier/supplier_list.jsp</result>
+		</action>
+		<action name="searchSupplierInfo" method="searchSupplierInfo" class="com.bornsoft.asn.action.supplier.SupplierAction">
+			<result name="success" type="tilesmap">/front/supplier/supplier_info.jsp</result>
+		</action>
+		
+	</package>
+	
+	
+	<!-- 前台网店 查询 -->
+	<package name="tosupplier3" extends="struts-asn" namespace="/front/shop">
+		
+		<action name="supplierShopSy" method="supplierShopSy" class="com.bornsoft.asn.action.supplier.SupplierAction">
+			<result name="success" >/front/shop/index.jsp</result>
+		</action>
+		<action name="supplierShopGsjj" method="supplierShopGsjj" class="com.bornsoft.asn.action.supplier.SupplierAction">
+			<result name="success" >/front/shop/index-gsjj.jsp</result>
+		</action>
+		<action name="supplierShopGycp" method="supplierShopGycp" class="com.bornsoft.asn.action.supplier.SupplierAction">
+			<result name="success" >/front/shop/index-gycp.jsp</result>
+		</action>
+		<action name="supplierShopLxfs" method="supplierShopLxfs" class="com.bornsoft.asn.action.supplier.SupplierAction">
+			<result name="success" >/front/shop/index-lxfs.jsp</result>
+		</action>
+		<action name="supplierShopQydt" method="supplierShopQydt" class="com.bornsoft.asn.action.supplier.SupplierAction">
+			<result name="success" >/front/shop/index-qydt.jsp</result>
+		</action>
+		<action name="supplierShopRczp" method="supplierShopRczp" class="com.bornsoft.asn.action.supplier.SupplierAction">
+			<result name="success" >/front/shop/index-rczp.jsp</result>
+		</action>
+		<action name="supplierShopZzry" method="supplierShopZzry" class="com.bornsoft.asn.action.supplier.SupplierAction">
+			<result name="success" >/front/shop/index-zzry.jsp</result>
+		</action>
+	</package>
+	
+	<!-- 供应商企业查看担保 -->
+	<package name="voucher" extends="struts-asn" namespace="/do/voucher">
+		<action name="listVoucher" method="listVoucher" class="com.bornsoft.asn.action.supplier.SupplierAction">
+			<result name="success" type="tilesmap">/do/voucher/voucher_list.jsp</result>
+		</action>
+		<action name="updVouchState" method="updVouchState" class="com.bornsoft.asn.action.supplier.SupplierAction">
+			<result name="success" type="chain">listVoucher</result>
+		</action>
+	</package>
+	
+	<!-- 管理员管理供应商后台 -->
+	<package name="adminSupplier" extends="struts-asn" namespace="/admin/supplier">
+		<action name="listSupplier" method="listSupplier" class="com.bornsoft.asn.action.supplier.SupplierAction">
+			<result name="success" type="tilesmap">/admin/supplier/supplier_list.jsp</result>
+		</action>
+		
+		<action name="generalListSupplier" method="listSupplier" class="com.bornsoft.asn.action.supplier.SupplierAction">
+			<result name="success" type="tilesmap">/admin/supplier/general_supplier_list.jsp</result>
+		</action>
+		
+		<action name="adminCheckSupplier" method="adminCheckSupplier" class="com.bornsoft.asn.action.supplier.SupplierAction">
+			<result name="success" type="chain">listSupplier</result>
+		</action>
+		
+		<action name="delSupplierInfo" method="delSupplierInfo" class="com.bornsoft.asn.action.supplier.SupplierAction">
+			<result name="success" type="chain">listSupplier</result>
+		</action>
+		
+		<action name="getSupplierById" method="getSupplierById" class="com.bornsoft.asn.action.supplier.SupplierAction">
+			<result name="success" type="tilesmap">/admin/supplier/supplier_info.jsp</result>
+		</action>
+		
+		<action name="updPromiseState" method="updPromiseState" class="com.bornsoft.asn.action.supplier.SupplierAction">
+			<result name="success" type="chain">listSupplier</result>
+		</action>
+		
+		<action name="updSupplierLocked" method="updSupplierLocked" class="com.bornsoft.asn.action.supplier.SupplierAction">
+			<result name="success" type="chain">listSupplier</result>
+		</action>
+	</package>
+	
+	<!-- 管理员查看担保 -->
+	<package name="adminvoucher" extends="struts-asn" namespace="/admin/voucher">
+		<action name="listAllVoucher" method="listAllVoucher" class="com.bornsoft.asn.action.supplier.SupplierAction">
+			<result name="success" type="tilesmap">/admin/voucher/allvouch_list.jsp</result>
+		</action>	
+	</package>
+	
+</struts> 

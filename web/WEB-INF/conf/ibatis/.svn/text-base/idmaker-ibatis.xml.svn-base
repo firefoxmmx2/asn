@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="idmaker">
+
+<parameterMap id="newEntityIdParameters" class="map" >
+  <parameter property="P_ENTITY_TYPE" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+  <parameter property="V_RETURN" jdbcType="NUMERIC" javaType="java.lang.Long" mode="OUT"/>
+</parameterMap>
+
+<procedure id="newEntityId" parameterMap="newEntityIdParameters" >
+  {call SP_NEW_ID (?, ?)}
+</procedure>
+</sqlMap>

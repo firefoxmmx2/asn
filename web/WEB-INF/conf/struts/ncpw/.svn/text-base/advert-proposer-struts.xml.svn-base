@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<package name="doAdvert" extends="struts-asn" namespace="/do/advert">
+		<action name="listAdvert" method="listAdvert" class="com.bornsoft.asn.action.advert.ProposerAdvertAction">
+			<result name="success" type="tilesmap">/do/advert/proposerAdvert_list.jsp</result>
+		</action>
+		
+		<action name="applyAdvert" method="applyAdvert" class="com.bornsoft.asn.action.advert.ProposerAdvertAction">
+			<result name="success" type="tilesmap">/do/advert/advert_apply.jsp</result>
+		</action>
+		
+		<action name="insertAdvert" method="insertAdvert" class="com.bornsoft.asn.action.advert.ProposerAdvertAction">
+			<result name="success" type="chain">applyAdvert</result>
+		</action>
+		
+		<action name="cancelProposertAdvert" method="cancelProposertAdvert" class="com.bornsoft.asn.action.advert.ProposerAdvertAction">
+			<result name="success" type="chain">listAdvert</result>
+		</action>
+		
+	</package>
+
+</struts>

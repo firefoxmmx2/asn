@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="tradeReview">
+	<!-- 声明评价信息 -->
+	<typeAlias alias="tr" type="com.bornsoft.asn.bean.tradeReview.TradeReview"/>
+	<resultMap class="tr" id="trOnly">
+		<result property="reviewId" column="REVIEW_ID" javaType="Long" jdbcType="NUMBER"/>
+		<result property="supplierId" column="SUPPLIER_ID"/>
+		<result property="orderId" javaType="Long" jdbcType="NUMBER" column="ORDERE_ID"/>
+		<result property="buyerId" javaType="Long" jdbcType="NUMBER" column="BUYER_ID"/>
+		<result property="buyerName" column="BUYER_NAME"/>
+		<result property="buyerIp" column="BUYER_IP"/>
+		<result property="product" javaType="Integer" jdbcType="NUMBER" column="PRODUCT"/>
+		<result property="delivery" javaType="Integer" jdbcType="NUMBER" column="DELIVERY"/>
+		<result property="communication" javaType="Integer" jdbcType="NUMBER" column="COMMUNICATION"/>
+		<result property="remark" column="REMARK"/>
+		<result property="reviewTime" column="REVIEW_TIME"/>
+	</resultMap>
+	<select id="getTr" resultMap="trOnly" parameterClass="Map">
+		select t.* from TBL_TRADE_REVIEW t 
+		<dynamic prepend="where">
+			<isNotEmpty	prepend="and" property="buyerId">	
+				BUYER_ID = #buyerId#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="orderId">
+				ORDERE_ID = #orderId#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="supplierId">
+				SUPPLIER_ID = #supplierId#
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<!-- 配合一个触发器达到高效关联插入  -->
+	<insert id="insertTr" parameterClass="tr">
+		insert into TBL_TRADE_REVIEW(
+			REVIEW_ID,
+			SUPPLIER_ID,
+			BUYER_ID,
+			PRODUCT,
+			DELIVERY,
+			COMMUNICATION,
+			REMARK,
+			BUYER_NAME,
+			BUYER_IP,
+			ORDERE_ID,
+			REVIEW_TIME
+		) 
+		values(
+		'$reviewId$',
+		'$supplierId$',
+		'$buyerId$',
+		'$product$',
+		'$delivery$',
+		'$communication$',
+		'$remark$',
+		'$buyerName$',
+		'$buyerIp$',
+		'$orderId$',
+		to_date('$reviewTime$','YYYY-MM-DD hh24:mi')
+		)
+	</insert>
+	
+	<update id="updateTr" parameterClass="tr">
+		update TBL_TRADE_REVIEW t
+			SUPPLIER_ID=#supplierId#,
+			BUYER_ID=#buyerId#,
+			PRODUCT=#product#,
+			DELIVERY=#delivery#,
+			COMMUNICATION=#communication#,
+			REMARK=#remark#,
+			BUYER_NAME=#buyerName#,
+			BUYER_IP=#buyerIp#,
+			ORDERE_ID=#orderId#,
+			REVIEW_TIME=to_date(#reviewTime#,'YYYY-MM-DD hh24:mi')
+		
+	where REVIEW_ID=#reviewId#		
+	</update>
+	
+	<delete id="deleteTr" parameterClass="long">
+		delete from TBL_TRADE_REVIEW where REVIEW_ID=#reviewId#
+	</delete>
+</sqlMap>

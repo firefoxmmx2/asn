@@ -1,0 +1,450 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+  
+<sqlMap>
+	<typeAlias alias="SupplyInfo" type="com.bornsoft.asn.bean.information.SupplyInfo"/>
+	<resultMap class="SupplyInfo" id="SupplyInfoResultMap">
+		<result property="infoId" column="info_id"/>
+		<result property="supplierId" column="supplier_id"/>
+		<result property="title" column="title"/>
+		<result property="type" column="type"/>
+		<result property="typeName" column="type_name"/>
+		<result property="infoStatus" column="info_status"/>
+		<result property="keyWord" column="key_word"/>
+		<result property="infoValidity" column="info_validity"/>
+		<result property="detail" column="detail"/>
+		<result property="startDate" column="start_date"/>
+		<result property="modifyDate" column="modify_date"/>
+		<result property="endDate" column="end_date"/>
+		<result property="delDate" column="del_date"/>
+		<result property="ipAddreess" column="ip_address"/>
+		<result property="area" column="area"/>
+		<result property="censor" column="censor"/>
+	</resultMap>
+	<typeAlias alias="PurchaseInfo" type="com.bornsoft.asn.bean.information.PurchaseInfo"/>
+	<resultMap class="PurchaseInfo" id="PurchaseInfoResultMap">
+		<result property="infoId" column="info_id"/>
+		<result property="memberId" column="member_id"/>
+		<result property="title" column="title"/>
+		<result property="type" column="type"/>
+		<result property="typeName" column="type_name"/>
+		<result property="infoStatus" column="info_status"/>
+		<result property="keyWord" column="key_word"/>
+		<result property="infoValidity" column="info_validity"/>
+		<result property="detail" column="detail"/>
+		<result property="startDate" column="start_date"/>
+		<result property="modifyDate" column="modify_date"/>
+		<result property="endDate" column="end_date"/>
+		<result property="delDate" column="del_date"/>
+		<result property="ipAddreess" column="ip_address"/>
+		<result property="area" column="area"/>
+		<result property="censor" column="censor"/>
+	</resultMap>
+	
+	<insert id="insertSupplyInfo" parameterClass="SupplyInfo">
+		insert into TBL_INFO(info_id,supplier_id,title,type,type_name,info_status,key_word,info_validity,detail,
+		start_date,end_date,ip_address,area,censor)
+		values(#infoId#,#supplierId#,#title#,#type#,#typeName#,#infoStatus#,#keyWord#,#infoValidity#,#detail#,#startDate#,
+		#endDate#,#ipAddreess#,#area#,#censor#)
+	</insert>
+	<insert id="insertPurchaseInfo" parameterClass="PurchaseInfo">
+		insert into TBL_INFO(info_id,member_id,title,type,type_name,info_status,key_word,info_validity,detail,
+		start_date,end_date,ip_address,area,censor)
+		values(#infoId#,#memberId#,#title#,#type#,#typeName#,#infoStatus#,#keyWord#,#infoValidity#,#detail#,#startDate#,
+		#endDate#,#ipAddreess#,#area#,#censor#)
+	</insert>
+	
+	<statement id="getSupplyInfoCount" resultClass="Integer" parameterClass="java.util.HashMap">
+		select count(*) from TBL_INFO 
+		<dynamic prepend="where">
+			<isNotNull prepend="and" property="searchTitle">
+				title like '%'||#searchTitle#||'%'
+			</isNotNull>
+			<isNotNull prepend="and" property="searchWord">
+				key_word like '%'||#searchWord#||'%'
+			</isNotNull>
+			<isNotNull prepend="and" property="infoStatus">
+				info_status=#infoStatus#
+			</isNotNull>
+			<isNotNull prepend="and" property="supplierId">
+				supplier_id=#supplierId#
+			</isNotNull>
+			<isNotNull prepend="and" property="pass">
+				<![CDATA[ censor<3  ]]>
+			</isNotNull>
+			<isNotNull prepend="and" property="in">
+				<![CDATA[ censor>2 and censor<20  ]]>
+			</isNotNull>
+			<isNotNull prepend="and" property="over">
+				<![CDATA[ censor>20 and censor<30  ]]>
+			</isNotNull>
+		</dynamic>
+	</statement>
+	<statement id="getPurchaseInfoCount" resultClass="Integer" parameterClass="java.util.HashMap">
+		select count(*) from TBL_INFO 
+		<dynamic prepend="where">
+			<isNotNull prepend="and" property="searchTitle">
+				title like '%'||#searchTitle#||'%'
+			</isNotNull>
+			<isNotNull prepend="and" property="searchWord">
+				key_word like '%'||#searchWord#||'%'
+			</isNotNull>
+			<isNotNull prepend="and" property="infoStatus">
+				info_status=#infoStatus#
+			</isNotNull>
+			<isNotNull prepend="and" property="memberId">
+				member_id=#memberId#
+			</isNotNull>
+			<isNotNull prepend="and" property="pass">
+				<![CDATA[ censor<3  ]]>
+			</isNotNull>
+			<isNotNull prepend="and" property="in">
+				<![CDATA[ censor>2 and censor<20  ]]>
+			</isNotNull>
+			<isNotNull prepend="and" property="over">
+				<![CDATA[ censor>20 and censor<30  ]]>
+			</isNotNull>
+		</dynamic>
+	</statement>
+	
+	
+	<statement id="getSupplyInfoList" resultMap="SupplyInfoResultMap" parameterClass="java.util.HashMap">
+		select * from(select t.*,rownum r from ( select * from TBL_INFO
+		<dynamic prepend="where">
+			<isNotNull prepend="and" property="searchTitle">
+				title like '%'||#searchTitle#||'%'
+			</isNotNull>
+			<isNotNull prepend="and" property="searchWord">
+				key_word like '%'||#searchWord#||'%'
+			</isNotNull>
+			<isNotNull prepend="and" property="infoStatus">
+				info_status=#infoStatus#
+			</isNotNull>
+			<isNotNull prepend="and" property="supplierId">
+				supplier_id=#supplierId#
+			</isNotNull>
+			<isNotNull prepend="and" property="pass">
+				<![CDATA[ censor<3  ]]>
+			</isNotNull>
+			<isNotNull prepend="and" property="in">
+				<![CDATA[ censor>2 and censor<20  ]]>
+			</isNotNull>
+			<isNotNull prepend="and" property="over">
+				<![CDATA[ censor>20 and censor<30  ]]>
+			</isNotNull>
+		</dynamic>
+		<![CDATA[
+		order by info_id desc )t) where r>=#startCount# and r<=#endCount# 
+		 ]]>
+	</statement>
+	<statement id="getPurchaseInfoList" resultMap="PurchaseInfoResultMap" parameterClass="java.util.HashMap">
+		select * from(select t.*,rownum r from ( select * from TBL_INFO
+		<dynamic prepend="where">
+			<isNotNull prepend="and" property="searchTitle">
+				title like '%'||#searchTitle#||'%'
+			</isNotNull>
+			<isNotNull prepend="and" property="searchWord">
+				key_word like '%'||#searchWord#||'%'
+			</isNotNull>
+			<isNotNull prepend="and" property="infoStatus">
+				info_status=#infoStatus#
+			</isNotNull>
+			<isNotNull prepend="and" property="memberId">
+				member_id=#memberId#
+			</isNotNull>
+			<isNotNull prepend="and" property="pass">
+				<![CDATA[ censor<3  ]]>
+			</isNotNull>
+			<isNotNull prepend="and" property="in">
+				<![CDATA[ censor>2 and censor<20  ]]>
+			</isNotNull>
+			<isNotNull prepend="and" property="over">
+				<![CDATA[ censor>20 and censor<30  ]]>
+			</isNotNull>
+		</dynamic>
+		<![CDATA[
+		order by info_id desc )t) where r>=#startCount# and r<=#endCount# 
+		 ]]>
+	</statement>
+	
+	
+	<select id="getSupplyInfoById" resultMap="SupplyInfoResultMap" parameterClass="String">
+		select * from TBL_INFO where info_id=#infoId#
+	</select>
+	<select id="getPurchaseInfoById" resultMap="PurchaseInfoResultMap" parameterClass="String">
+		select * from TBL_INFO where info_id=#infoId#
+	</select>
+	
+	<update id="updateSupplyInfo" parameterClass="SupplyInfo">
+		update TBL_INFO set
+		title=#title#,
+		type=#type#,
+		type_name=#typeName#,
+		info_status=#infoStatus#,
+		key_word=#keyWord#,
+		info_validity=#infoValidity#,
+		detail=#detail#,
+		modify_date=#modifyDate#,
+		end_date=#endDate#,
+		ip_address=#ipAddreess#,
+		area=#area#,
+		censor=#censor#
+		where info_id=#infoId#		
+	</update>
+	<update id="updatePurchaseInfo" parameterClass="PurchaseInfo">
+		update TBL_INFO set
+		title=#title#,
+		type=#type#,
+		type_name=#typeName#,
+		info_status=#infoStatus#,
+		key_word=#keyWord#,
+		info_validity=#infoValidity#,
+		detail=#detail#,
+		modify_date=#modifyDate#,
+		end_date=#endDate#,
+		ip_address=#ipAddreess#,
+		area=#area#,
+		censor=#censor#
+		where info_id=#infoId#		
+	</update>
+	
+	
+	<statement id="setInfoStatus" parameterClass="java.util.HashMap">
+		update TBL_INFO set 
+		<isNotNull property="delDate">
+		del_date=#delDate#,
+		</isNotNull>
+		<isNotNull property="modifyDate">
+		modify_date=#modifyDate#,
+		</isNotNull>
+		info_status=#infoStatus# 
+		where info_id=#infoId#
+	</statement>
+
+	<statement id="showSupplyInfoList" parameterClass="java.util.HashMap" resultMap="SupplyInfoResultMap">
+		select * from(select t.*,rownum r from ( select * from TBL_INFO
+		where member_id is null <![CDATA[ and censor<3  ]]>
+			<isNotNull prepend="and" property="area">
+				area like '$area$%'
+			</isNotNull>
+			<isNotNull prepend="and" property="infoStatus">
+				info_status=#infoStatus#
+			</isNotNull>
+			<isNotNull prepend="and" property="keyWord">
+				key_word like '%'||#keyWord#||'%'
+			</isNotNull>
+			<isNotNull prepend="and" property="type">
+				type like '$type$%'
+			</isNotNull>
+			<isNotNull prepend="and" property="supplierId">
+				supplier_id=#supplierId#
+			</isNotNull>
+			<isNotNull prepend="and" property="infoId">
+				info_id!=#infoId#
+			</isNotNull>
+			<isNotNull prepend="and" property="infoValidity">
+				info_validity=#infoValidity#
+			</isNotNull>
+			<isNotNull prepend="and" property="notLong">
+				info_validity!=#notLong#
+			</isNotNull>
+		<![CDATA[
+		order by info_id desc )t) where r>=#startCount# and r<=#endCount# 
+		 ]]>
+	</statement>
+	
+	<statement id="showPurchaseInfoList" parameterClass="java.util.HashMap" resultMap="PurchaseInfoResultMap">
+		select * from(select t.*,rownum r from ( select * from TBL_INFO
+		where supplier_id is null <![CDATA[ and censor<3  ]]>
+			<isNotNull prepend="and" property="area">
+				area like '$area$%'
+			</isNotNull>
+			<isNotNull prepend="and" property="infoStatus">
+				info_status=#infoStatus#
+			</isNotNull>
+			<isNotNull prepend="and" property="keyWord">
+				key_word like '%'||#keyWord#||'%'
+			</isNotNull>
+			<isNotNull prepend="and" property="type">
+				type like '$type$%'
+			</isNotNull>
+			<isNotNull prepend="and" property="memberId">
+				member_id=#memberId#
+			</isNotNull>
+			<isNotNull prepend="and" property="infoId">
+				info_id!=#infoId#
+			</isNotNull>
+			<isNotNull prepend="and" property="infoValidity">
+				info_validity=#infoValidity#
+			</isNotNull>
+			<isNotNull prepend="and" property="notLong">
+				info_validity!=#notLong#
+			</isNotNull>
+		<![CDATA[
+		order by info_id desc )t) where r>=#startCount# and r<=#endCount# 
+		 ]]>
+	</statement>
+
+	<statement id="showSupplyInfoListCount" resultClass="Integer" parameterClass="java.util.HashMap">
+		select count(*) from TBL_INFO 
+		where member_id is null <![CDATA[ and censor<3  ]]>
+			<isNotNull prepend="and" property="area">
+				area like '$area$%'
+			</isNotNull>
+			<isNotNull prepend="and" property="infoStatus">
+				info_status=#infoStatus#
+			</isNotNull>
+			<isNotNull prepend="and" property="keyWord">
+				key_word like '%'||#keyWord#||'%'
+			</isNotNull>
+			<isNotNull prepend="and" property="type">
+				type like '$type$%'
+			</isNotNull>
+			<isNotNull prepend="and" property="supplierId">
+				supplier_id=#supplierId#
+			</isNotNull>
+			<isNotNull prepend="and" property="infoId">
+				info_id!=#infoId#
+			</isNotNull>
+	</statement>
+	<statement id="showPurchaseInfoListCount" resultClass="Integer" parameterClass="java.util.HashMap">
+		select count(*) from TBL_INFO 
+		where supplier_id is null <![CDATA[ and censor<3  ]]>
+			<isNotNull prepend="and" property="area">
+				area like '$area$%'
+			</isNotNull>
+			<isNotNull prepend="and" property="infoStatus">
+				info_status=#infoStatus#
+			</isNotNull>
+			<isNotNull prepend="and" property="keyWord">
+				key_word like '%'||#keyWord#||'%'
+			</isNotNull>
+			<isNotNull prepend="and" property="type">
+				type like '$type$%'
+			</isNotNull>
+			<isNotNull prepend="and" property="memberId">
+				member_id=#memberId#
+			</isNotNull>
+			<isNotNull prepend="and" property="infoId">
+				info_id!=#infoId#
+			</isNotNull>
+	</statement>
+	
+	<statement id="getAllSupplyInfoList" resultClass="com.bornsoft.asn.bean.information.SupplyInfo" parameterClass="java.util.HashMap">
+		select * from(select t.*,rownum r from ( select tp.supplier_id as supplierId,tp.member_id as memberId,tp.title as title,tp.info_id as infoId,tp.info_status as infoStatus,tp.censor as censor,tp.detail as detail from TBL_INFO tp
+		<isNotNull property="supplierName">
+			inner join TBL_MEMBER tm on tp.supplier_id=tm.member_id
+		</isNotNull>
+		 where tp.member_id is null
+		 	<isNotNull prepend="and" property="supplierName">
+		 		tm.full_name like '%'||#supplierName#||'%'
+		 	</isNotNull>
+		 	<isNotNull prepend="and" property="searchTitle">
+				tp.title like '%'||#searchTitle#||'%'
+			</isNotNull>
+			<isNotNull prepend="and" property="searchId">
+				tp.info_id =#searchId#
+			</isNotNull>
+			<isNotNull prepend="and" property="infoStatus">
+				tp.info_status=#infoStatus#
+			</isNotNull>
+			<isNotNull prepend="and" property="supplierId">
+				tp.supplier_id=#supplierId#
+			</isNotNull>
+			<isNotNull prepend="and" property="censor">
+				tp.censor=#censor#
+			</isNotNull>
+		<![CDATA[
+		order by tp.info_id desc )t) where r>=#startCount# and r<=#endCount# 
+		 ]]>
+	</statement>
+	
+	<statement id="getAllPurchaseInfoList" resultClass="com.bornsoft.asn.bean.information.PurchaseInfo" parameterClass="java.util.HashMap">
+		select * from(select t.*,rownum r from ( select tp.supplier_id as supplierId,tp.member_id as memberId,tp.title as title,tp.info_id as infoId,tp.info_status as infoStatus,tp.censor as censor,tp.detail as detail from TBL_INFO tp
+		<isNotNull property="memberName">
+			inner join TBL_MEMBER tm on tp.member_id=tm.member_id
+		</isNotNull>
+		 where tp.supplier_id is null
+		 	<isNotNull prepend="and" property="memberName">
+		 		tm.full_name like '%'||#memberName#||'%'
+		 	</isNotNull>
+		 	<isNotNull prepend="and" property="searchTitle">
+				tp.title like '%'||#searchTitle#||'%'
+			</isNotNull>
+			<isNotNull prepend="and" property="searchId">
+				tp.info_id =#searchId#
+			</isNotNull>
+			<isNotNull prepend="and" property="infoStatus">
+				tp.info_status=#infoStatus#
+			</isNotNull>
+			<isNotNull prepend="and" property="memberId">
+				tp.member_id=#memberId#
+			</isNotNull>
+			<isNotNull prepend="and" property="censor">
+				tp.censor=#censor#
+			</isNotNull>
+		<![CDATA[
+		order by tp.info_id desc )t) where r>=#startCount# and r<=#endCount# 
+		 ]]>
+	</statement>
+	
+	<statement id="getAllSupplyInfoCount" resultClass="Integer" parameterClass="java.util.HashMap">
+		select count(*) from ( select * from TBL_INFO tp
+		<isNotNull property="supplierName">
+			inner join TBL_MEMBER tm on tp.supplier_id=tm.member_id
+		</isNotNull>
+		 where tp.member_id is null
+		 	<isNotNull prepend="and" property="supplierName">
+		 		tm.full_name like '%'||#supplierName#||'%'
+		 	</isNotNull>
+		 	<isNotNull prepend="and" property="searchTitle">
+				tp.title like '%'||#searchTitle#||'%'
+			</isNotNull>
+			<isNotNull prepend="and" property="searchId">
+				tp.info_id =#searchId#
+			</isNotNull>
+			<isNotNull prepend="and" property="infoStatus">
+				tp.info_status=#infoStatus#
+			</isNotNull>
+			<isNotNull prepend="and" property="supplierId">
+				tp.supplier_id=#supplierId#
+			</isNotNull>
+			<isNotNull prepend="and" property="censor">
+				tp.censor=#censor#
+			</isNotNull>
+		 ) 
+	</statement>
+	
+	<statement id="getAllPurchaseInfoCount" resultClass="Integer" parameterClass="java.util.HashMap">
+		select count(*) from ( select * from TBL_INFO tp
+		<isNotNull property="memberName">
+			inner join TBL_MEMBER tm on tp.member_id=tm.member_id
+		</isNotNull>
+		 where tp.supplier_id is null
+		 	<isNotNull prepend="and" property="memberName">
+		 		tm.full_name like '%'||#memberName#||'%'
+		 	</isNotNull>
+		 	<isNotNull prepend="and" property="searchTitle">
+				tp.title like '%'||#searchTitle#||'%'
+			</isNotNull>
+			<isNotNull prepend="and" property="searchId">
+				tp.info_id =#searchId#
+			</isNotNull>
+			<isNotNull prepend="and" property="infoStatus">
+				tp.info_status=#infoStatus#
+			</isNotNull>
+			<isNotNull prepend="and" property="memberId">
+				tp.member_id=#memberId#
+			</isNotNull>
+			<isNotNull prepend="and" property="censor">
+				tp.censor=#censor#
+			</isNotNull>
+		 ) 
+	</statement>
+	
+	<update id="setInfoCensor" parameterClass="java.util.HashMap">
+		update TBL_INFO set censor=#censor# where info_id=#infoId#
+	</update>
+</sqlMap>  

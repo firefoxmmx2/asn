@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="advert">
+	<typeAlias alias="Advert" type="com.bornsoft.asn.bean.advert.Advert"/>
+	<resultMap class="Advert" id="AdvertResult">
+		<result property="advertId" column="ID"/>
+		<result property="advName" column="NAME"/>
+		<result property="advType" column="TYPE"/>
+		<result property="advAddress" column="ADDRESS"/>
+		<result property="advSpec" column="SPEC"/>
+		<result property="description" column="DESCRIPTION"/>
+		<result property="picPath" column="PIC_PATH"/>
+		<result property="quote" column="QUOTE"/>
+		<result property="startTime" column="START_TIME"/>
+		<result property="endTime" column="END_TIME"/>
+		<result property="status" column="STATUS"/>
+		<result property="handleStatus" column="HANDLE_STATUS"/>
+		<result property="createTime" column="CREATE_TIME"/>
+		<result property="createName" column="CREATE_MAN"/>
+	</resultMap>
+	
+	<insert id="insertAdvert" parameterClass="Advert">
+		insert into tbl_advert(
+					ID,
+					NAME,
+					TYPE,
+					ADDRESS,
+					SPEC,
+					DESCRIPTION,
+					PIC_PATH,
+					QUOTE,
+					START_TIME,
+					END_TIME,
+					STATUS,
+					HANDLE_STATUS,
+					CREATE_TIME,
+					CREATE_MAN
+				)
+		  	values(
+				#advertId#,
+				#advName#,
+				#advType#,
+				#advAddress#,
+				#advSpec#,
+				#description#,
+				#picPath#,
+				#quote#,
+				#startTime#,
+				#endTime#,
+				#status#,
+				#handleStatus#,
+				#createTime#,
+				#createName#
+			)
+	</insert>
+	
+	<update id="updateAdvert" parameterClass="Advert">
+		update tbl_advert set 
+					NAME = #advName#,
+					TYPE = #advType#,
+					ADDRESS = #advAddress#,
+					SPEC = #advSpec#,
+					DESCRIPTION = #description#,
+					PIC_PATH = #picPath#,
+					QUOTE = #quote#,
+					START_TIME = START_TIME,
+					END_TIME = #endTime#
+				where ID = #advertId#
+	</update>
+	
+	<select id="listAdvert" parameterClass="java.util.HashMap" resultMap="AdvertResult">
+		select * from (select a.*, rownum r from (
+	
+			select * from tbl_advert adv
+			
+			order by adv.id desc
+		) a) 
+	    <![CDATA[		
+	    		where r>=#startCount# and r<=#endCount# 
+	    ]]>  
+	</select>
+	
+	<select id="getAdvertCount" parameterClass="java.util.HashMap" resultClass="Integer" >
+			select count(*) from tbl_advert
+	</select>
+	
+	<update id="updAdvertStatus" parameterClass="java.util.HashMap">
+		update tbl_advert set 
+				STATUS = #status#
+			where id = #advertId#
+	</update>
+		
+	<select id="getAdvertById" parameterClass="Long" resultMap="AdvertResult">
+		select * from tbl_advert
+			where id = #advertId#	
+	</select>
+	 	
+	<update id="updAdvertHandleStatus" parameterClass="java.util.HashMap">
+		update tbl_advert set 
+				HANDLE_STATUS = #handleStatus#
+			where id = #advertId#
+	</update>	
+	 
+</sqlMap>

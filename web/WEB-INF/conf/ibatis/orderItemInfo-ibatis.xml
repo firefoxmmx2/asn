@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+     PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+     "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="OrderItemInfo">
+<cacheModel id="orderItemCache" type="OSCACHE">
+    <flushInterval hours="24"/>
+    <flushOnExecute statement="insertOrderItem"/>
+</cacheModel>
+<typeAlias alias="orderItemInfo" type="com.bornsoft.asn.bean.order.OrderItem" />
+<resultMap class="orderItemInfo" id="orderItemInfoResult">
+   <result property="id" column="id"/>
+   <result property="orderId" column="orderId"/>
+   <result property="itemProductId" column="itemProductId"/>
+   <result property="itemProductName" column="itemProductName"/>
+   <result property="quantity" column="quantity"/>
+   <result property="proPrice" column="proPrice"/>
+   <result property="picPath" column="picPath"/>
+   <result property="postFree" column="postFree"/>
+</resultMap>
+
+<insert id="insertOrderItem" parameterClass="orderItemInfo">
+     
+   insert into tbl_order_items(
+			id,
+			orderId,
+			itemProductId,
+			itemProductName,
+			quantity,
+			proPrice,
+			picPath,
+			postFree
+	     )
+	     values (
+	        #id#,
+			#orderId#,
+			#itemProductId#,
+			#itemProductName#,
+			#quantity#,
+			#proPrice#,
+			#picPath#,
+			#postFree#
+	     )
+
+</insert>
+
+
+<!-- 订单子项信息 -->
+<select id="itemByOrderId" parameterClass="long" resultMap="orderItemInfoResult" cacheModel="orderItemCache">
+  <![CDATA[select * from tbl_order_items t where t.orderId=#orderId# ]]>
+</select>
+
+<!-- 产品成交量 -->
+<select id="pro_sold" parameterClass="long" resultClass="int" cacheModel="orderItemCache">
+  <![CDATA[select sum(item.quantity) from tbl_order_items item,
+           tbl_order_info info where item.orderid=info.id and
+           info.orderstatus='JYC' and item.itemproductid=#proId#]]>
+</select>
+
+<!-- 产品预订量 -->
+<select id="predetermined" parameterClass="long" resultClass="int" cacheModel="orderItemCache">
+  <![CDATA[select sum(item.quantity) from tbl_order_items item,
+           tbl_order_info info where item.orderid=info.id and
+           info.orderstatus<>'JYC' and item.itemproductid=#proId#]]>
+</select>
+
+
+
+</sqlMap>

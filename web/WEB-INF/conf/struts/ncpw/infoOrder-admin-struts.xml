@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+
+	<package name="infoOrder-admin" extends="struts-asn" namespace="/admin/infoOrder">
+		<action name="toInfoOrderList" class="com.bornsoft.asn.action.infoOrder.InfoOrderAction" method="toInfoOrderList">
+			<result name="success" type="tilesmap">/admin/infoOrder/infoOrderList.jsp</result>
+		</action>
+		<action name="setInfoOrderOff" class="com.bornsoft.asn.action.infoOrder.InfoOrderAction" method="setInfoOrderOff">
+			<result name="success" type="chain">toInfoOrderList</result>
+		</action>
+		<action name="toInfoList" class="com.bornsoft.asn.action.infoOrder.InfoOrderAction" method="toInfoList">
+			<result name="success" type="tilesmap">/admin/infoOrder/infoList.jsp</result>
+		</action>
+		<action name="getInfo" class="com.bornsoft.asn.action.infoOrder.InfoOrderAction" method="getInfo">
+			<result name="success">/admin/infoOrder/info.jsp</result>
+		</action>
+	</package>
+
+</struts>   

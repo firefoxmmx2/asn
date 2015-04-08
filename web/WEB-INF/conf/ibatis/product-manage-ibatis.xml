@@ -1,0 +1,624 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+  
+<sqlMap>
+	<typeAlias alias="ProductSupply" type="com.bornsoft.asn.bean.product.ProductSupply"/>
+	<!--
+	<parameterMap class="ProductSupply" id="Product_Supply">
+		<parameter property="productId" javaType="int"/>
+		<parameter property="supplierId" javaType="int"/>
+		<parameter property="supplyTitle" javaType="string" jdbcType="VARCHAR2" />
+		<parameter property="productName" javaType="string" jdbcType="VARCHAR2" />
+		<parameter property="smallPicPath" javaType="string" jdbcType="VARCHAR2" />
+		<parameter property="bigPicPath" javaType="string" jdbcType="VARCHAR2" />
+		<parameter property="productType" javaType="string" jdbcType="VARCHAR2" />
+		<parameter property="webOrder" javaType="string" jdbcType="VARCHAR2" />
+		<parameter property="price" javaType="double" jdbcType="numeric" />
+		<parameter property="priceUnit" javaType="string" jdbcType="VARCHAR2" />
+		<parameter property="startOrder" javaType="string" jdbcType="VARCHAR2" />
+		<parameter property="startOrderUnit" javaType="string" jdbcType="VARCHAR2" />
+		<parameter property="maxSupply" javaType="string" jdbcType="VARCHAR2" />
+		<parameter property="maxSupplyUnit" javaType="string" jdbcType="VARCHAR2" />
+		<parameter property="productDetail" javaType="string" jdbcType="VARCHAR2" />
+		<parameter property="wholeSaleDetail" javaType="string" jdbcType="VARCHAR2" />
+		<parameter property="transportDetail" javaType="string" jdbcType="VARCHAR2" />
+		<parameter property="tradeType" javaType="string" jdbcType="VARCHAR2" />
+		<parameter property="infoValidity" javaType="string" jdbcType="VARCHAR2" />
+		<parameter property="productStartDate" javaType="date" jdbcType="date" />
+		<parameter property="productModifyDate" javaType="date" jdbcType="date" />
+		<parameter property="productEndDate" javaType="date" jdbcType="date" />
+		<parameter property="ipAddress" javaType="string" jdbcType="VARCHAR2" />
+	</parameterMap>
+	<insert id="insertProductSupply" parameterMap="Product_Supply">
+		insert into TBL_PRODUCT_SUPPLY (product_id,supplier_id,supply_title,product_name,small_pic_path,big_pic_path,product_type,web_order,price,price_unit,start_order,start_order_unit,max_supply,max_supply_unit,product_detail,wholesale_detail,transport_detail,trade_type,info_validity,product_start_date,product_modify_date,product_end_date,ip_address) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+	</insert>
+	-->
+	<resultMap class="ProductSupply" id="ProductSupplyResultMap">
+		<result property="productId" column="product_id"/>
+		<result property="supplierId" column="supplier_id"/>
+		<result property="supplyTitle" column="supply_title"/>
+		<result property="productName" column="product_name"/>
+		<result property="productStatus" column="product_status"/>
+		<result property="smallPicPath" column="small_pic_path"/>
+		<result property="bigPicPath" column="big_pic_path"/>
+		<result property="productType" column="product_type"/>
+		<result property="webOrder" column="web_order"/>
+		<result property="price" column="price"/>
+		<result property="priceUnit" column="price_unit"/>
+		<result property="startOrder" column="start_order"/>
+		<result property="startOrderUnit" column="start_order_unit"/>
+		<result property="maxSupply" column="max_supply"/>
+		<result property="maxSupplyUnit" column="max_supply_unit"/>
+		<result property="productDetail" column="product_detail"/>
+		<result property="wholeSaleDetail" column="wholesale_detail"/>
+		<result property="transportDetail" column="transport_detail"/>
+		<result property="tradeType" column="trade_type"/>
+		<result property="infoValidity" column="info_validity"/>
+		<result property="productStartDate" column="product_start_date"/>
+		<result property="productModifyDate" column="product_modify_date"/>
+		<result property="productEndDate" column="product_end_date"/>
+		<result property="ipAddress" column="ip_address"/>
+		<result property="facade" column="facade"/>
+	</resultMap>
+	<parameterMap class="java.util.HashMap" id="pageMap">
+		<parameter property="supplierId"/>
+		<parameter property="startCount"/>	
+		<parameter property="endCount"/>
+	</parameterMap>
+
+	<insert id="insertProductSupply" parameterClass="ProductSupply">
+		insert into TBL_PRODUCT_SUPPLY (product_id,supplier_id,supply_title,product_name,product_status,small_pic_path,big_pic_path,product_type,web_order,price,price_unit,start_order,start_order_unit,max_supply,max_supply_unit,product_detail,wholesale_detail,transport_detail,trade_type,info_validity,product_start_date,product_modify_date,product_end_date,ip_address,facade) 
+		values(#productId#,#supplierId#,#supplyTitle#,#productName#,#productStatus#,#smallPicPath#,#bigPicPath#,#productType#,#webOrder#,#price#,#priceUnit#,#startOrder#,#startOrderUnit#,#maxSupply#,#maxSupplyUnit#,#productDetail#,#wholeSaleDetail#,#transportDetail#,#tradeType#,#infoValidity#,#productStartDate#,#productModifyDate#,#productEndDate#,#ipAddress#,#facade#)
+	</insert>
+	
+	<delete id="deleteProductSupply" parameterClass="Integer">
+		delete from TBL_PRODUCT_SUPPLY where product_id=#productId#
+	</delete>
+	<update id="updateProductSupply" parameterClass="ProductSupply">
+		update TBL_PRODUCT_SUPPLY set 
+		supply_title=#supplyTitle#,
+		product_name=#productName#,
+		product_status=#productStatus#,
+		small_pic_path=#smallPicPath#,
+		big_pic_path=#bigPicPath#,
+		product_type=#productType#,
+		web_order=#webOrder#,
+		price=#price#,
+		price_unit=#priceUnit#,
+		start_order=#startOrder#,
+		start_order_unit=#startOrderUnit#,
+		max_supply=#maxSupply#,
+		max_supply_unit=#maxSupplyUnit#,
+		product_detail=#productDetail#,
+		wholesale_detail=#wholeSaleDetail#,
+		transport_detail=#transportDetail#,
+		trade_type=#tradeType#,
+		info_validity=#infoValidity#,
+		product_modify_date=#productModifyDate#,
+		product_end_date=#productEndDate#,
+		ip_address=#ipAddress#,
+		facade=#facade#
+		where product_id=#productId#	
+	</update>
+	<update id="setProductSupplyOff" parameterClass="Integer">
+		update TBL_PRODUCT_SUPPLY set
+		product_status='off'
+		where product_id=#id#
+	</update>
+	<select id="getProductSupplyListAll" resultMap="ProductSupplyResultMap">
+		select * from TBL_PRODUCT_SUPPLY
+	</select>
+	<select id="getProductSupply" resultMap="ProductSupplyResultMap" parameterClass="Integer">
+		select * from TBL_PRODUCT_SUPPLY where product_id=#id#
+	</select>	
+	<select id="getProductSupplyList" resultMap="ProductSupplyResultMap" parameterClass="Integer">
+		select * from TBL_PRODUCT_SUPPLY where supplier_id=#id#
+	</select>
+	<select id="getProductSupplyListOn" resultMap="ProductSupplyResultMap" parameterClass="Integer">
+		select * from TBL_PRODUCT_SUPPLY where supplier_id=#id# and product_status='on' order by product_id desc
+	</select>
+	<select id="getProductSupplyCountOn" resultClass="Integer" parameterClass="Integer">
+		select count(*) from TBL_PRODUCT_SUPPLY where supplier_id=#id# and product_status='on'
+	</select>
+	<select id="getProductSuppluListOnPage" resultMap="ProductSupplyResultMap" parameterMap="pageMap">
+		<![CDATA[
+		select * from(select t.*,rownum r from (select * from TBL_PRODUCT_SUPPLY where supplier_id=? and product_status='on' order by product_id desc ) t ) where r>=? and r<=? 
+		 ]]>
+	</select>
+	<select id="getProductSuppluListOffPage" resultMap="ProductSupplyResultMap" parameterMap="pageMap">
+		<![CDATA[
+		select * from(select t.*,rownum r from (select * from TBL_PRODUCT_SUPPLY where supplier_id=? and product_status='off' order by product_id desc ) t ) where r>=? and r<=? 
+		 ]]>
+	</select>
+		<select id="getProductSupplyCountOff" resultClass="Integer" parameterClass="Integer">
+		select count(*) from TBL_PRODUCT_SUPPLY where supplier_id=#id# and product_status='off'
+	</select>
+	<update id="setProductSupplyOn" parameterClass="Integer">
+		update TBL_PRODUCT_SUPPLY set
+		product_status='on'
+		where product_id=#id#
+	</update>
+	<statement id="getProductSupplyCountSearch" resultClass="Integer" parameterClass="java.util.HashMap">
+		select count(*) from TBL_PRODUCT_SUPPLY
+		<dynamic prepend="where">
+			<isNotNull prepend="and" property="supplierId">
+				supplier_id=#supplierId#
+			</isNotNull>
+			<isNotNull prepend="and" property="searchName">
+				product_name like '%'||#searchName#||'%'
+			</isNotNull>
+			<isNotNull prepend="and" property="productStatus">
+				product_status=#productStatus#
+			</isNotNull>
+		</dynamic>
+	</statement>
+	<select id="getProductSupplyListPageSearch" resultMap="ProductSupplyResultMap" parameterClass="java.util.HashMap">
+		<![CDATA[
+		select * from(select t.*,rownum r from (select * from TBL_PRODUCT_SUPPLY where supplier_id=#supplierId# and product_status=#productStatus# and product_name like '%'||#searchName#||'%' order by product_id desc ) t ) where r>=#startCount# and r<=#endCount#
+		 ]]>
+	</select>
+	<update id="setProductSupplyStatus" parameterClass="java.util.HashMap">
+		update TBL_PRODUCT_SUPPLY set
+		product_status=#productStatus#
+		where product_id=#productId#
+	</update>
+	<delete id="deleteProductSupplyBySupplierId" parameterClass="Integer">
+		delete from TBL_PRODUCT_SUPPLY where supplier_id=#supplierId#
+	</delete>
+
+	
+	
+	
+	
+	<typeAlias alias="ProductCustom" type="com.bornsoft.asn.bean.product.ProductCustom"/>
+	<resultMap class="ProductCustom" id="ProductCustomResultMap">
+		<result property="productCustomId" column="product_custom__id"/>
+		<result property="productId" column="product_id"/>
+		<result property="propertyName" column="property_name"/>
+		<result property="propertyDetail" column="property_detail"/>
+	</resultMap>
+
+	<insert id="insertProductCustom" parameterClass="ProductCustom">
+		insert into TBL_PRODUCT_CUSTOM (product_custom__id,product_id,property_name,property_detail)values(#productCustomId#,#productId#,#propertyName#,#propertyDetail#)
+	</insert>
+	<delete id="deleteProductCustomList" parameterClass="Integer">
+		delete from TBL_PRODUCT_CUSTOM where product_id=#id#
+	</delete>
+	<select id="getProductCustomList" resultMap="ProductCustomResultMap" parameterClass="Integer">
+		select * from TBL_PRODUCT_CUSTOM where product_id=#id#
+	</select>
+	
+	
+	
+	
+	
+	<typeAlias alias="ProductPurchase" type="com.bornsoft.asn.bean.product.ProductPurchase"/>
+	<resultMap class="ProductPurchase" id="ProductPurchaseResultMap">
+		<result property="purchaseId" column="purchase_id"/>
+		<result property="memberId" column="member_id"/>
+		<result property="purchaseTitle" column="purchase_title"/>
+		<result property="productName" column="product_name"/>
+		<result property="purchaseStatus" column="purchase_status"/>
+		<result property="productType" column="product_type"/>
+		<result property="productAmount" column="product_amount"/>
+		<result property="packageInfo" column="package_info"/>
+		<result property="priceInfo" column="price_info"/>
+		<result property="productSpecification" column="product_specification"/>
+		<result property="smallPicPath" column="small_pic_path"/>
+		<result property="bigPicPath" column="big_pic_path"/>
+		<result property="purchaseDetail" column="purchase_detail"/>
+		<result property="infoValidity" column="info_validity"/>
+		<result property="purchaseStartDate" column="purchase_start_date"/>
+		<result property="purchaseModifyDate" column="purchase_modify_date"/>
+		<result property="purchaseEndDate" column="purchase_end_date"/>
+	</resultMap>
+	<insert id="insertProductPurchase" parameterClass="ProductPurchase">
+		insert into TBL_PRODUCT_PURCHASE (purchase_id,member_id,purchase_title,product_name,purchase_status,product_type,product_amount,package_info,price_info,product_specification,small_pic_path,big_pic_path,purchase_detail,info_validity,purchase_start_date,purchase_modify_date,purchase_end_date,ip_address)values(#purchaseId#,#memberId#,#purchaseTitle#,#productName#,#purchaseStatus#,#productType#,#productAmount#,#packageInfo#,#priceInfo#,#productSpecification#,#smallPicPath#,#bigPicPath#,#purchaseDetail#,#infoValidity#,#purchaseStartDate#,#purchaseModifyDate#,#purchaseEndDate#,#ipAddress#) 
+	</insert>
+	<select id="getProductPurchaseList" resultMap="ProductPurchaseResultMap" parameterClass="java.util.HashMap">
+		<![CDATA[
+			select * from(select t.*,rownum r from (select * from TBL_PRODUCT_PURCHASE where member_id=#memberId# and purchase_status=#purchaseStatus# order by purchase_id desc ) t ) where r>=#startCount# and r<=#endCount#
+		]]>
+	</select>
+	<select id="getProductPurchaseCount" resultClass="Integer" parameterClass="java.util.HashMap">
+		select count(*) from TBL_PRODUCT_PURCHASE where member_id=#memberId# and purchase_status=#purchaseStatus#
+	</select>
+	<select id="getProductPurchase" resultMap="ProductPurchaseResultMap" parameterClass="Integer">
+		select * from TBL_PRODUCT_PURCHASE where purchase_id=#id#
+	</select>
+	<update id="updateProductPurchase" parameterClass="ProductPurchase">
+		update TBL_PRODUCT_PURCHASE set 
+		purchase_title=#purchaseTitle#,
+		product_name=#productName#,
+		purchase_status=#purchaseStatus#,
+		product_type=#productType#,
+		product_amount=#productAmount#,
+		package_info=#packageInfo#,
+		price_info=#priceInfo#,
+		product_specification=#productSpecification#,
+		small_pic_path=#smallPicPath#,
+		big_pic_path=#bigPicPath#,
+		purchase_detail=#purchaseDetail#,
+		info_validity=#infoValidity#,
+		purchase_modify_date=#purchaseModifyDate#,
+		purchase_end_date=#purchaseEndDate#,
+		ip_address=#ipAddress#
+		where purchase_id=#purchaseId#	
+	</update>
+	<update id="setProductPurchaseStatus" parameterClass="java.util.HashMap">
+		update TBL_PRODUCT_PURCHASE set
+		purchase_status=#purchaseStatus#
+		where purchase_id=#purchaseId#
+	</update>
+	<select id="searchProductPurchaseList" resultMap="ProductPurchaseResultMap" parameterClass="java.util.HashMap">
+		<![CDATA[
+			select * from(select t.*,rownum r from (select * from TBL_PRODUCT_PURCHASE where member_id=#memberId# and purchase_status=#purchaseStatus# and product_name like '%'||#searchName#||'%' order by purchase_id desc ) t ) where r>=#startCount# and r<=#endCount#
+		]]>
+	</select>
+	<select id="getSearchProductPurchaseCount" resultClass="Integer" parameterClass="java.util.HashMap">
+		select count(*) from TBL_PRODUCT_PURCHASE where member_id=#memberId# and purchase_status=#purchaseStatus# and product_name like '%'||#searchName#||'%'
+	</select>
+	<delete id="deleteProductPurchaseByMemberId" parameterClass="Integer">
+		delete from TBL_PRODUCT_PURCHASE where member_id=#id#
+	</delete>
+	
+	
+	
+	<typeAlias alias="ProductCustomProperty" type="com.bornsoft.asn.bean.product.ProductCustomProperty"/>
+	<resultMap class="ProductCustomProperty" id="ProductCustomPropertyResultMap">
+		<result property="productCPId" column="product_cp__id"/>
+		<result property="productId" column="product_id"/>
+		<result property="propertyName" column="property_name"/>
+		<result property="propertyDetail" column="property_detail"/>
+	</resultMap>
+	<insert id="insertProductCustomProperty">
+		insert into TBL_PRODUCT_CUSTOM_PROPERTY (product_cp_id,product_id,property_name,property_detail)values(#productCPId#,#productId#,#propertyName#,#propertyDetail#)
+	</insert>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<typeAlias alias="ProductIbatis" type="com.bornsoft.asn.bean.product.Product"/>
+	<resultMap class="ProductIbatis" id="ProductResultMap">
+		<result property="productId" column="product_id"/>
+		<result property="supplierId" column="supplier_id"/>
+		<result property="productName" column="product_name"/>
+		<result property="productNumber" column="product_number"/>
+		<result property="productStatus" column="product_status"/>
+		<result property="productUnit" column="product_unit"/>
+		<result property="price1" column="price1"/>
+		<result property="price1Range" column="price1_range"/>
+		<result property="price2" column="price2"/>
+		<result property="price2Range" column="price2_range"/>
+		<result property="price3" column="price3"/>
+		<result property="price3Range" column="price3_range"/>
+		<result property="productType" column="product_type"/>
+		<result property="smallPicPath" column="small_pic_path"/>
+		<result property="bigPicPath" column="big_pic_path"/>
+		<result property="smallPicPath1" column="small_pic_path1"/>
+		<result property="bigPicPath1" column="big_pic_path1"/>
+		<result property="smallPicPath2" column="small_pic_path2"/>
+		<result property="bigPicPath2" column="big_pic_path2"/>
+		<result property="smallPicPath3" column="small_pic_path3"/>
+		<result property="bigPicPath3" column="big_pic_path3"/>
+		<result property="webOrder" column="web_order"/>
+		<result property="startOrderCount" column="start_order_count"/>
+		<result property="wareCount" column="ware_count"/>
+		<result property="reservedCount" column="reserved_count"/>
+		<result property="saleCount" column="sale_count"/>
+		<result property="productDetail" column="product_detail"/>
+		<result property="wholesaleDetail" column="wholesale_detail"/>
+		<result property="transportDetail" column="transport_detail"/>
+		<result property="tradeType" column="trade_type"/>
+		<result property="productStartDate" column="product_start_date"/>
+		<result property="productModifyDate" column="product_modify_date"/>
+		<result property="productEndDate" column="product_end_date"/>
+		<result property="ipAddress" column="ip_address"/>
+		<result property="facade" column="facade"/>
+		<result property="lastViewTime" column="last_view_time"/>
+		<result property="viewCount" column="view_count"/>	
+		<result property="censor" column="censor"/>
+		<result property="postType" column="post_type"/>
+		<result property="marketPrice" column="market_price"/>
+	</resultMap>
+	<select id="getProductBySidAndNum" resultMap="ProductResultMap" parameterClass="java.util.HashMap">
+		select * from TBL_PRODUCT where supplier_id=#supplierId# and product_number=#productNumber#
+	</select>
+	<insert id="insertProduct" parameterClass="ProductIbatis">
+		insert into TBL_PRODUCT 
+		(product_id,supplier_id,product_name,product_number,product_status,product_unit,price1,price1_range,price2,
+		price2_range,price3,price3_range,product_type,small_pic_path,big_pic_path,web_order,start_order_count,ware_count,
+		reserved_count,sale_count,product_detail,wholesale_detail,transport_detail,trade_type,product_start_date,
+		product_modify_date,product_end_date,ip_address,facade,last_view_time,view_count,censor,post_type,
+		small_pic_path1,big_pic_path1,small_pic_path2,big_pic_path2,small_pic_path3,big_pic_path3,market_price
+		)
+		values
+		(#productId#,#supplierId#,#productName#,#productNumber#,#productStatus#,#productUnit#,#price1#,#price1Range#,#price2#,
+		#price2Range#,#price3#,#price3Range#,#productType#,#smallPicPath#,#bigPicPath#,#webOrder#,#startOrderCount#,#wareCount#,
+		#reservedCount#,#saleCount#,#productDetail#,#wholesaleDetail#,#transportDetail#,#tradeType#,#productStartDate#,
+		#productModifyDate#,#productEndDate#,#ipAddress#,#facade#,#lastViewTime#,#viewCount#,#censor#,#postType#,
+		#smallPicPath1#,#bigPicPath1#,#smallPicPath2#,#bigPicPath2#,#smallPicPath3#,#bigPicPath3#,#marketPrice#
+		)
+	</insert>
+	<select id="getProductCount" resultClass="Integer" parameterClass="java.util.HashMap">
+		select count(*) from TBL_PRODUCT where supplier_id=#supplierId# and product_status=#productStatus#
+	</select>
+	<statement id="getProductSearchCount" resultClass="Integer" parameterClass="java.util.HashMap">
+		select count(*) from TBL_PRODUCT 
+		<dynamic prepend="where">
+			<isNotNull prepend="and" property="searchName">
+				product_name like '%'||#searchName#||'%'
+			</isNotNull>
+			<isNotNull prepend="and" property="searchNumber">
+				product_number like '%'||#searchNumber#||'%'
+			</isNotNull>
+			<isNotNull prepend="and" property="productStatus">
+				product_status=#productStatus#
+			</isNotNull>
+			<isNotNull prepend="and" property="supplierId">
+				supplier_id=#supplierId#
+			</isNotNull>
+			<isNotNull prepend="and" property="pass">
+				<![CDATA[ censor<3  ]]>
+			</isNotNull>
+			<isNotNull prepend="and" property="in">
+				<![CDATA[ censor>2 and censor<20  ]]>
+			</isNotNull>
+			<isNotNull prepend="and" property="over">
+				<![CDATA[ censor>20 and censor<30  ]]>
+			</isNotNull>
+		</dynamic>
+	</statement>
+	<statement id="getProductSearchList" resultMap="ProductResultMap" parameterClass="java.util.HashMap">
+		select * from(select t.*,rownum r from ( select * from TBL_PRODUCT
+		 <dynamic prepend="where">
+		 	<isNotNull prepend="and" property="searchName">
+				product_name like '%'||#searchName#||'%'
+			</isNotNull>
+			<isNotNull prepend="and" property="searchNumber">
+				product_number like '%'||#searchNumber#||'%'
+			</isNotNull>
+			<isNotNull prepend="and" property="productStatus">
+				product_status=#productStatus#
+			</isNotNull>
+			<isNotNull prepend="and" property="supplierId">
+				supplier_id=#supplierId#
+			</isNotNull>
+			<isNotNull prepend="and" property="pass">
+				<![CDATA[ censor<3  ]]>
+			</isNotNull>
+			<isNotNull prepend="and" property="in">
+				<![CDATA[ censor>2 and censor<20  ]]>
+			</isNotNull>
+			<isNotNull prepend="and" property="over">
+				<![CDATA[ censor>20 and censor<30  ]]>
+			</isNotNull>
+		 </dynamic>
+		<![CDATA[
+		order by product_id desc )t) where r>=#startCount# and r<=#endCount# 
+		 ]]>
+	</statement>
+	<statement id="getAllProductList" resultMap="ProductResultMap" parameterClass="java.util.HashMap">
+		select * from(select t.*,rownum r from ( select * from TBL_PRODUCT tp
+		<isNotNull property="supplierName">
+			inner join TBL_MEMBER tm on tp.supplier_id=tm.member_id
+		</isNotNull>
+		 <dynamic prepend="where">
+		 	<isNotNull prepend="and" property="supplierName">
+		 		tm.full_name like '%'||#supplierName#||'%'
+		 	</isNotNull>
+		 	<isNotNull prepend="and" property="searchName">
+				tp.product_name like '%'||#searchName#||'%'
+			</isNotNull>
+			<isNotNull prepend="and" property="searchId">
+				tp.product_id =#searchId#
+			</isNotNull>
+			<isNotNull prepend="and" property="productStatus">
+				tp.product_status=#productStatus#
+			</isNotNull>
+			<isNotNull prepend="and" property="supplierId">
+				tp.supplier_id=#supplierId#
+			</isNotNull>
+			<isNotNull prepend="and" property="censor">
+				tp.censor=#censor#
+			</isNotNull>
+			<isNotNull prepend="and" property="pass">
+				<![CDATA[ censor<3  ]]>
+			</isNotNull>
+			<isNotNull prepend="and" property="productType">
+				tp.product_type like '$productType$%'
+			</isNotNull>
+		 </dynamic>
+		<![CDATA[
+		order by tp.product_id desc )t) where r>=#startCount# and r<=#endCount# 
+		 ]]>
+	</statement>
+	
+	<statement id="getAllProductCount" resultClass="Integer" parameterClass="java.util.HashMap">
+		select count(*) from ( select * from TBL_PRODUCT tp
+		<isNotNull property="supplierName">
+			inner join TBL_MEMBER tm on tp.supplier_id=tm.member_id
+		</isNotNull>
+		 <dynamic prepend="where">
+		 	<isNotNull prepend="and" property="supplierName">
+		 		tm.full_name like '%'||#supplierName#||'%'
+		 	</isNotNull>
+		 	<isNotNull prepend="and" property="searchName">
+				tp.product_name like '%'||#searchName#||'%'
+			</isNotNull>
+			<isNotNull prepend="and" property="searchId">
+				tp.product_id =#searchId#
+			</isNotNull>
+			<isNotNull prepend="and" property="productStatus">
+				tp.product_status=#productStatus#
+			</isNotNull>
+			<isNotNull prepend="and" property="supplierId">
+				tp.supplier_id=#supplierId#
+			</isNotNull>
+			<isNotNull prepend="and" property="censor">
+				tp.censor=#censor#
+			</isNotNull>
+			<isNotNull prepend="and" property="pass">
+				<![CDATA[ censor<3  ]]>
+			</isNotNull>
+		 </dynamic>
+		 ) 
+	</statement>
+	
+	<select id="getProductList" resultMap="ProductResultMap" parameterClass="java.util.HashMap">
+		<![CDATA[
+		select * from(select t.*,rownum r from (select * from TBL_PRODUCT where supplier_id=#supplierId# and product_status=#productStatus# order by product_id desc ) t ) where r>=#startCount# and r<=#endCount#
+		 ]]>
+	</select>
+	<select id="getProductById" resultMap="ProductResultMap" parameterClass="String">
+		select * from TBL_PRODUCT where product_id=#productId#
+	</select>
+	<select id="getProductListChenL" resultClass="com.bornsoft.asn.bean.product.Product" parameterClass="Integer">
+		select t.product_name as productName,t.product_id as productId from TBL_PRODUCT t where t.supplier_id=#supplierId# and t.product_status='on'
+	</select>
+	<select id="getProductListBySupplierId" resultMap="ProductResultMap" parameterClass="Integer">
+		select * from TBL_PRODUCT where supplier_id=#supplierId# and product_status='on'
+	</select>
+	<statement id="getProductListOrderByView" resultMap="ProductResultMap" parameterClass="java.util.HashMap">
+		select * from(select t.*,rownum r from ( select * from TBL_PRODUCT
+		<![CDATA[
+		order by view_count desc )t) where r>=#startCount# and r<=#endCount# 
+		 ]]>
+	</statement>
+	
+	
+	<update id="updateProduct" parameterClass="ProductIbatis">
+		update TBL_PRODUCT set 
+		product_name=#productName#,
+		product_number=#productNumber#,
+		product_status=#productStatus#,
+		product_unit=#productUnit#,
+		price1=#price1#,
+		price1_range=#price1Range#,
+		price2=#price2#,
+		price2_range=#price2Range#,
+		price3=#price3#,
+		price3_range=#price3Range#,
+		product_type=#productType#,
+		small_pic_path=#smallPicPath#,
+		big_pic_path=#bigPicPath#,
+		small_pic_path1=#smallPicPath1#,
+		big_pic_path1=#bigPicPath1#,
+		small_pic_path2=#smallPicPath2#,
+		big_pic_path2=#bigPicPath2#,
+		small_pic_path3=#smallPicPath3#,
+		big_pic_path3=#bigPicPath3#,
+		web_order=#webOrder#,
+		start_order_count=#startOrderCount#,
+		ware_count=#wareCount#,
+		reserved_count=#reservedCount#,
+		sale_count=#saleCount#,
+		product_detail=#productDetail#,
+		wholesale_detail=#wholesaleDetail#,
+		transport_detail=#transportDetail#,
+		trade_type=#tradeType#,
+		product_modify_date=#productModifyDate#,
+		product_end_date=#productEndDate#,
+		ip_address=#ipAddress#,
+		facade=#facade#,
+		censor=#censor#,
+		post_type=#postType#,
+		market_price=#marketPrice#
+		where product_id=#productId#	
+	</update>
+	<update id="setProductStatus" parameterClass="java.util.HashMap">
+		update TBL_PRODUCT set product_status=#productStatus# where product_id=#productId#
+	</update>
+	<update id="setProductCensor" parameterClass="java.util.HashMap">
+		update TBL_PRODUCT set censor=#censor# where product_id=#productId#
+	</update>
+	<update id="setProductAmount" parameterClass="java.util.HashMap">
+		update TBL_PRODUCT set ware_count=#stockAmount# where product_id=#productId#
+	</update>
+	<resultMap class="java.util.HashMap" id="getPriceByIdMap">
+		<result property="price1" column="price1" javaType="Double"/>
+		<result property="price2" column="price2" javaType="Double"/>
+		<result property="price3" column="price3" javaType="Double"/>
+		<result property="price1Range" column="price1_range" javaType="Double"/>
+		<result property="price2Range" column="price2_range" javaType="Double"/>
+		<result property="price3Range" column="price3_range" javaType="Double"/>
+	</resultMap>
+	<statement id="getPriceById" parameterClass="Integer" resultMap="getPriceByIdMap">
+		select price1,price2,price3,price1_range,price2_range,price3_range from TBL_PRODUCT where product_id=#id#
+	</statement>
+	<delete id="deleteProductById" parameterClass="Integer">
+		delete from TBL_PRODUCT where product_id=#productId#
+	</delete>
+	<delete id="deleteProductBySupplierId" parameterClass="Integer">
+		delete from TBL_PRODUCT where supplier_id=#supplierId#
+	</delete>
+	
+	<insert id="insertDelivery" parameterClass="com.bornsoft.asn.bean.product.Delivery">
+		insert into TBL_DELIVER (product_id,deliver_id,post,express,ems) values (#productId#,#deliveryId#,#post#,#express#,#ems#)
+	</insert>
+	<select id="getDelivery" parameterClass="Integer" resultClass="com.bornsoft.asn.bean.product.Delivery">
+		select product_id as productId,deliver_id as deliveryId,post as post,express as express,ems as ems from TBL_DELIVER where product_id=#id#
+	</select>
+	<delete id="deleteDelivery" parameterClass="Integer">
+		delete from TBL_DELIVER where product_id=#id#
+	</delete>
+	
+	<insert id="insertPT2DY" parameterClass="com.bornsoft.asn.bean.product.PT2DY">
+		insert into TBL_PT2DY (product_id,delivery_id) values (#productId#,#deliveryId#)
+	</insert>
+	<select id="getPT2DY" parameterClass="String" resultClass="com.bornsoft.asn.bean.product.PT2DY">
+		select product_id as productId,delivery_id as deliveryId from TBL_PT2DY where product_id=#id#
+	</select>
+	<delete id="deleteList" parameterClass="Integer">
+		delete from TBL_PT2DY where product_id=#id#
+	</delete>
+	
+	
+	<typeAlias alias="ProductCustomProperty" type="com.bornsoft.asn.bean.product.ProductCustomProperty"/>
+	<resultMap class="ProductCustomProperty" id="ProductCustomPropertyResultMap">
+		<result property="productCPId" column="product_cp_id"/>
+		<result property="productId" column="product_id"/>
+		<result property="propertyName" column="property_name"/>
+		<result property="propertyDetail" column="property_detail"/>
+	</resultMap>
+	<select id="getProductCustomPropertyList" resultMap="ProductCustomPropertyResultMap" parameterClass="Integer">
+		select * from TBL_PRODUCT_CUSTOM_PROPERTY where product_id=#id#
+	</select>
+	<delete id="deleteProductCustomPropertyList" parameterClass="Integer">
+		delete from TBL_PRODUCT_CUSTOM_PROPERTY where product_id=#id#
+	</delete>
+	
+	<select id="selectProduct" parameterClass="Integer" resultMap="ProductResultMap">
+	    select * from TBL_PRODUCT where product_id=#id#
+	</select>
+	
+	<select id="getProductListByType" parameterClass="java.util.HashMap" resultMap="ProductResultMap">
+    	 select * from(select t.*,rownum r from ( select * from TBL_PRODUCT
+		 <dynamic prepend="where">
+			<isNotNull prepend="and" property="pass">
+				<![CDATA[ censor<3  ]]>
+			</isNotNull>
+			<isNotNull prepend="and" property="productStatus">
+				product_status=#productStatus#
+			</isNotNull>
+			<isNotNull prepend="and" property="productType">
+				product_type like '$productType$%'
+			</isNotNull>
+		 </dynamic>
+		<![CDATA[
+		order by product_id desc )t) where r>=#startCount# and r<=#endCount# 
+		 ]]>
+    </select>
+	
+	<select id="getProductAmountById" parameterClass="Integer" resultClass="Integer">
+		select ware_count from TBL_PRODUCT where product_id=#productId#
+	</select>
+</sqlMap>  
+   

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+
+	<package name="product-admin" extends="struts-asn" namespace="/admin/pro">
+		<action name="toAllProductList" class="com.bornsoft.asn.action.product.ProductAction" method="toAllProductList">
+			<result name="success" type="tilesmap">/admin/product/allProductList.jsp</result>
+		</action>
+		<action name="setProductCensor" class="com.bornsoft.asn.action.product.ProductAction" method="setProductCensor">
+			<result name="success" type="chain">toAllProductList</result>
+		</action>
+		<action name="checkProduct" class="com.bornsoft.asn.action.product.ProductAction" method="checkProduct">
+		</action>
+	</package>
+
+</struts>   

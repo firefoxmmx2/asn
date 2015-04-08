@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<package name="fieldOrder" extends="struts-asn" namespace="/front">
+		<action name="toConfirmInfoPage" 
+		        class="com.bornsoft.asn.action.order.FrontOrderAction"
+		        method="toConfirmInfoPage">
+			<result name="success" type="tilesmap">/front/order/newOrderConfirm.jsp</result>
+		</action>
+		
+		<action name="saveOrderInfo" 
+		        class="com.bornsoft.asn.action.order.FrontOrderAction"
+		        method="saveOrderInfo">
+			<result name="success" type="tilesmap">/front/order/orderOk.jsp</result>
+		</action>
+		
+		
+		<action name="infoConfirm" 
+		        class="com.bornsoft.asn.action.order.FrontOrderAction"
+		        method="infoConfirm">
+			<result name="success" type="tilesmap">/front/order/orderConfirm.jsp</result>
+		</action>
+		
+		
+		<action name="mergeOrderPay" 
+		        class="com.bornsoft.asn.action.order.FrontOrderAction"
+		        method="mergeOrderPay">
+			<result name="success" type="tilesmap">/front/order/orderOk.jsp</result>
+		</action>
+		
+		
+		
+		<action name="queryOrderIndex" 
+		        class="com.bornsoft.asn.action.order.FrontOrderAction"
+		        method="queryOrderIndex">
+			<result name="success" type="tilesmap">/front/order/index.jsp</result>
+		</action>
+		
+		<action name="changeOrderStatus"
+		        class="com.bornsoft.asn.action.order.FrontOrderAction"
+		        method="changeOrderStatus">
+		     <result name="success" type="redirect">queryBuyOrder.action</result>
+		</action>
+		
+		<action name="findOrderById"
+		        class="com.bornsoft.asn.action.order.FrontOrderAction"
+		        method="findOrderById">
+		    <result name="success" type="tilesmap">/do/order/soldDetailOrderInfo.jsp</result>
+		    <result name="input" type="tilesmap">/do/order/buyDetailOrderInfo.jsp</result>
+		</action>
+		
+		<action name="onceAgainPutShopCart" 
+		        class="com.bornsoft.asn.action.order.FrontOrderAction"
+		        method="onceAgainPutShopCart">
+			<result name="success" type="tilesmap">/front/order/newOrderConfirm.jsp</result>
+		</action>
+		
+		<!-- **********付款成功************ -->
+		<action name="paymentOrder" 
+		        class="com.bornsoft.asn.action.order.FrontOrderAction"
+		        method="paymentOrder">
+			<result name="success" type="tilesmap">/front/order/paymentOk.jsp</result>
+		</action>
+		<!-- **********付款成功************ -->
+		
+		<action name="newOrderByAreaCode" 
+		        class="com.bornsoft.asn.action.order.FrontOrderAction"
+		        method="newOrderByAreaCode">
+			<result name="success">/plain/order/newOrder.jsp</result>
+		</action>
+		
+	</package>
+	
+	
+	<!-- ****************************会员管理****************************** -->
+	<package name="backOrder" extends="struts-asn" namespace="/do">
+	    <action name="findBackOrderList" 
+	            class="com.bornsoft.asn.action.order.BackOrderAction" 
+	            method="findBackOrderList">
+	       <result name="success" type="tilesmap">/do/order/orderList.jsp</result>
+	    </action>
+	    
+	    <action name="shipConfim" method="shipConfim" class="com.bornsoft.asn.action.order.FrontOrderAction">
+	    	<result name="success" type="tilesmap">/do/order/shipConfim.jsp</result>
+	    </action>
+	    <action name="shipOver" method="shipOver" class="com.bornsoft.asn.action.order.FrontOrderAction">
+	    	<result name="success" type="tilesmap">/do/order/shipSuccess.jsp</result>
+	    </action>
+	    
+	    <action name="findOrderById"
+		        class="com.bornsoft.asn.action.order.FrontOrderAction"
+		        method="findOrderById">
+		    <result name="success" type="tilesmap">/do/order/soldDetailOrderInfo.jsp</result>
+		    <result name="input" type="tilesmap">/do/order/buyDetailOrderInfo.jsp</result>
+		</action>
+	    
+	    <action name="queryBuyOrder" 
+		        class="com.bornsoft.asn.action.order.FrontOrderAction"
+		        method="queryBuyOrder">
+			<result name="success" type="tilesmap">/do/order/myBuyOrderInfo.jsp</result>
+		</action>
+		
+		<action name="querySoldOrder" 
+		        class="com.bornsoft.asn.action.order.FrontOrderAction"
+		        method="querySoldOrder">
+			<result name="success" type="tilesmap">/do/order/mySoldOrderInfo.jsp</result>
+		</action>		
+		<action name="changeOrderStatus"
+		        class="com.bornsoft.asn.action.order.FrontOrderAction"
+		        method="changeOrderStatus">
+		     <result name="success" type="redirect">queryBuyOrder.action</result>
+		</action>
+	</package>
+	
+	
+	<!-- ****************************管理员管理****************************** -->
+	<package name="adminOrder" extends="struts-asn" namespace="/admin/order">
+		<action name="queryOrderAll" method="queryOrderAll" class="com.bornsoft.asn.action.order.FrontOrderAction">
+			<result name="success" type="tilesmap">/admin/order/searchOrderList.jsp</result>
+		</action>
+	
+	</package>
+	
+		
+</struts>   

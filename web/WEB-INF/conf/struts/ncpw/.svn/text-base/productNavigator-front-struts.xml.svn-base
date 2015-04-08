@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<package name="productNavigator" namespace="/front" extends="struts-asn">
+		<!-- for test -->
+		<action name="broswer" class="com.bornsoft.asn.test.product.action.productNavigatorBroswerAction">
+			<result name="success" >/test/test-typeNavi.jsp</result>
+		</action>
+		
+		<action name="broswerF" class="com.bornsoft.asn.action.productType.ProductTypeRootAction">
+			<result name="success">/productType/productTypeRoot_2.jsp</result>
+		</action>
+	</package>
+	
+</struts>

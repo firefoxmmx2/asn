@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+  
+<sqlMap>
+	<typeAlias alias="BizOpp" type="com.bornsoft.asn.vo.BizOpp"/>
+	<resultMap class="BizOpp" id="BizOppMap">
+		<result property="productId" column="product_id"/>
+		<result property="picPath" column="SMALL_PIC_PATH"/>
+		<result property="productName" column="product_name"/>
+		<result property="infoId" column="info_id"/>
+		<result property="title" column="title"/>
+		<result property="type" column="type"/>
+		<result property="typeName" column="type_name"/>
+	</resultMap>
+	
+	<select id="getBizOppList" parameterClass="java.util.HashMap" resultMap="BizOppMap">
+	select * from (select t.*,rownum r from (
+	select tp.product_id,tp.small_pic_path,tp.product_name,ti.info_id,ti.title,ti.type,ti.type_name from TBL_INFO ti inner join TBL_PRODUCT tp on ti.type = tp.product_type 
+	<dynamic prepend="where">
+			<isNotNull prepend="and" property="supplierId">
+			<![CDATA[
+				tp.supplier_id = #supplierId# and ti.info_status='on' and ti.censor<3 and ti.supplier_id is null and ti.member_id != tp.supplier_id
+			 ]]>
+			</isNotNull>
+			<isNotNull prepend="and" property="productName">
+				tp.product_name like '%'||#productName#||'%'
+			</isNotNull>
+	</dynamic>
+	order by ti.info_id desc)t)
+	<![CDATA[
+	where r>=#startCount# and r<=#endCount# 
+	 ]]>
+	</select>
+	
+	<select id="getBizOppListCount" parameterClass="java.util.HashMap" resultClass="Integer">
+		select count(*) from TBL_INFO ti inner join TBL_PRODUCT tp on ti.type = tp.product_type 
+	<dynamic prepend="where">
+			<isNotNull prepend="and" property="supplierId">
+			<![CDATA[
+				tp.supplier_id = #supplierId# and ti.info_status='on' and ti.censor<3 and ti.supplier_id is null and ti.member_id != tp.supplier_id
+			 ]]>
+			</isNotNull>
+			<isNotNull prepend="and" property="productName">
+				tp.product_name like '%'||#productName#||'%'
+			</isNotNull>
+	</dynamic>
+	
+	</select>
+	
+	<typeAlias alias="ProductPriceLog" type="com.bornsoft.asn.vo.ProductPriceLog"/>
+	<resultMap class="ProductPriceLog" id="ProductPriceLogMap">
+		<result property="id" column="id"/>
+		<result property="productId" column="product_id"/>
+		<result property="picPath" column="SMALL_PIC_PATH"/>
+		<result property="productName" column="product_name"/>
+		<result property="oldPrice1" column="old_price1"/>
+		<result property="oldPrice2" column="old_price2"/>
+		<result property="oldPrice3" column="old_price3"/>
+		<result property="newPrice1" column="new_price1"/>
+		<result property="newPrice2" column="new_price2"/>
+		<result property="newPrice3" column="new_price3"/>
+		<result property="changeTime" column="change_time"/>
+		<result property="changeMan" column="change_man"/>
+	</resultMap>
+	
+	
+	<select id="getProductPriceLogList" parameterClass="java.util.HashMap" resultMap="ProductPriceLogMap">
+		select * from (select t.*,rownum r from (
+		select tp.product_name,tp.small_pic_path,tprl.* from TBL_PRODUCT_PRICE_LOG tprl inner join TBL_product tp on tprl.product_id=tp.product_id 
+		<dynamic prepend="where">
+			<isNotNull prepend="and" property="supplierId">
+				tprl.change_man=#supplierId# 
+			</isNotNull>
+			<isNotNull prepend="and" property="productName">
+				tp.product_name like '%'||#productName#||'%'
+			</isNotNull>
+		</dynamic>
+		
+		order by tprl.id desc) t) 
+		<![CDATA[
+		where r>=#startCount# and r<=#endCount# 
+		 ]]>
+	</select>
+	
+	<select id="getProductPriceLogListCount" parameterClass="java.util.HashMap" resultClass="Integer">
+		select count(*) from TBL_PRODUCT_PRICE_LOG tprl inner join TBL_product tp on tprl.product_id=tp.product_id 
+		<dynamic prepend="where">
+			<isNotNull prepend="and" property="supplierId">
+				tprl.change_man=#supplierId# 
+			</isNotNull>
+			<isNotNull prepend="and" property="productName">
+				tp.product_name like '%'||#productName#||'%'
+			</isNotNull>
+		</dynamic>
+	</select>
+
+	<typeAlias alias="SaleSource" type="com.bornsoft.asn.bean.bizOpp.SaleSource"/>
+	<resultMap class="SaleSource" id="SaleSourceMap">
+		<result property="id" column="id"/>
+		<result property="supplierId" column="supplier_id"/>
+		<result property="createTime" column="create_time"/>
+		<result property="title" column="title"/>
+		<result property="source" column="source"/>
+		<result property="proce" column="proce"/>
+		<result property="fileName" column="file_name"/>
+		<result property="fileId" column="file_id"/>
+	</resultMap>
+	<insert id="insertSaleSource" parameterClass="SaleSource">
+		insert into TBL_SALE_SOURCE (id,supplier_id,create_time,title,source,proce,file_name,file_id) 
+		values(#id#,#supplierId#,#createTime#,#title#,#source#,#proce#,#fileName#,#fileId#)
+	</insert>
+	<delete id="deleteSaleSource" parameterClass="Long">
+		delete from TBL_SALE_SOURCE where id=#id#
+	</delete>
+	<update id="updateSaleSource" parameterClass="SaleSource">
+		update TBL_SALE_SOURCE set title=#title#,source=#source#,proce=#proce#,
+		file_name=#fileName#,file_id=#fileId# where id=#id#
+	</update>
+	<select id="getSaleSource" parameterClass="Long" resultMap="SaleSourceMap">
+		select tss.* from TBL_SALE_SOURCE tss where tss.id=#id#
+	</select>
+	
+	<select id="getSaleSourceList" parameterClass="java.util.HashMap" resultMap="SaleSourceMap">
+		select * from (select t.*,rownum r from (
+					select tss.* from TBL_SALE_SOURCE tss
+		<dynamic prepend="where">
+			<isNotNull prepend="and" property="supplierId">
+				tss.supplier_id=#supplierId# 
+			</isNotNull>
+			<isNotNull prepend="and" property="title">
+				tss.title like '%'||#title#||'%'
+			</isNotNull>
+		</dynamic>
+		order by tss.id desc
+		) t )
+		<![CDATA[
+		where r>=#startCount# and r<=#endCount# 
+		 ]]>
+	</select>
+	<select id="getSaleSourceListCount" resultClass="Integer">
+		select count(*) from TBL_SALE_SOURCE tss
+		<dynamic prepend="where">
+			<isNotNull prepend="and" property="supplierId">
+				tss.supplier_id=#supplierId# 
+			</isNotNull>
+			<isNotNull prepend="and" property="title">
+				tss.title like '%'||#title#||'%'
+			</isNotNull>
+		</dynamic> 
+	</select>
+	
+	
+</sqlMap>  

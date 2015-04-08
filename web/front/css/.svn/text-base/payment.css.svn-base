@@ -1,0 +1,66 @@
+body {
+	margin-left: 0px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+	font-size:12px;
+	
+}
+.line_hui{
+border-bottom:1px solid #dfdfdf; 
+background:#f6f6f6;
+}
+.bold_red{
+	color: #FF0000;
+	font-weight: bold;
+	font-size:12px;
+}
+.wz_red{ color:#FF0000;}
+.padding_right{ padding-right:5px;}
+.wz_nav{ font-size:14px; font-weight:bold; color:#000; text-align:center;}
+.line_lan{ border:1px solid #63a2c3; border-top:none; background:url(../images/payment/body_bg.jpg) repeat-x;}
+.wz_ye{ font-size:14px; font-weight:bold; color:#000;}
+.wz_red16{ font-size:16px; font-weight:bold; color:#ff0000;}
+.boder_img{border:1px solid #b8b9a7;}
+#paymentcss a:link {
+	color: #0045df;
+	text-decoration: underline;
+}
+#paymentcss a:visited {
+	text-decoration: underline;
+	color: #0045df;
+}
+#paymentcss a:hover {
+	text-decoration:underline;
+	color: #FF0000;
+}
+#paymentcss a:active {
+	text-decoration: underline;
+	color: #FFFF00;
+}
+
+.paymentBtn{background: url("../images/payment/fukuan.jpg") no-repeat center; width:177px; height: 49px; border: 0; cursor:pointer;}
+
+
+
+.wz14-bold_ok{ font-size:14px; font-weight:bold; color:#000000;}
+.line_lu_ok{ background:#f1ffe6; border:1px solid #63a54d;}
+.line_hui_ok{ background:#fff; border:1px solid #d2d2d2; border-top:0px;}
+.wz12_ok{ color:#000; font-size:12px; font-weight:bold; padding-left:10px;}
+.chanpin__ok img{ width:100px; height:60px;}
+.line_lu_ok a:link {
+	color: #0077ff;
+	text-decoration: none;
+}
+.line_lu_ok a:visited {
+	color: #0077ff;
+	text-decoration: none;
+}
+.line_lu_ok a:hover {
+	color: #ff0000;
+	text-decoration: underline;
+}
+.line_lu_ok a:active {
+	color: #0077ff;
+	text-decoration: none;
+}

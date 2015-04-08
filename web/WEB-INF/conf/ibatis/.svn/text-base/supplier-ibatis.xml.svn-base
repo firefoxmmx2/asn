@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="supplier">
+	<typeAlias alias="Supplier" type="com.bornsoft.asn.bean.supplier.Supplier"/>
+	
+	<resultMap id="supplierResult" class="Supplier">
+		<result property="supplierId" />
+		<result property="bizDomain" />
+		<result property="productType" />
+		<result property="storeName"/>
+		<result property="supplierType" />
+		<result property="approveState" />
+		<result property="locked" />
+		<result property="voucherId" />
+		<result property="vouchState" />	
+		<result property="runState"/>
+		<result property="promiseState"/>
+		<result property="storeStyle" column="STORE_STYLE"/>
+		<result property="storeUrl" column="STORE_URL"/>
+		<!-- 评价信息 -->
+		<result property="reviewProduct" column="RP"/>
+		<result property="reviewDelivery" column="RD"/>
+		<result property="reviewCommunication" column="RC"/>
+		<result property="reviewAverage" column="RA"/>
+		<result property="introduction" column="INTRODUCTION"/>
+		
+	</resultMap>
+	
+    <!-- 查询单个供应商 -->
+    <select id="getSupplierById" parameterClass="long"  resultMap="supplierResult">
+         select t.*,
+         ceil(t.REVIEW_AVERAGE) RA,
+         ceil(t.REVIEW_PRODUCT) RP,
+         ceil(t.REVIEW_DELIVERY) RD,
+         ceil(t.REVIEW_COMMUNICATION) RC
+		 from   tbl_supplier t 
+		 where  supplier_id=#supplierId#
+		 
+    </select>
+    
+    <!-- add 供应商信息 -->
+    <insert id="addSupplierInfo" parameterClass="Supplier">
+    	insert into tbl_supplier(
+    			SUPPLIER_ID,
+    			BIZ_DOMAIN,
+    			PRODUCT_TYPE,
+    			STORE_NAME,
+    			SUPPLIER_TYPE,
+    			APPROVE_STATE,
+    			LOCK_STATE,
+    			VOUCHER_ID,
+    			VOUCH_STATE,
+    			RUN_STATE,
+    			INTRODUCTION    			
+    			) 
+    		values(
+    			#supplierId#,
+    			#bizDomain#,
+    			#productType#,
+    			#storeName#,
+    			#supplierType#,
+    			#approveState#,
+    			#locked#,
+    			#voucherId#,
+    			#vouchState#,
+    			#runState#,
+    			#introduction#		
+    		)
+    </insert>
+    
+    <update id="updateSupplier"  parameterClass="Supplier">
+    	update tbl_supplier set     			
+    			BIZ_DOMAIN = #bizDomain#,
+    			PRODUCT_TYPE = #productType#,
+    			STORE_NAME = #storeName#,
+    			SUPPLIER_TYPE = #supplierType#,    			
+    			LOCK_STATE = #locked#,
+    			VOUCHER_ID = #voucherId#,
+    			RUN_STATE = #runState#,
+    			INTRODUCTION = #introduction#,
+    			STORE_STYLE = #storeStyle#,
+    			STORE_URL = #storeUrl#
+    	where 	SUPPLIER_ID	= #supplierId#	
+    </update>
+    
+    
+    <resultMap class="HashMap" id="searchSupplierMap">
+    	<result property="supplierId"  column="supplier_id"/>
+    	<result property="fullName" column="full_name"/>
+    	<result property="amount" column="amount"/>
+    	<result property="area" column="area"/>
+    	<result property="bizDomain" column="biz_domain"/>
+    	<result property="supplierType" column="supplier_type"/>
+    	<result property="contactor" column="CONTACTOR"/>
+    	<result property="shortName" column="SHORT_NAME"/>
+    	<result property="promiseState" column="PROMISE_STATE"/>
+    	<result property="reviewAverage" column="RA"/>
+    	<result property="qq" column="QQ"/>
+    </resultMap>
+    
+    <select id="searchSupplier" parameterClass="java.util.HashMap" resultMap="searchSupplierMap">
+    	select * from (select s.*, rownum r from (
+    	 	select 	t.supplier_id,
+	    	 		t.supplier_type, 
+	    	 		m.full_name, 
+	    	 		nvl(pb.amount,0) as amount, 
+	    	 		substr(m.area,8,3) as area,
+	    	 		m.CONTACTOR,
+	    	 		m.SHORT_NAME,
+	    	 		m.qq, 
+	    	 		t.biz_domain,
+	    	 		t.PROMISE_STATE,
+	    	 		ceil(t.REVIEW_AVERAGE) RA
+    	 	from  tbl_supplier t
+         
+         	left join ( select ps.supplier_id, count(ps.supplier_id)as amount from TBL_PRODUCT ps where ps.product_status='on' group by ps.supplier_id ) pb on t.supplier_id = pb.supplier_id
+         
+         	inner join tbl_member m on t.supplier_id = m.member_id
+         
+        	where ( m.full_name like '%$searchkey$%' or 
+	                 m.short_name like '%$searchkey$%' or
+	                 t.product_type like '%$searchkey$%' or
+	                 t.biz_domain like '%$searchkey$%'
+             		) 
+             		and t.product_type like '%$productType$%'
+             		and t.APPROVE_STATE = 'Completed' 
+          			and (t.LOCK_STATE is null or  t.lock_state = 'Unlocked' )
+		<dynamic>
+			<isNotEmpty property="suppliertype">and t.supplier_type =$suppliertype$ </isNotEmpty>
+			<isNotEmpty property="area"> and m.area like '$area$%'</isNotEmpty>
+		</dynamic>			
+		order by t.SUPPLIER_ID desc
+		
+		) s) 
+    <![CDATA[		
+    	where r>=#startCount# and r<=#endCount#  
+	 ]]>   
+    </select> 
+    
+    <select id="searchSupplierCount" parameterClass="java.util.HashMap" resultClass="Long">
+    	select count(*) from tbl_supplier t
+    		left join ( select ps.supplier_id, count(ps.supplier_id)as amount from TBL_PRODUCT ps group by ps.supplier_id ) pb on t.supplier_id = pb.supplier_id
+         
+         	inner join tbl_member m on t.supplier_id = m.member_id
+         
+        	where ( m.full_name like '%$searchkey$%' or 
+	                 m.short_name like '%$searchkey$%' or
+	                 t.product_type like '%$searchkey$%' or
+	                 t.biz_domain like '%$searchkey$%'
+             		) 
+             	and t.product_type like '%$productType$%'
+             	and t.APPROVE_STATE = 'Completed'
+             	and (t.LOCK_STATE is null or  t.lock_state = 'Unlocked' )
+		<dynamic>
+			<isNotEmpty property="suppliertype">and t.supplier_type =$suppliertype$ </isNotEmpty>
+			<isNotEmpty property="area"> and m.area like '%$area$%'</isNotEmpty>
+		</dynamic>			
+    </select>
+    
+    <resultMap class="HashMap" id="listSupplierMap">
+    	<result property="supplierId" column="SUPPLIER_ID" />
+		<result property="bizDomain" column="BIZ_DOMAIN" />
+		<result property="productType" column="PRODUCT_TYPE" />
+		<result property="storeName" column="STORE_NAME" />
+		<result property="supplierType" column="SUPPLIER_TYPE" />
+		<result property="approveState" column="APPROVE_STATE" />
+		<result property="locked" column="LOCK_STATE" />
+		<result property="voucherId" column="VOUCHER_ID" />	
+		<result property="vouchState" column="VOUCH_STATE" />		
+		<result property="bankInfoid" column="BANK_INFO_ID"/>
+		<result property="bankName" column="BANK_NAME"/>
+		<result property="account" column="ACCOUNT"/>
+		<result property="ownerName" column="OWNER_NAME"/>		
+		<result property="fullName" column="full_name"/>
+		<result property="runState" column="RUN_STATE"/>
+		<result property="promiseState" column="PROMISE_STATE"/>		
+    </resultMap>
+    <select id="listSuppliser"  parameterClass="java.util.HashMap" resultMap="listSupplierMap">
+    <![CDATA[
+    	select * from (select s.*, rownum r from (
+    	
+	    	select 	t.SUPPLIER_ID, t.BIZ_DOMAIN, t.PRODUCT_TYPE, t.STORE_NAME, t.SUPPLIER_TYPE ,
+	    			t.APPROVE_STATE, t.LOCK_STATE, t.VOUCHER_ID, b.BANK_INFO_ID, b.BANK_NAME,
+	    			b.ACCOUNT, b.OWNER_NAME, m.full_name ,t.VOUCH_STATE,t.RUN_STATE,t.PROMISE_STATE    	
+	    	from tbl_supplier t   
+	    	 	
+			inner join tbl_member m on t.supplier_id = m.member_id
+			inner join tbl_bank_info b on t.supplier_id = b.member_id
+			     
+			where (	m.FULL_NAME like '%$fullName$%' or
+					m.SHORT_NAME like '%$fullName$%'
+				  ) and
+				  t.APPROVE_STATE like '%$approveState$%' and
+				  t.SUPPLIER_TYPE like '%$supplierType$%' and
+				  t.RUN_STATE like '%$runState$%'	and
+				  t.APPROVE_STATE <> 'None'	   
+			     
+			order by t.SUPPLIER_ID desc
+		 ) s) 
+    		
+    		where r>=#startCount# and r<=#endCount#  
+	 ]]>   
+    </select>
+    
+    <delete id="delSupplier" parameterClass="Long">
+    	delete from tbl_supplier where 	SUPPLIER_ID	= #supplierId#	
+    </delete>
+    
+    <update id="updateSupplierApproveState"  parameterClass="Supplier">
+		update tbl_supplier set 
+				APPROVE_STATE = #approveState#
+		where SUPPLIER_ID = #supplierId#
+			
+	</update>
+	
+	<update id="updatePromiseState"  parameterClass="java.util.HashMap">
+		update tbl_supplier set 
+				PROMISE_STATE = #promiseState#
+		where SUPPLIER_ID = #supplierId#
+			
+	</update>
+    
+    <select id="getSupplierCount" parameterClass="java.util.HashMap" resultClass="Long">
+    	<![CDATA[
+    	select count(*) from tbl_supplier t
+    		 inner join tbl_member m on t.supplier_id = m.member_id
+    	where (	m.FULL_NAME like '%$fullName$%' or
+				m.SHORT_NAME like '%$fullName$%'
+			  ) and
+			  t.APPROVE_STATE like '%$approveState$%' and
+			  t.SUPPLIER_TYPE like '%$supplierType$%' and
+			  t.RUN_STATE like '%$runState$%' and
+			  t.APPROVE_STATE <> 'None'	
+		]]>
+    </select>
+    
+    
+    <resultMap class="HashMap" id="listVouchMap">
+    	<result property="supplierId" column="SUPPLIER_ID" />
+		<result property="bizDomain" column="BIZ_DOMAIN" />
+		<result property="productType" column="PRODUCT_TYPE" />
+		<result property="storeName" column="STORE_NAME" />
+		<result property="supplierType" column="SUPPLIER_TYPE" />
+		<result property="approveState" column="APPROVE_STATE" />
+		<result property="locked" column="LOCK_STATE" />
+		<result property="voucherId" column="VOUCHER_ID" />	
+		<result property="vouchState" column="VOUCH_STATE" />		
+		<result property="fullName" column="full_name"/>
+    </resultMap>
+    <select id="getVoucherBymemberID" parameterClass="java.util.HashMap" resultMap="listVouchMap">
+    <![CDATA[	
+    	select * from (select s.*, rownum r from (
+    	
+    		select 	t.SUPPLIER_ID, t.BIZ_DOMAIN, t.PRODUCT_TYPE, t.STORE_NAME, t.SUPPLIER_TYPE ,
+	    			t.APPROVE_STATE, t.LOCK_STATE, t.VOUCHER_ID, m.full_name ,t.VOUCH_STATE    	
+	    	from tbl_supplier t   
+	    	 	
+			inner join tbl_member m on t.supplier_id = m.member_id
+			
+			where t.VOUCHER_ID = #memberId# and t.VOUCH_STATE like '%$vouchState$%'	
+			
+			order by t.SUPPLIER_ID desc
+		) s) 
+    
+    		where r>=#startCount# and r<=#endCount#  
+	 ]]>  	 
+    </select>
+    
+    <select id="getVoucherCount" parameterClass="java.util.HashMap" resultClass="Long">
+    	select count(*) from tbl_supplier t
+    		 inner join tbl_member m on t.supplier_id = m.member_id    	
+		where t.VOUCHER_ID = #memberId#	and t.VOUCH_STATE like '%$vouchState$%'	
+    </select>
+    
+    <update id="updateVoucherState" parameterClass="java.util.HashMap">
+    	update tbl_supplier set
+    		VOUCH_STATE = #vouchState#
+    	where SUPPLIER_ID = #supplierId#
+    </update>
+    
+    <select id="getAllVouchCount"  parameterClass="java.util.HashMap" resultClass="Long">
+    	select count(*) from tbl_supplier t
+    		 inner join tbl_member m on t.VOUCHER_ID = m.member_id		
+    </select>
+    
+    <select id="getAllVoucher" parameterClass="java.util.HashMap" resultMap="listVouchMap">
+    	<![CDATA[	
+	    	select * from (select s.*, rownum r from (
+	    	       select ts.supplier_id, ts.biz_domain, ts.product_type, 
+                      ts.store_name, ts.supplier_type, ts.approve_state,
+                      ts.voucher_id,  ts.full_name,                     
+                      ts.vouch_state, tm.full_name as lock_state
+	               from tbl_member tm
+		    		
+	               inner join ( select t.SUPPLIER_ID, t.BIZ_DOMAIN, t.PRODUCT_TYPE, t.STORE_NAME, t.SUPPLIER_TYPE ,
+	                       t.APPROVE_STATE, t.LOCK_STATE, t.VOUCHER_ID, m.full_name ,t.VOUCH_STATE      
+	              from tbl_supplier t                
+	              inner join tbl_member m on t.SUPPLIER_ID = m.member_id
+	            ) ts on tm.member_id = ts.voucher_id
+              
+              where ts.full_name like '%$supplierkey$%' and
+              		tm.full_name like '%$voucherkey$%' 
+              order by ts.SUPPLIER_ID desc
+			) s) 
+	    
+	    		where r>=#startCount# and r<=#endCount#  
+		 ]]>      
+    </select>
+    
+    <!-- 冻结和恢复供应商 -->
+    <update id="updateLockedState" parameterClass="java.util.HashMap">
+    	update tbl_supplier 
+    		set LOCK_STATE = #lockState#
+    	where SUPPLIER_ID = #supplierId#
+    </update>
+    
+</sqlMap>

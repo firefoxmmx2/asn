@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+<package name="platform_saleProduct" extends="struts-asn" namespace="/front/mall/product">
+		<action name="searchProduct-1" 
+		        class="com.bornsoft.asn.action.product.FrontProductAction"
+		        method="searchProduct">
+			<result name="success" type="tilesmap">/front/product/product_pic_list.jsp</result>			
+		</action>
+		
+		<action name="searchProduct-2" 
+		        class="com.bornsoft.asn.action.product.FrontProductAction"
+		        method="searchProduct">
+			<result name="success" type="tilesmap">/front/product/product_word_list.jsp</result>			
+		</action>
+		
+		
+		<action name="displayDetailProduct"
+		        class="com.bornsoft.asn.action.product.FrontProductAction"
+		        method="displayDetailProductInfo">
+		    <result name="success" type="tilesmap">/front/product/productInfo.jsp</result>
+		</action>
+		
+		<action name="cate1" 
+		        class="com.bornsoft.asn.action.product.FrontProductAction"
+		        method="displayProductAllProduct">
+			<result name="success" type="tilesmap">/front/product/saleProductListInfo.jsp</result>			
+		</action>
+	</package>
+	
+	<package name="saleProduct" extends="struts-asn" namespace="/front">
+		<action name="cate0" class="com.bornsoft.asn.action.product.AllProductType">
+			<result name="success" type="tilesmap">/front/productNavi/productTypeNavi.jsp</result>
+		</action>
+		
+		<action name="cate1" 
+		        class="com.bornsoft.asn.action.product.FrontProductAction"
+		        method="displayProductAllProduct">
+			<result name="success" type="tilesmap">/front/product/saleProductListInfo.jsp</result>			
+		</action>
+		
+		
+		
+		<action name="searchProduct" 
+		        class="com.bornsoft.asn.action.product.FrontProductAction"
+		        method="searchProduct">
+			<result name="success" type="tilesmap">/front/product/searchProductInfo.jsp</result>			
+		</action>
+		
+		
+		
+		<action name="displayDetailProduct"
+		        class="com.bornsoft.asn.action.product.FrontProductAction"
+		        method="displayDetailProductInfo">
+		    <!-- 
+		  	<result name="success" type="tilesmap">/front/product/detailProductInfo.jsp</result>
+		    -->
+		    <result name="success" type="tilesmap">/front/product/productInfo.jsp</result>
+		</action>
+		
+		<action name="productType"
+		        class="com.bornsoft.asn.action.product.FrontProductAction"
+		        method="displayProductType">
+		  	<result name="success" type="tilesmap">/front/product/saleProductType.jsp</result>
+		</action>
+				
+		<action name="hotProduct"
+		        class="com.bornsoft.asn.action.product.FrontProductAction"
+		        method="findFrontHotProduct">
+		  	<result name="success">/front/product/hotProduct.jsp</result>
+		</action>
+		
+		<action name="findFrontNewProduct"
+		        class="com.bornsoft.asn.action.product.FrontProductAction"
+		        method="findFrontNewProduct">
+		  	<result name="success">/front/product/newProduct.jsp</result>
+		</action>
+		<action name="findFrontNewProduct1"
+		        class="com.bornsoft.asn.action.platform.DisplayProductStyle"
+		        method="displaySpecialProduct">
+		  	<result name="success">/front/product/newProduct1.jsp</result>
+		</action>
+		<action name="findFrontNewProduct2"
+		        class="com.bornsoft.asn.action.product.FrontProductAction"
+		        method="findFrontNewProduct">
+		  	<result name="success">/front/product/newProduct2.jsp</result>
+		</action>
+		
+		<!-- ********公共的产品展示嵌入显示 cl 2011-01-05********** -->
+		<action name="displayProduct"
+		        class="com.bornsoft.asn.action.platform.DisplayProductStyle"
+		        method="displayProduct">
+		  	<result name="success">/front/product/publicDisplayProduct.jsp</result>
+		</action>
+		<!-- ********公共的产品展示嵌入显示 cl 2011-01-05********** -->
+		
+		
+		<!--秀山网首页产品展示，传入分类获取不同数据-->
+		<action name="findFrontProduct"
+		        class="com.bornsoft.asn.action.product.FrontProductAction"
+		        method="findFrontProductForXs">
+		  	<result name="success">/front/product/xsnewProduct.jsp</result>
+		</action>
+		
+		
+		<!--金吉果  最新上架鲜果-->		
+		<action name="jjgNewProducts"
+		        class="com.bornsoft.asn.action.channel.JjgAction"
+		        method="newFruit">
+		  	<result name="success">/front/product/jjg/newFruit.jsp</result>
+		</action>
+		<!--金吉果 原装进口鲜果-->		
+		<action name="jjgImportFruit"
+		        class="com.bornsoft.asn.action.channel.JjgAction"
+		        method="importFruit">
+		  	<result name="success">/front/product/jjg/importFruit.jsp</result>
+		</action>
+		<!--金吉果 国产精选鲜果-->		
+		<action name="jjgOriginalFruit"
+		        class="com.bornsoft.asn.action.channel.JjgAction"
+		        method="originalFruit">
+		  	<result name="success">/front/product/jjg/originalFruit.jsp</result>
+		</action>
+		<!--金吉果 推荐商品-->		
+		<action name="jjgRecommendFruit"
+		        class="com.bornsoft.asn.action.channel.JjgAction"
+		        method="recommendFruit">
+		  	<result name="success">/front/product/jjg/recommendFruit.jsp</result>
+		</action>
+		
+		
+		<!--金吉果  进口水果-->		
+		<action name="jjgMenuImportProducts"
+		        class="com.bornsoft.asn.action.channel.JjgAction"
+		        method="importMenuFruit">
+		  	<result name="success">/front/product/jjg/newMenuFruit.jsp</result>
+		</action>
+		<!--金吉果 国产精选鲜果-->		
+		<action name="jjgMenuOriginalFruit"
+		        class="com.bornsoft.asn.action.channel.JjgAction"
+		        method="originalMenuFruit">
+		  	<result name="success">/front/product/jjg/originalMenuFruit.jsp</result>
+		</action>
+		<!--金吉果 鲜果礼盒-->		
+		<action name="jjgMenuFruitBox"
+		        class="com.bornsoft.asn.action.channel.JjgAction"
+		        method="boxMenuFruit">
+		  	<result name="success">/front/product/jjg/boxMenuFruit.jsp</result>
+		</action>
+		<!--金吉果 水果礼篮-->		
+		<action name="jjgMenuFruitBasket"
+		        class="com.bornsoft.asn.action.channel.JjgAction"
+		        method="basketMenuFruit">
+		  	<result name="success">/front/product/jjg/basketMenuFruit.jsp</result>
+		</action>
+		
+		
+	</package>
+</struts>   

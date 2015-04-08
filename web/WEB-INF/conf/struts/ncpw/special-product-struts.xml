@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+
+	<package name="sproduct" extends="struts-asn" namespace="/admin/spe">
+		<action name="toSpecialProductList" class="com.bornsoft.asn.action.product.SpecialProductAction" method="toSpecialProductList">
+			<result name="success" type="tilesmap">/admin/product/specialProductList.jsp</result>
+		</action>
+		<action name="toAllSelectProductList" class="com.bornsoft.asn.action.product.SpecialProductAction" method="toAllSelectProductList">
+			<result name="success">/admin/product/allSelectProductList.jsp</result>
+		</action>
+		<action name="addSpecialProduct" class="com.bornsoft.asn.action.product.SpecialProductAction" method="addSpecialProduct"></action>
+		<action name="toUpdateSpecialProduct" class="com.bornsoft.asn.action.product.SpecialProductAction" method="toUpdateSpecialProduct">
+			<result name="success" type="tilesmap">/admin/product/updateSpecialProduct.jsp</result>
+		</action>
+		<action name="updateSpecialProduct" class="com.bornsoft.asn.action.product.SpecialProductAction" method="updateSpecialProduct">
+			<result name="success" type="chain">toSpecialProductList</result>
+		</action>
+		<action name="deleteSpecialProduct" class="com.bornsoft.asn.action.product.SpecialProductAction" method="deleteSpecialProduct">
+			<result name="success" type="chain">toSpecialProductList</result>
+		</action>
+		<action name="updateSnumber" class="com.bornsoft.asn.action.product.SpecialProductAction" method="updateSnumber">
+			<result name="success" type="chain">toSpecialProductList</result>
+		</action>
+	</package>
+
+</struts>    

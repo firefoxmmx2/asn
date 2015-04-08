@@ -1,0 +1,198 @@
+body {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	background-color:#FFF;
+	color:#555555;
+}
+a:link {
+	color: #555555;
+	text-decoration: none;
+}
+a:visited {
+	color: #555555;
+	text-decoration: none;
+}
+a:hover {
+	color: #ff0000;
+	text-decoration: underline;
+}
+a:active {
+	color: #555555;
+	text-decoration: none;
+}
+
+.red a:link {
+	color: #ff0000;
+	text-decoration: none;
+}
+.red a:visited {
+	color: #ff0000;
+	text-decoration: none;
+}
+.red a:hover {
+	color: #ff0000;
+	text-decoration: underline;
+}
+.red a:active {
+	color: #ff0000;
+	text-decoration: none;
+}
+
+
+.wzg a:link {
+	color: #2c59b8;
+	text-decoration: none;
+}
+.wzg a:visited {
+	color: #2c59b8;
+	text-decoration: none;
+}
+.wzg a:hover {
+	color: #ff0000;
+	text-decoration: underline;
+}
+.wzg a:active {
+	color: #2c59b8;
+	text-decoration: none;
+}
+
+.wz_xsj a:link {
+	color: #ff6308;
+	text-decoration: none;
+}
+.wz_xsj a:visited {
+	color: #ff6308;
+	text-decoration: none;
+}
+.wz_xsj a:hover {
+	color: #ff6308;
+	text-decoration: underline;
+}
+.wz_xsj a:active {
+	color: #ff6308;
+	text-decoration: none;
+}
+
+
+
+.t01 a:link {
+	color: #fff;
+	text-decoration: none;
+}
+.t01 a:visited {
+	color: #fff;
+	text-decoration: none;
+}
+.t01 a:hover {
+	color: #fff;
+	text-decoration: none;
+	text-decoration: underline;
+}
+.t01 a:active {
+	color: #fff;
+	text-decoration: none;
+}
+
+.t02 a:link {
+	color: #c4241a;
+	text-decoration: none;
+}
+.t02 a:visited {
+	color: #c4241a;
+	text-decoration: none;
+}
+.t02 a:hover {
+	color: #c4241a;
+	text-decoration: none;
+	text-decoration: underline;
+}
+.t02 a:active {
+	color: #c4241a;
+	text-decoration: none;
+}
+.qiehuan img{ width:546px; height:243px; border:1px solid #e7e1e3; padding:1px;}
+.lunhuan{ width:767px; height:278px; border:1px solid #e7e1e3; padding:1px;}
+.cxbz{ background:url(../../image/channel/ncp/cxbz.jpg) no-repeat; width:83px; height:35px; line-height:35px; text-align:right;}
+.qtth{ background:url(../../image/channel/ncp/qtth.jpg) no-repeat; width:88px; height:35px;line-height:35px; text-align:right;}
+.zgzp{ background:url(../../image/channel/ncp/zgzp.jpg) no-repeat; width:88px; height:35px;line-height:35px; text-align:right;}
+.hwzp{ background:url(../../image/channel/ncp/hwzp.jpg) no-repeat; width:88px; height:35px;line-height:35px; text-align:right;}
+.qxbz{ background:url(../../image/channel/ncp/qxbz.jpg) no-repeat; width:89px; height:35px;line-height:35px; text-align:right;}
+.tui img{ width:180px; height:100px; border:1px solid #ccc; padding:1px;}
+.m10{ margin-top:10px;}
+.p10{ padding-left:10px;}
+.p15{ padding-left:15px;}
+.p_r{ padding-right:5px;}
+.redb{ color:#d41e1d; font-weight:bold;}
+.red{ color:#ff0000;}
+.huib{ color:#595959; font-weight:bold;} 
+.baib{ color:#fff; font-weight:bold;}
+.yellow{ color:#fa6600;}
+.logo{ background:url(../../image/channel/ncp/logo_wssc.jpg) no-repeat; width:310px; height:85px;}
+.litter1{ background-image:url(../../image/channel/ncp/litter1.jpg);width:77px; height:28px; line-height:28px; text-align:right}
+.litter2{ background-image:url(../../image/channel/ncp/litter2.jpg);width:96px; height:28px;line-height:28px; text-align:right} 
+.litter3{ background-image:url(../../image/channel/ncp/litter3.jpg);width:150px; height:28px;line-height:28px; text-align:right}
+.litter4{ background-image:url(../../image/channel/ncp/litter4.jpg);width:54px; height:28px;line-height:28px; text-align:right}
+.litter5{ background-image:url(../../image/channel/ncp/litter5.jpg);width:91px; height:28px;line-height:28px; text-align:center;}
+.qq{ background:url(../../image/channel/ncp/qq.jpg) no-repeat; background-position:center 50%;}
+.msn{ background:url(../../image/channel/ncp/msn.jpg) no-repeat; background-position:center 50%;}
+.skype{ background:url(../../image/channel/ncp/skype.jpg) no-repeat; background-position:center 50%;}
+.phone{ background:url(../../image/channel/ncp/phone230.jpg) no-repeat; background-position:right 50%;}
+.daohang{ background:url(../../image/channel/ncp/dnavbt.jpg) repeat-x;}
+.t01{ font-size:14px; font-weight:bold; text-align:center; color:#FFFFFF; height:36px; line-height:36px;}
+.t02{ font-size:14px; font-weight:bold; text-align:center; color:#c4241a; background:url(../../image/channel/ncp/dnav4.gif); height:36px; line-height:36px;}
+.search_bg{ background:url(../../image/channel/ncp/search_m.jpg) repeat-x;}
+.saerch{ background:url(../../image/channel/ncp/search_bg.jpg) no-repeat; background-position: left 50%; height:22px; border:none; width:275px; color: #666666; padding-left:10px;}
+.border_hui{ border:1px solid #eaeaea; border-top:none;}
+.borderx{border-bottom:1px dotted #eaeaea;}
+.hg{line-height:24px; text-align:left;}
+.hg22{line-height:22px; text-align:left; letter-spacing:1px;}
+.border_red{ border:2px solid #cc231c;border-top:none;}
+.jiage{ color:#f70700; font-weight:bold; font-size:14px; text-align:center;}
+.w134 img{ width:134px; height:134px; margin:10px; }
+.w165 img{ width:165px; height:165px; margin:10px;border:1px solid #dddddd; padding:2px;}
+.div_w{ width:}
+.line_b{ border-bottom:1px solid #d6d6d6;}
+.nav_nfcp{ background:url(../../image/channel/ncp/title_nfcp.jpg) no-repeat; width:201px; 
+color:#fff; font-size:14px; font-weight:bold;text-align:center;}/*农副产品分类标题样式*/
+.xp img{ width:200px; height:253px; padding:2px;}/*农副产品新品大图样式*/
+.line_blue{ border:2px solid #258020;}/*农副产品分类框颜色*/
+.product img{ width:106px; height:106px; padding:2px; border:1px solid #d6d6d6; margin:5px;}/*产品图片样式*/
+.tj img{ width:208px; height:58px; padding:2px; border:1px solid #d6d6d6; margin:2px;}/*特价产品图片样式*/
+.rm1{ color:#247c26; font-size:14px; font-weight:bold; border-bottom:1px solid #e0e0e0; text-align:left; padding-left:5px;}/*农副产品热卖产品标题样式*/
+.lvk{ background:url(../../image/channel/ncp/lvk.jpg) no-repeat; height:22px; background-position:left 50%; color:#FFFFFF; text-align:center; font-family:Arial, Helvetica, sans-serif; font-size:10px; line-height:22px;}/*农副产品分类排行样式*/
+.nav_bjp{ background:url(../../image/channel/ncp/title_bjp.jpg) no-repeat; width:201px; 
+color:#fff; font-size:14px; font-weight:bold;text-align:center;}/*保健品分类标题样式*/
+.xp img{ width:200px; height:253px; padding:2px;}/*保健品新品大图样式*/
+.line_bjp{ border:2px solid #f382b6;}/*保健品分类框颜色*/
+.rm2{ color:#f47eb0; font-size:14px; font-weight:bold; border-bottom:1px solid #e0e0e0; text-align:left; padding-left:5px;}/*保健品热卖产品标题样式*/
+.zik{ background:url(../../image/channel/ncp/zik.jpg) no-repeat; height:22px; background-position:left 50%; color:#FFFFFF; text-align:center; font-family:Arial, Helvetica, sans-serif; font-size:10px; line-height:22px;}/*保健品分类排行样式*/
+.nav_syfw{ background:url(../../image/channel/ncp/title_syfw.jpg) no-repeat; width:201px; 
+color:#fff; font-size:14px; font-weight:bold;text-align:center;}/*商务服务分类标题样式*/
+.xp img{ width:200px; height:253px; padding:2px;}/*商务服务新品大图样式*/
+.line_syfw{ border:2px solid #c92420;}/*商务服务分类框颜色*/
+.rm3{ color:#cc2515; font-size:14px; font-weight:bold; border-bottom:1px solid #e0e0e0; text-align:left; padding-left:5px;}/*商务服务热卖产品标题样式*/
+.redk{ background:url(../../image/channel/ncp/redk.jpg) no-repeat; height:22px; background-position:left 50%; color:#FFFFFF; text-align:center; font-family:Arial, Helvetica, sans-serif; font-size:10px; line-height:22px;}/*商务服务分类排行样式*/
+
+.xbd{ background:url(../../image/channel/ncp/xbd.jpg) no-repeat; height:24px; background-position:left 50%;line-height:24px; padding-left:10px; text-align:left;}
+.boderight{ border-right:1px solid #ffffff;color:#ffffff; font-size:14px; font-weight:bold; text-align:center;}
+.wz14baib{ color:#ffffff; font-size:14px; font-weight:bold;text-align:center;}
+.nva_red{ background:url(../../image/channel/ncp/nav_red.jpg) no-repeat; width:199px; height:26px; color:#ffffff; font-size:14px; font-weight:bold; line-height:26px; text-align:left;}
+.color_cs{ color:#ff6600;}
+ 
+
+
+.wzph{ color:#ff6308; font-weight:bold; padding-right:4px;}
+.scj{text-decoration:line-through;}
+.foot{ background:url(../../image/channel/ncp/footmid.jpg) repeat-x;}
+.gwzn{ background:url(../../image/channel/ncp/gwzn.jpg) no-repeat; background-position:left 50%;}
+.fkfs{ background:url(../../image/channel/ncp/fkfs.jpg) no-repeat; background-position:left 50%;}
+.psfs{ background:url(../../image/channel/ncp/psfs.jpg) no-repeat; background-position:left 50%;}
+.shfw{ background:url(../../image/channel/ncp/shfw.jpg) no-repeat; background-position:left 50%;}
+.wz_foot{ line-height:24px;}
+.phone_foot{ color:#0e569e; font-weight:bold;}
+
+.triangle{ background:url(../../image/platform/triangle.jpg) no-repeat; background-position:10% 50%; height:28px; line-height:28px; padding-left:20px; text-align:left;}
+
+.fenlei_bg{ background:url(../../image/channel/ncp/fenlei_bg.jpg); width:185px; height:23px; color:#323232; font-size:14px; font-weight:bold; text-align:left; line-height:23px;}
+
+

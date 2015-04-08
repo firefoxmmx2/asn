@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN" "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+<tiles-definitions>
+	<definition name="root" template="/root_mod.jsp">
+		<put-attribute name="head" value="" />
+		<put-attribute name="top" value="/top.jsp" />
+		<put-attribute name="content" value="" />
+		<put-attribute name="bottom" value="/bottom.jsp" />
+	</definition>
+
+	<!--<definition name="simple" template="/simple_mod.jsp">
+		<put-attribute name="head" value="" />
+		<put-attribute name="top" value="/top-sub.jsp" />
+		<put-attribute name="content" value="" />
+		<put-attribute name="bottom" value="/bottom_simple.jsp" />
+	</definition>-->
+	<definition name="member" template="/do/member_mod.jsp">
+		<put-attribute name="head" value="" />
+		<put-attribute name="top" value="/do/member_top.jsp" />
+		<put-attribute name="left" value="/do/member_left.jsp" />
+		<put-attribute name="content" value="" />
+		<put-attribute name="bottom" value="/do/member_bottom.jsp" />
+	</definition>
+	<definition name="admin" template="/admin/admin_mod.jsp">
+		<put-attribute name="head" value="" />
+		<put-attribute name="top" value="/admin/admin_top.jsp" />
+		<put-attribute name="left" value="/admin/admin_left.jsp" />
+		<put-attribute name="content" value="" />
+		<put-attribute name="bottom" value="/admin/admin_bottom.jsp" />
+	</definition>
+	<definition name="platform" template="/front/platform_mod.jsp">
+		<put-attribute name="base" value="" />
+		<put-attribute name="head" value="" />
+		<put-attribute name="title_name"
+			value="重庆农产品网 | 重庆市农产品电子商务平台 www.cqncp.com" />
+		<put-attribute name="top" value="/front/platform_top.jsp" />
+		<put-attribute name="content" value="" />
+		<put-attribute name="bottom"
+			value="/front/platform_bottom.jsp" />
+	</definition>
+	<definition name="ncp" template="/front/channel/ncp/ncp_mod.jsp">
+		<put-attribute name="head" value="" />
+		<put-attribute name="top" value="/front/channel/ncp/ncp_top.jsp" />
+		<put-attribute name="content" value="" />
+		<put-attribute name="bottom" value="/front/channel/ncp/ncp_bottom.jsp" />
+	</definition>
+	<definition name="nz" template="/front/channel/nz/nz_mod.jsp">
+		<put-attribute name="top" value="channel_top.nz" />
+		<put-attribute name="bottom"
+			value="/front/platform_bottom.jsp" />
+		<put-attribute name="content" value="" />
+	</definition>
+	<definition name="zys" template="/front/channel/zys/zys_mod.jsp">
+		<put-attribute name="top" value="channel_top.zys"/>
+		<put-attribute name="bottom"
+			value="/front/platform_bottom.jsp" />
+		<put-attribute name="content" value="" />
+	</definition>
+	<definition name="zszy" template="/front/channel/zszy/zszy_mod.jsp">
+		<put-attribute name="top" value="channel_top.zszy" />
+		<put-attribute name="bottom"
+			value="/front/platform_bottom.jsp" />
+		<put-attribute name="content" value="" />
+	</definition>
+	<definition name="yhbz" template="/front/channel/yhbz/yhbz_mod.jsp">
+		<put-attribute name="top" value="channel_top.yhbz" />
+		<put-attribute name="bottom"
+			value="/front/platform_bottom.jsp" />
+		<put-attribute name="content" value="" />
+	</definition>
+	<definition name="xs" extends="platform">
+		<put-attribute name="title_name"
+			value="欢迎来到秀山农产品网 | 
+		武陵山农产品电子商务网 xs.cqncp.com" />
+		<put-attribute name="top" value="/front/channel/xs/xs_header.jsp"/>
+		<put-attribute name="bottom" value="/front/channel/xs/xs_footer.jsp"/>
+	</definition>
+	<definition name="channel_top.*" template="/front/channel/channel_top_mod.jsp">
+		<put-attribute name="head1" value="/front/channel/channel_head1.jsp"/>
+		<put-attribute name="head2" value="/front/channel/{1}/{1}_top.jsp"/>
+	</definition>
+	<definition name="error" templateExpression="${requestScope.errorTemplate}">
+		<put-attribute name="header" expression="${requestScope.header}" value=""></put-attribute>
+		<put-attribute name="message" expression="${requestScope.message}" value=""></put-attribute>
+		<put-attribute name="footer" expression="${requestScope.footer}" value=""></put-attribute>
+	</definition>
+</tiles-definitions>

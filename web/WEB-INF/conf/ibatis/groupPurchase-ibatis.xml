@@ -1,0 +1,419 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="groupPurchase">
+	<!-- 团购信息 -->
+	<typeAlias alias="GroupPurchase"
+		type="com.bornsoft.asn.bean.groupPurchase.GroupPurchaseInfo" />
+	<resultMap class="GroupPurchase" id="GroupPurchaseResult">
+		<result property="id" column="ID" />
+		<result property="title" column="TITLE" />
+		<result property="content" column="CONTENT" />
+		<result property="productId" column="PRODUCT_ID" />
+		<result property="productName" column="PRODUCT_NAME" />
+		<result property="lowerLimit" column="LOWER_LIMIT" />
+		<result property="upperLimit" column="UPPER_LIMIT" />
+		<result property="currentUsers" column="CURRENT_USERS" />
+		<result property="totalCount" column="TOTAL_COUNT" />
+		<result property="isTimeLimit" column="IS_TIME_LIMIT" />
+		<result property="startTime" column="START_TIME" />
+		<result property="stopTime" column="STOP_TIME" />
+		<result property="goodsCenter" column="GOODS_CENTER" />
+		<result property="pageAddress" column="PAGE_ADDRESS" />
+		<result property="status" column="STATUS" />
+		<result property="groupMembers" column="ID"	select="GroupPurchaseMember.getByGroupId" />
+		<result property="details" column="ID"
+			select="GroupPurchaseDetail.getByGroupId" />
+		
+	</resultMap>
+	
+	<resultMap id="GroupPurchaseResult2" class="GroupPurchase" extends="GroupPurchaseResult" groupBy="id">
+		<result property="groupMembers" resultMap="groupPurchase.GroupPurchaseMember"></result>
+	</resultMap>
+	
+	<select id="GroupPurchase.get" parameterClass="java.util.HashMap"	resultMap="GroupPurchaseResult">		
+		select * from (select a.*, rownum r from (
+		
+		select t.* from TBL_GROUP_PURCHASE t 
+		<dynamic prepend="where">
+			<!-- add hooxin -->
+			<isNotEmpty prepend="and" property="groupMemberId">
+				(select count(*) from TBL_GROUP_PURCHASE_MEMBER m where t.id = m.tbl_group_id and m.mobile=#groupMemberId#) > 0 
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="id">
+				t.id = #id#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="title">
+				t.TITLE like '%$title$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="productName">
+				t.PRODUCT_ID like '%$productName$%'
+				</isNotEmpty>
+			<isNotEmpty prepend="and" property="startTimeStart">
+				t.START_TIME >=
+				to_timestamp('$startTimeStart$', 'yyyy-mm-dd hh24:mi:ss')
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="endTimeStart">
+				t.START_TIME <![CDATA[<=]]>
+				to_timestamp('$endTimeStart$', 'yyyy-mm-dd hh24:mi:ss')
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="startTimeEnd">
+				t.STOP_TIME >=
+				to_timestamp('$startTimeEnd$', 'yyyy-mm-dd hh24:mi:ss')
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="endTimeEnd">
+				t.STOP_TIME <![CDATA[<=]]>
+				to_timestamp('$endTimeEnd$', 'yyyy-mm-dd hh24:mi:ss')
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="status">
+				t.STATUS like '%$status$%'
+			</isNotEmpty>
+
+		</dynamic>		
+		) a) 
+	    <![CDATA[		
+	    		where r>=#startCount# and r<=#endCount# 
+	    ]]>  
+		
+	</select>
+
+	<select id="GroupPurchase.count" parameterClass="java.util.HashMap"
+		resultClass="Integer">
+		select count(*) from TBL_GROUP_PURCHASE t
+		<dynamic prepend="where">
+			<!-- add hooxin -->
+			<isNotEmpty prepend="and" property="groupMemberId">
+				(select count(*) from TBL_GROUP_PURCHASE_MEMBER m where t.id = m.tbl_group_id and m.mobile=#groupMemberId#) > 0 
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="id">
+				t.id = #id#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="title">
+				t.TITLE like '%$title$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="productName">
+				t.PRODUCT_ID like
+				'%$productName$%'
+				</isNotEmpty>
+			<isNotEmpty prepend="and" property="startTimeStart">
+				t.START_TIME >=
+				to_timestamp('$startTimeStart$', 'yyyy-mm-dd hh24:mi:ss')
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="endTimeStart">
+				t.START_TIME <![CDATA[<=]]>
+				to_timestamp('$endTimeStart$', 'yyyy-mm-dd hh24:mi:ss')
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="startTimeEnd">
+				t.STOP_TIME >=
+				to_timestamp('$startTimeEnd$', 'yyyy-mm-dd hh24:mi:ss')
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="endTimeEnd">
+				t.STOP_TIME <![CDATA[<=]]>
+				to_timestamp('$endTimeEnd$', 'yyyy-mm-dd hh24:mi:ss')
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="status">
+				t.STATUS like '%$status$%'
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<resultMap class="HashMap" id="memberGroupDetailMap">
+		<result property="productName" column="PRODUCT_NAME" />		
+		<result property="specs"  column="SPECS"/>
+		<result property="weight"  column="WEIGHT"/>
+		<result property="unit"  column="UNIT"/>
+		<result property="marketPrice"  column="MARKET_PRICE"/>
+		<result property="groupPrice"  column="GROUP_PRICE"/>	
+		<result property="sepcId"  column="sepc_id"/>
+		<result property="buySum"  column="BUY_SUM"/>
+		<result property="costSum"  column="COST_SUM"/>
+	</resultMap>
+	
+	<select id="getMemberBuyDetail" parameterClass="Long" resultMap="memberGroupDetailMap">
+		select 	t.BUY_SUM,t.COST_SUM,t.sepc_id,x.specs,x.unit,x.weight,
+				x.group_price,x.market_price,y.product_name  
+			from tbl_group_purchase_memdetail t,tbl_group_purchase_detail x,tbl_group_purchase y 
+		
+		where t.parent_id=#id# and x.id = t.sepc_id and y.id=x.group_id
+	</select>
+
+	<insert id="GroupPurchase.insert" parameterClass="GroupPurchase">
+		insert into
+		TBL_GROUP_PURCHASE (
+		ID,
+		TITLE,
+		CONTENT,
+		PRODUCT_ID,
+		PRODUCT_NAME,
+		LOWER_LIMIT,
+		UPPER_LIMIT,
+		CURRENT_USERS,
+		TOTAL_COUNT,
+		IS_TIME_LIMIT,
+		START_TIME,
+		STOP_TIME,
+		GOODS_CENTER,
+		PAGE_ADDRESS,
+		STATUS
+		) values(
+		#id#,
+		#title#,
+		#content#,
+		#productId#,
+		#productName#,
+		#lowerLimit#,
+		#upperLimit#,
+		#currentUsers#,
+		#totalCount#,
+		#isTimeLimit#,
+		#startTime#,
+		#stopTime#,
+		#goodsCenter#,
+		#pageAddress#,
+		#status#
+		)
+	</insert>
+
+	<update id="GroupPurchase.update" parameterClass="GroupPurchase">
+		update
+		TBL_GROUP_PURCHASE set
+
+		TITLE=#title#,
+		CONTENT=#content#,
+		PRODUCT_ID=#productId#,
+		PRODUCT_NAME=#productName#,
+		LOWER_LIMIT=#lowerLimit#,
+		UPPER_LIMIT=#upperLimit#,
+		CURRENT_USERS=#currentUsers#,
+		TOTAL_COUNT=#totalCount#,
+		IS_TIME_LIMIT=#isTimeLimit#,
+		START_TIME=#startTime#,
+		STOP_TIME=#stopTime#,
+		GOODS_CENTER=#goodsCenter#,
+		PAGE_ADDRESS=#pageAddress#,
+		STATUS=#status#
+		where ID=#id#
+	</update>
+	
+	<delete id="GroupPurchase.delete" parameterClass="Long">
+		delete from TBL_GROUP_PURCHASE where ID = #groupPurcharseId#
+	</delete>
+	
+	<update id="GroupPurchase.status" parameterClass="java.util.HashMap">
+		update TBL_GROUP_PURCHASE set
+			STATUS=#status#
+		where ID = #groupPurcharseId#
+	</update>
+	<select id="GroupPurchase.getById" parameterClass="Long" resultMap="GroupPurchaseResult">
+		select t.* from TBL_GROUP_PURCHASE t where t.id = #value#
+	</select>
+	
+	<!-- 团购信息扩展 -->
+	<typeAlias alias="GroupPurchaseDetail"
+		type="com.bornsoft.asn.bean.groupPurchase.GroupPurchaseDetail" />
+	<resultMap class="GroupPurchaseDetail" id="GroupPurchaseDetailResult">
+		<result property="id" column="id"/>
+		<result property="groupId" column="group_id" />
+		<result property="specs" column="specs"/>
+		<result property="weight" column="weight"/>
+		<result property="unit"  column="unit"/>
+		<result property="marketPrice" column="market_price"/>
+		<result property="groupPrice" column="group_price"/>
+		<result property="fee" column="fee"/>
+		<result property="product" column="group_id" select="GroupPurchase.getById"/>
+	</resultMap>
+	<select id="GroupPurchaseDetail.getById" parameterClass="long" resultMap="GroupPurchaseDetailResult">
+		select * from TBL_GROUP_PURCHASE_DETAIL where id=#value#
+	</select>
+	<insert id="GroupPurchaseDetail.insert" parameterClass="GroupPurchaseDetail">
+		insert
+		into TBL_GROUP_PURCHASE_DETAIL(
+		id,
+		group_id,
+		specs,
+		weight,
+		unit,
+		market_price,
+		group_price,
+		fee
+		)
+		values(
+		#id#,
+		#groupId#,
+		#specs#,
+		#weight#,
+		#unit#,
+		#marketPrice#,
+		#groupPrice#,
+		#fee#
+		)
+	</insert>
+	<update id="GroupPurchaseDetail.update" parameterClass="GroupPurchaseDetail">
+		update
+		TBL_GROUP_PURCHASE_DETAIL set
+		GROUPID=#groupId#,
+		SPECS=#specs#,
+		WEIGHT=#weight#,
+		UNIT=#unit#,
+		MARKETPRICE=#marketPrice#,
+		GROUPPRICE=#groupPrice#,
+		FEE=#fee#
+		where ID=#id#
+	</update>
+	<delete id="GroupPurchaseDetail.delete" parameterClass="Long">
+		delete
+		from TBL_GROUP_PURCHASE_DETAIL where group_id = #id#
+	</delete>
+	<select id="GroupPurchaseDetail.get" parameterClass="map"
+		resultMap="GroupPurchaseDetailResult">
+		select x.* from TBL_GROUP_PURCHASE_DETAIL x
+	</select>
+	<select id="GroupPurchaseDetail.getByGroupId" parameterClass="long"
+		resultMap="GroupPurchaseDetailResult">
+		select t.* from TBL_GROUP_PURCHASE_DETAIL t where t.group_id =#value#
+	</select>
+	
+	<!-- 团购成员 -->
+	<typeAlias alias="GroupPurchaseMember"
+		type="com.bornsoft.asn.bean.groupPurchase.GroupPurchaseMember" />
+	<resultMap class="GroupPurchaseMember" id="GroupPurchaseMember">
+		<result property="id" column="ID"/>
+		<result property="tblGroupId" column="TBL_GROUP_ID"/>
+		<result property="name" column="NAME"/>
+		<result property="cardId" column="CARD_ID"/>
+		<result property="mobile" column="MOBILE"/>
+		<result property="address" column="ADDRESS"/>
+		<result property="takeGoodsType" column="TAKE_GOODS_TYPE"/>
+		<result property="groupCardId" column="GROUP_CARD_ID"/>
+		<result property="groupCardPwd" column="GROUP_CARD_PWD"/>
+		<result property="smsId" column="SMS_ID" />
+		<result property="smsContent" column="SMS_CONTENT"/>
+		<result property="joinTime" column="JOIN_TIME"/>
+		<result property="status" column="STATUS"/>
+		
+		<result property="details" column="ID" select="GroupPurchaseMemDetail.getByGroupMemberId"/>
+	</resultMap>
+	
+	<!-- 团购成员购买明细 -->
+	<typeAlias alias="GroupPurchaseMemDetail"
+		type="com.bornsoft.asn.bean.groupPurchase.GroupPurchaseMemDetail" />
+	<resultMap class="GroupPurchaseMemDetail" id="GroupPurchaseMemDetail">
+		<result property="id"  column="ID"/>
+		<result property="sepcId"  column="SEPC_ID"/>
+		<result property="buySum"  column="BUY_SUM"/>
+		<result property="costSum"  column="COST_SUM"/>
+		<result property="parentId"  column="PARENT_ID"/>
+		<result property="productDetail"  column="SEPC_ID" select="GroupPurchaseDetail.getById"/>
+	</resultMap>
+	<select id="GroupPurchaseMember.getById" parameterClass="long" resultMap="GroupPurchaseMember">
+		select * from TBL_GROUP_PURCHASE_MEMBER where ID=#value#
+	</select>
+	<select id="GroupPurchaseMember.getByGroupId" parameterClass="long" resultMap="GroupPurchaseMember">
+		select * from TBL_GROUP_PURCHASE_MEMBER where TBL_GROUP_ID=#value# order by JOIN_TIME desc
+	</select>
+	<select id="GroupPurchaseMember.get" parameterClass="map" resultMap="GroupPurchaseMember" >
+		select x.* from(
+			select t.* , row_number() over(ORDER BY
+		t.join_time desc) num from TBL_GROUP_PURCHASE_MEMBER t 
+			<dynamic prepend="where">
+				<isNotEmpty prepend="and" property="id">
+					t.id=#id#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="mobile">
+					t.mobile=#mobile#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="tblGroupId">
+					t.TBL_GROUP_ID=#tblGroupId#
+				</isNotEmpty>
+			</dynamic>
+		) x
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="startCount">
+				num between
+				'$startCount$' and '$endCount$'
+            </isNotEmpty>
+		</dynamic>
+	</select>
+	<insert id="GroupPurchaseMember.insert" parameterClass="GroupPurchaseMember">
+		insert
+		into TBL_GROUP_PURCHASE_MEMBER
+		(
+		ID,
+		TBL_GROUP_ID,
+		NAME,
+		MOBILE,
+		ADDRESS,
+		CARD_ID,
+		TAKE_GOODS_TYPE,
+		GROUP_CARD_ID,
+		GROUP_CARD_PWD,
+		SMS_ID,
+		SMS_CONTENT,
+		JOIN_TIME,
+		STATUS
+		)
+		values(
+		#id#,
+		#tblGroupId#,
+		#name#,
+		#mobile#,
+		#address#,
+		#cardId#,
+		#takeGoodsType#,
+		#groupCardId#,
+		#groupCardPwd#,
+		#smsId#,
+		#smsContent#,
+		#joinTime#,
+		#status#
+		) </insert>
+	<update id="GroupPurchaseMember.update" parameterClass="GroupPurchaseMember">
+		update
+		TBL_GROUP_PURCHASE_MEMBER set
+		TBL_GROUP_ID=#tblGroupId#,
+		NAME=#name#,
+		MOBILE=#mobile#,
+		ADDRESS=#address#,
+		TAKE_GOODS_TYPE=#takeGoodsType#,
+		GROUP_CARD_ID=#groupCardId#,
+		GROUP_CARD_PWD=#groupCardPwd#,
+		SMS_ID=#smsId#,
+		SMS_CONTENT=#smsContent#,
+		JOIN_TIME=#joinTime#,
+		STATUS=#status#
+		where id = #id# </update>
+	<update id="GroupPurchaseMember.updateStatus" parameterClass="map">
+		update TBL_GROUP_PURCHASE_MEMBER set
+		STATUS=#status#
+		where id=#id#
+	</update>
+	<insert id="GroupPurchaseMemDetail.insert" parameterClass="GroupPurchaseMemDetail">
+		insert
+		into TBL_GROUP_PURCHASE_MEMDETAIL
+		(
+			ID,
+			SEPC_ID,
+			BUY_SUM,
+			COST_SUM,
+			PARENT_ID
+		)
+		values(
+		#id#,
+		#sepcId#,
+		#buySum#,
+		#costSum#,
+		#parentId#
+		)
+	</insert>
+	
+	
+	<update id="GroupPurchase.updateCurrentUsers" parameterClass="long">
+		update TBL_GROUP_PURCHASE set
+			CURRENT_USERS = CURRENT_USERS+1
+		where ID = #groupPurcharseId#
+	</update>
+	
+	<select id="GroupPurchaseMemDetail.getByGroupMemberId" parameterClass="long" resultMap="GroupPurchaseMemDetail">
+		select * from TBL_GROUP_PURCHASE_MEMDETAIL t  where t.parent_id=#value#
+	</select>
+</sqlMap>

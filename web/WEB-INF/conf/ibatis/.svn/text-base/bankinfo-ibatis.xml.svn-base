@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="bankinfo">
+	<typeAlias alias="BankInfo" type="com.bornsoft.asn.bean.bank.BankInfo"/>
+	<resultMap class="BankInfo" id="BankInfoResult">
+		<result property="bankInfoid" column="BANK_INFO_ID"/>
+		<result property="bankName" column="BANK_NAME"/>
+		<result property="account" column="ACCOUNT"/>
+		<result property="ownerName" column="OWNER_NAME"/>
+		<result property="memberid" column="MEMBER_ID"/>
+	</resultMap>
+	
+	<insert id="addBankInfo" parameterClass="BankInfo">
+		insert into tbl_bank_info(
+					BANK_INFO_ID,
+					BANK_NAME,
+					ACCOUNT,
+					OWNER_NAME,
+					MEMBER_ID
+				)
+				values(
+					#bankInfoid#,
+					#bankName#,
+					#account#,
+					#ownerName#,
+					#memberid#
+				)
+	</insert>
+	
+	<select id="getBankInfoById" parameterClass="Long" resultMap="BankInfoResult">
+		select * from tbl_bank_info 
+			where MEMBER_ID = #memberid# 
+	</select>
+	
+	<update id="updateBankInfo" parameterClass="BankInfo">
+		update tbl_bank_info set
+					BANK_NAME = #bankName#,
+					ACCOUNT = #account#,
+					OWNER_NAME = #ownerName#					
+		where MEMBER_ID = #memberid#
+	</update>
+	
+	<delete id="delBankInfo" parameterClass="Long">
+		delete from tbl_bank_info where MEMBER_ID = #memberid#
+	</delete>
+	
+</sqlMap>

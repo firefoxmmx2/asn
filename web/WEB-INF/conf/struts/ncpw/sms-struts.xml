@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<package name="sms" extends="struts-asn" namespace="/admin/sms">
+		<action name="insertSms" method="insertSms" class="com.bornsoft.sms.action.SmsAction">
+			<result name="success" type="tilesmap">/admin/sms/insert_sms.jsp</result>
+		</action>
+		
+		<action name="allMember" method="allMember" class="com.bornsoft.sms.action.SmsAction">
+			<result name="success">/admin/sms/all_member.jsp</result>
+		</action>
+		
+		<action name="listSend" method="listSend" class="com.bornsoft.sms.action.SmsAction">
+			<result name="success" type="tilesmap">/admin/sms/send_list.jsp</result>
+		</action>
+		
+		<action name="listDraft" method="listDraft" class="com.bornsoft.sms.action.SmsAction">
+			<result name="success" type="tilesmap">/admin/sms/draft_list.jsp</result>
+		</action>
+		
+		<action name="RepeatSend" method="RepeatSend" class="com.bornsoft.sms.action.SmsAction">
+			<result name="success" type="chain">listSend</result>
+		</action>
+		
+		<action name="RepeatSend2" method="RepeatSend2" class="com.bornsoft.sms.action.SmsAction">
+			<result name="success" type="chain">listDraft</result>
+		</action>
+		
+		<action name="delDraftSms" method="delDraftSms" class="com.bornsoft.sms.action.SmsAction">
+			<result name="success" type="chain">listDraft</result>
+		</action>
+	</package>
+	
+</struts>

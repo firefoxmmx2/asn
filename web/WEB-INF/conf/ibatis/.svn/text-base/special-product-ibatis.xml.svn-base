@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+  
+<sqlMap>
+	<typeAlias alias="SpecialProduct" type="com.bornsoft.asn.bean.product.SpecialProduct"/>
+	<resultMap class="SpecialProduct" id="SpecialProductMap">
+		<result property="id" column="id"/>
+		<result property="productId" column="product_id"/>
+		<result property="name" column="name"/>
+		<result property="type" column="type"/>
+		<result property="originalPrice" column="original_price"/>
+		<result property="newPrice" column="new_price"/>
+		<result property="smallPicPath" column="small_pic_path"/>
+		<result property="bigPicPath" column="big_pic_path"/>
+		<result property="unit" column="unit"/>
+		<result property="supplierId" column="supplier_id"/>
+		<result property="snumber" column="snumber"/>
+	</resultMap>
+	
+	<insert id="insertSpecialProduct" parameterClass="SpecialProduct">
+		insert into TBL_SPECIAL_PRODUCT (id,product_id,name,type,original_price,new_price,small_pic_path,
+		big_pic_path,unit,supplier_id) values (#id#,#productId#,#name#,#type#,#originalPrice#,#newPrice#,#smallPicPath#,#bigPicPath#,#unit#,#supplierId#)
+	</insert>
+	<delete id="deleteSpecialProductById" parameterClass="String">
+		delete from TBL_SPECIAL_PRODUCT where id=#id#
+	</delete>
+	<update id="updateSpecialProduct" parameterClass="SpecialProduct">
+		update TBL_SPECIAL_PRODUCT set product_id=#productId#,name=#name#,type=#type#,
+		original_price=#originalPrice#,new_price=#newPrice#,
+		small_pic_path=#smallPicPath#,big_pic_path=#bigPicPath#,unit=#unit#,supplier_id=#supplierId#,snumber=#snumber#
+		where id=#id#
+	</update>
+	<update id="updateSnumber" parameterClass="java.util.HashMap">
+		update TBL_SPECIAL_PRODUCT set snumber=#snumber# where id=#id#
+	</update>
+	<statement id="getSpecialProductList" parameterClass="java.util.HashMap" resultMap="SpecialProductMap">
+		select * from(select t.*,rownum r from ( select * from TBL_SPECIAL_PRODUCT
+		<dynamic prepend="where">
+			<isNotNull prepend="and" property="name">
+				name like '%'||#name#||'%'
+			</isNotNull>
+			<isNotNull prepend="and" property="type">
+				type=#type#
+			</isNotNull>
+			<isNotNull prepend="and" property="productId">
+				product_id=#productId#
+			</isNotNull>
+			<isNotNull prepend="and" property="supplierId">
+				supplier_id=#supplierId#
+			</isNotNull>
+		</dynamic>
+		<![CDATA[
+		order by snumber asc )t) where r>=#startCount# and r<=#endCount# 
+		 ]]>
+	</statement>
+	<statement id="getSpecialProductListCount" parameterClass="java.util.HashMap" resultClass="Integer">
+		select count(*) from TBL_SPECIAL_PRODUCT
+		<dynamic prepend="where">
+			<isNotNull prepend="and" property="name">
+				name like '%'||#name#||'%'
+			</isNotNull>
+			<isNotNull prepend="and" property="type">
+				type=#type#
+			</isNotNull>
+			<isNotNull prepend="and" property="productId">
+				product_id=#productId#
+			</isNotNull>
+			<isNotNull prepend="and" property="supplierId">
+				supplier_id=#supplierId#
+			</isNotNull>
+		</dynamic>
+	</statement>
+	<select id="getSpecialProductById" parameterClass="String" resultMap="SpecialProductMap">
+		select * from TBL_SPECIAL_PRODUCT where id=#id#
+	</select>
+	<select id="getSpecialProductList1" parameterClass="java.util.HashMap" resultMap="SpecialProductMap">
+		select * from (
+			select t.*,rownum r from (
+				select tsp.*,tm.member_id,tm.area from TBL_SPECIAL_PRODUCT tsp inner join TBL_MEMBER tm on tsp.supplier_id=tm.member_id 
+					<dynamic prepend="where">
+					<isNotNull prepend="and" property="supplierId">
+						tsp.supplier_id=#supplierId# 
+					</isNotNull>
+					<isNotNull prepend="and" property="name">
+						tsp.name like '%'||#name#||'%'
+					</isNotNull>
+					<isNotNull prepend="and" property="area">
+						tm.area like '$area$%'
+					</isNotNull>
+					</dynamic>
+					order by tsp.snumber asc
+				) t
+			) 
+		<![CDATA[
+		where r>=#startCount# and r<=#endCount# 
+		 ]]>
+	</select>
+	
+	
+</sqlMap>  

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+
+	<package name="ncp" extends="struts-asn" namespace="/front/channel/ncp">
+		<action name="ncpIndex" method="ncpIndex" class="com.bornsoft.asn.action.channel.NcpAction">
+			<result name="success" type="tilesmap">/front/channel/ncp/ncpIndex.jsp</result>
+		</action>
+		
+		<action name="listNcp" method="listNcp" class="com.bornsoft.asn.action.channel.NcpAction">
+			<result name="success" type="tilesmap">/front/channel/ncp/ncp_list.jsp</result>
+		</action>
+		
+		<action name="hotNcp" method="hotNcp" class="com.bornsoft.asn.action.channel.NcpAction">
+			<result name="success" type="tilesmap">/front/channel/ncp/ncp_hotProduct.jsp</result>
+		</action>
+		
+		<action name="detailInfo" method="detailInfo" class="com.bornsoft.asn.action.channel.NcpAction">
+			<result name="success" type="tilesmap">/front/channel/ncp/ncp_detail.jsp</result>
+		</action>
+		
+	</package>
+</struts>

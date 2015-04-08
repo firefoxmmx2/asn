@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="systemConfig">
+	<typeAlias alias="config" type="com.bornsoft.asn.bean.systemconfig.SystemConfig"/>
+	<resultMap class="config" id="configResult">
+		<result property="configId" column="CONFIG_ID"/>
+		<result property="itemTitle" column="ITEM_TITLE"/>
+		<result property="itemName" column="ITEM_NAME"/>
+		<result property="itemValue" column="ITEM_VALUE"/>
+		<result property="groupName" column="GROUP_NAME"/>
+	</resultMap>
+	
+	<update id="updateConfig" parameterClass="config">
+		update TBL_SYSTEM_CONFIG set 
+			ITEM_TITLE = #itemTitle#,
+			ITEM_NAME = #itemName#,
+			ITEM_VALUE = #itemValue#,
+			GROUP_NAME = #groupName# 
+		where CONFIG_ID=#configId#
+	</update>
+	
+	<select id="getAllConfigs" resultMap="configResult" >
+		select t.* from TBL_SYSTEM_CONFIG t
+	</select>
+	
+	<select id="getConfigByconfigId" parameterClass="String" resultMap="configResult" >
+		select t.* from TBL_SYSTEM_CONFIG t where CONFIG_ID=#configId# 
+	</select>
+	
+	<select id="getConfigByMAP" parameterClass="map" resultMap="configResult">
+		select t.* from TBL_SYSTEM_CONFIG t 
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="groupName">
+				GROUP_NAME = #groupName#
+			</isNotEmpty>
+		</dynamic>
+	</select>
+</sqlMap>

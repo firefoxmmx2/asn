@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+
+	<package name="storage" extends="struts-asn" namespace="/do/storage">
+		<action name="toStorageList" class="com.bornsoft.asn.action.storage.StorageAction" method="toStorageList">
+			<result name="success" type="tilesmap">/do/storage/storageList.jsp</result>
+			<result name="input" type="tilesmap">/do/storage/input.jsp</result>
+		</action>
+		<action name="toStorageListIn" class="com.bornsoft.asn.action.storage.StorageAction" method="toStorageListIn">
+			<result name="success" type="tilesmap">/do/storage/storageListIn.jsp</result>
+			<result name="input" type="tilesmap">/do/storage/input.jsp</result>
+		</action>
+		<action name="toStorageListOut" class="com.bornsoft.asn.action.storage.StorageAction" method="toStorageListOut">
+			<result name="success" type="tilesmap">/do/storage/storageListOut.jsp</result>
+			<result name="input" type="tilesmap">/do/storage/input.jsp</result>
+		</action>
+		<action name="insertStorageInOut" class="com.bornsoft.asn.action.storage.StorageAction" method="insertStorageInOut">
+			<result name="success" type="tilesmap">/do/storage/createSuccess.jsp</result>
+			<result name="input" type="tilesmap">/do/storage/input.jsp</result>
+		</action>
+		<action name="toStorageInOutList" class="com.bornsoft.asn.action.storage.StorageAction" method="toStorageInOutList">
+			<result name="success" type="tilesmap">/do/storage/storageListInOut.jsp</result>
+			<result name="input" type="tilesmap">/do/storage/input.jsp</result>
+		</action>
+		<action name="toSee" class="com.bornsoft.asn.action.storage.StorageAction" method="toSee">
+			<result name="success" type="tilesmap">/do/storage/storageInOut.jsp</result>
+			<result name="input" type="tilesmap">/do/storage/input.jsp</result>
+		</action>
+	</package>
+
+</struts>    

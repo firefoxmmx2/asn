@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="Discount">
+	<typeAlias alias="Discount" type="com.bornsoft.asn.bean.discount.Discount"/>
+	<resultMap class="Discount" id="DiscountResult">
+		<result property="activityId" column="ACTIVITY_ID"/>
+		<result property="discountName" column="NAME"/>
+		<result property="beginTime" column="BEGIN_TIME"/>
+		<result property="endTime" column="END_TIME"/>
+		<result property="discountType" column="SCRIPT"/>
+	</resultMap>
+	
+	<insert id="insertDiscount" parameterClass="Discount">
+		insert into TBL_ACTIVITY_DISCOUNT(
+						ACTIVITY_ID,
+						NAME,
+						BEGIN_TIME,
+						END_TIME,
+						SCRIPT
+					)
+					values(
+						#activityId#,
+						#discountName#,
+						#beginTime#,
+						#endTime#,
+						#discountType#
+					)
+	</insert>
+	
+	<select id="listDiscount" parameterClass="java.util.HashMap" resultMap="DiscountResult">
+		
+			select * from (select d.*, rownum r from (
+				select * from TBL_ACTIVITY_DISCOUNT
+				
+				where NAME like '%$discountName$%' 
+				
+				<dynamic>
+					<isNotNull property="beginTime">
+						and BEGIN_TIME &gt;= to_timestamp('$beginTime$'' 0:0:0', 'syyyy-mm-dd hh24:mi:ss')
+					</isNotNull>
+					<isNotNull property="endTime">
+						and END_TIME &lt;= to_timestamp('$endTime$'' 0:0:0', 'syyyy-mm-dd hh24:mi:ss')
+					</isNotNull>
+					<isNotNull property="getDate">
+						and END_TIME &gt;= to_timestamp('$getDate$', 'syyyy-mm-dd hh24:mi:ss')
+					</isNotNull>
+					
+				</dynamic>
+				
+				order by ACTIVITY_ID desc
+				) d) 
+	    <![CDATA[		
+	    		where r>=#startCount# and r<=#endCount# 
+	    ]]>  
+	</select>
+	<select id="getDiscountCount" parameterClass="java.util.HashMap" resultClass="Long">
+			select count(*) from TBL_ACTIVITY_DISCOUNT
+			where NAME like '%$discountName$%' 				
+				<dynamic>
+					<isNotNull property="beginTime">
+						and BEGIN_TIME >= to_timestamp('$beginTime$'' 0:0:0', 'syyyy-mm-dd hh24:mi:ss')
+					</isNotNull>
+					<isNotNull property="endTime">
+						and END_TIME <![CDATA[<=]]> to_timestamp('$endTime$'' 0:0:0', 'syyyy-mm-dd hh24:mi:ss')
+					</isNotNull>
+					<isNotNull property="getDate">
+						and END_TIME &gt;= to_timestamp('$getDate$', 'syyyy-mm-dd hh24:mi:ss')
+					</isNotNull>
+				</dynamic>
+	</select>
+	
+	<delete id="deleteDiscount" parameterClass="Long">
+			delete from TBL_ACTIVITY_DISCOUNT where ACTIVITY_ID = #activityId#
+	</delete>
+	
+	<select id="getDiscountById" parameterClass="Long" resultMap="DiscountResult">
+		select * from TBL_ACTIVITY_DISCOUNT where ACTIVITY_ID = #activityId#
+	</select>
+	
+	<update id="updateDiscount" parameterClass="Discount">
+		update TBL_ACTIVITY_DISCOUNT set 	NAME = #discountName#,
+											BEGIN_TIME = #beginTime#,
+											END_TIME = #endTime#,
+											SCRIPT = #discountType#
+		where ACTIVITY_ID = #activityId#				
+	</update>
+	
+	
+	<typeAlias alias="Discount2product" type="com.bornsoft.asn.bean.discount.Discount2product"/>
+	<resultMap class="Discount2product" id="Discount2productResult"></resultMap>
+	
+	<insert id="insertD2product" parameterClass="Discount2product">
+		insert into tbl_activity_discount2product(
+									ACTIVITY_ID,
+									PRODUCT_ID,
+									SUPPLIER_ID
+									)
+									values(
+									#activityId#,
+									#productId#,
+									#supplierId#
+									)
+	</insert>
+	<resultMap class="java.util.HashMap" id="resultproductMap">
+		<result property="productId" column="product_id"/>
+		<result property="productName" column="product_name"/>
+		<result property="activityId" column="activity_id"/>
+		<result property="name" column="name"/>
+		<result property="beginTime" column="begin_time"/>
+		<result property="endTime" column="end_time"/>
+		<result property="supplierId" column="supplier_id"/>		
+	</resultMap>
+	
+	<select id="getExistProduct" parameterClass="java.util.HashMap" resultMap="resultproductMap">	
+		select ad2.supplier_id,p.product_id,p.product_name,ad.activity_id,ad.name,ad.begin_time,ad.end_time
+
+ 		from tbl_activity_discount2product ad2
+
+		inner join tbl_product p on p.product_id = ad2.product_id
+		inner join tbl_activity_discount ad on ad.activity_id = ad2.activity_id
+		
+		where ad.activity_id = #activityId# and ad2.supplier_id=#supplierId#
+	</select>
+	
+	<resultMap class="java.util.HashMap" id="DiscountResult-self">
+		<result property="activityId" column="ACTIVITY_ID"/>
+		<result property="discountName" column="NAME"/>
+		<result property="beginTime" column="BEGIN_TIME"/>
+		<result property="endTime" column="END_TIME"/>
+		<result property="discountType" column="SCRIPT"/>
+		<result property="supplierId" column="supplier_id"/>
+		<result property="productlist" select="getExistProduct-self" column="supplierId=supplier_id,activityId=activity_id" javaType="ArrayList" />
+	</resultMap>
+	
+	<select id="getSelfActivity" parameterClass="java.util.HashMap" resultMap="DiscountResult-self" >		
+		select * from (select d.*, rownum r from (
+		 	select 
+		      t.ACTIVITY_ID,
+		      t.NAME, 
+		      d.supplier_id,    
+		      to_char(t.begin_time,'yyyy-mm-dd hh24:mi') as BEGIN_TIME,
+		      to_char(t.END_TIME,'yyyy-mm-dd hh24:mi') as END_TIME,
+		      t.SCRIPT  
+		      from tbl_activity_discount t ,
+		      (select distinct activity_id,supplier_id from tbl_activity_discount2product where supplier_id = #supplierId#) d
+		      where t.activity_id = d.activity_id and 		      		
+		      		t.NAME like '%$discountName$%' 				
+				<dynamic>
+					<isNotNull property="beginTime">
+						and t.BEGIN_TIME >= to_timestamp('$beginTime$'' 0:0:0', 'syyyy-mm-dd hh24:mi:ss')
+					</isNotNull>
+					<isNotNull property="endTime">
+						and t.END_TIME <![CDATA[<=]]> to_timestamp('$endTime$'' 0:0:0', 'syyyy-mm-dd hh24:mi:ss')
+					</isNotNull>
+				</dynamic>
+			) d) 
+	    <![CDATA[		
+	    		where r>=#startCount# and r<=#endCount# 
+	    ]]>  
+	</select>
+	
+	<select id="getSelfActivityCount" parameterClass="java.util.HashMap" resultClass="Long">
+		select count(*) from tbl_activity_discount t 
+			where t.activity_id in (
+				select td2.activity_id from tbl_activity_discount2product td2 
+					where td2.supplier_id = #supplierId#
+			) and NAME like '%$discountName$%' 				
+				<dynamic>
+					<isNotNull property="beginTime">
+						and t.BEGIN_TIME >= to_timestamp('$beginTime$'' 0:0:0', 'syyyy-mm-dd hh24:mi:ss')
+					</isNotNull>
+					<isNotNull property="endTime">
+						and t.END_TIME <![CDATA[<=]]> to_timestamp('$endTime$'' 0:0:0', 'syyyy-mm-dd hh24:mi:ss')
+					</isNotNull>
+				</dynamic>
+	</select>
+	
+	<delete id="delselfDiscount" parameterClass="java.util.HashMap">
+		delete 
+			from tbl_activity_discount2product
+			where supplier_id = #supplierId# and activity_id = #activityId#
+	</delete>
+	
+	<resultMap class="java.util.HashMap" id="DiscountResult-self">
+		<result property="activityId" column="activity_id"/>
+		<result property="supplierId" column="supplier_id"/>
+		<result property="memberType" column="member_type"/>
+		<result property="fullName" column="full_name"/>
+		<result property="productlist" select="getExistProduct-supp" column="supplierId=supplier_id,activityId=activity_id" javaType="ArrayList" />
+	</resultMap>
+	<select id="getJoinSupplierInfo" parameterClass="java.util.HashMap" resultMap="DiscountResult-self">
+		select * from (
+		  select d.*, rownum r from (
+			select
+				ad2.activity_id,
+				ad2.supplier_id,
+				m.member_type,
+				m.full_name 
+				from tbl_member m
+				inner join (
+					select 
+						distinct t.supplier_id,t.activity_id 
+						from tbl_activity_discount2product t 
+	           			where t.activity_id = #activityId# 
+	           	) ad2 on ad2.supplier_id = m.member_id
+	           	
+	           	where m.full_name like '%$supplierName$%' 				
+	           	
+           	) d) 
+	    <![CDATA[		
+	    		where r>=#startCount# and r<=#endCount# 
+	    ]]> 
+	</select>
+	<select id="getExistProduct-supp" parameterClass="java.util.HashMap" resultMap="resultproductMap">	
+		select ad2.supplier_id,p.product_id,p.product_name,ad.activity_id,ad.name,ad.begin_time,ad.end_time
+
+ 		from tbl_activity_discount2product ad2
+
+		inner join tbl_product p on p.product_id = ad2.product_id
+		inner join tbl_activity_discount ad on ad.activity_id = ad2.activity_id
+		
+		where ad2.supplier_id=#supplierId# and 	ad.activity_id = #activityId#		
+	</select>
+	
+	<select id="getExistProduct-self" parameterClass="java.util.HashMap" resultMap="resultproductMap">	
+		select ad2.supplier_id,p.product_id,p.product_name,ad.activity_id,ad.name,ad.begin_time,ad.end_time
+
+ 		from tbl_activity_discount2product ad2
+
+		inner join tbl_product p on p.product_id = ad2.product_id
+		inner join tbl_activity_discount ad on ad.activity_id = ad2.activity_id
+		
+		where ad.activity_id = #activityId#	and ad2.supplier_id=#supplierId#		
+	</select>
+	
+	<select id="getJoinSupplierCount" parameterClass="java.util.HashMap" resultClass="Long">
+		select count(*)	from tbl_member m
+				inner join (
+					select 
+						distinct t.supplier_id,
+						t.activity_id 
+						from tbl_activity_discount2product t 
+	           			where t.activity_id = #activityId# 
+	           	) ad2 on ad2.supplier_id = m.member_id
+	           	where m.full_name like '%$supplierName$%' 			
+	</select>
+	
+	<select id="getScript" parameterClass="java.util.HashMap" resultClass="String">
+		select ad.script from TBL_ACTIVITY_DISCOUNT ad 
+		inner join tbl_activity_discount2product ad2 on ad.activity_id=ad2.activity_id 
+		where product_id=#productId#  
+		<![CDATA[		
+	    and ad.begin_time<=#nowTime# and ad.end_time>=#nowTime# 
+	    ]]>  
+	</select>
+	
+</sqlMap>

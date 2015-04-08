@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+
+
+	<package name="test" extends="struts-asn" namespace="/test">
+		<action name="*" class="com.bornsoft.asn.test.TestAction"
+			method="{1}">
+			<result name="testmap" type="tilesmap">test-map.testmap</result>
+			<result name="ptype">/mall/ptype.jsp</result>
+			<result name="nz_ptype">/test/test-newNZPtye.jsp</result>
+			<result name="quotationClip">/test/test-quotationClip.jsp</result>
+			<result name="checkboxtest">/test/test-checkboxtest.jsp</result>
+		</action>
+	</package>
+</struts>

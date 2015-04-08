@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+
+	<!-- 客户服务管理后台 -->
+	<package name="crmServcie" extends="struts-asn" namespace="/do/crm/service">
+		<interceptors>
+			<interceptor name="crmServicePageSetting"
+				class="com.bornsoft.asn.action.crm.CrmServicePageSettingInterceptor">
+			</interceptor>
+			<interceptor-stack name="crmServicePageSettingStack">
+				<interceptor-ref name="crmServicePageSetting"></interceptor-ref>
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		<action name="cView" class="com.bornsoft.asn.action.crm.CrmServiceAction"
+			method="customerView">
+			<result name="success" type="tilesmap">/do/customer/customer_service/customer_view.jsp
+			</result>
+			<result name="input" type="tilesmap">/do/customer/customer_service/customer_view.jsp
+			</result>
+		</action>
+		<action name="cServView" class="com.bornsoft.asn.action.crm.CrmServiceAction"
+			method="customerServiceView">
+			<interceptor-ref name="crmServicePageSettingStack"></interceptor-ref>
+			<result name="success" type="tilesmap">/do/customer/customer_service/customer_service_view.jsp
+			</result>
+		</action>
+		<action name="toCServAdd" class="com.bornsoft.asn.action.crm.CrmServiceAction"
+			method="toCustomerServAdd">
+			<result name="success" type="chain">morePage
+			</result>
+		</action>
+		<action name="cServAdd" class="com.bornsoft.asn.action.crm.CrmServiceAction"
+			method="customerServiceAdd">
+			<result name="success" type="chain">cServView
+			</result>
+		</action>
+		<action name="toCServModify" class="com.bornsoft.asn.action.crm.CrmServiceAction"
+			method="toCustomerServModify">
+			<result name="success" type="chain">morePage
+			</result>
+		</action>
+		<action name="cServModify" class="com.bornsoft.asn.action.crm.CrmServiceAction"
+			method="customerServiceModify">
+			<result name="success" type="chain">cServView
+			</result>
+		</action>
+		<action name="cServRemove" class="com.bornsoft.asn.action.crm.CrmServiceAction"
+			method="customerServiceRemove">
+			<interceptor-ref name="crmServicePageSettingStack"></interceptor-ref>
+			<result name="success" type="chain">cServView
+			</result>
+		</action>
+		<action name="morePage" class="com.bornsoft.asn.action.crm.CrmServiceAction"
+			method="getMorePageCustomers">
+			<interceptor-ref name="crmServicePageSettingStack"></interceptor-ref>
+			<result name="success" type="tilesmap">/do/customer/customer_service/customer_service.jsp</result>
+		</action>
+	</package>
+
+</struts> 

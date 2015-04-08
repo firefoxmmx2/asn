@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+<!-- 使用通配符 namespace不宜过长,否则会玩儿死你 -->
+<package name="ptManage" namespace="/admin/ptManage" extends="struts-asn">
+		<action name="*" class="com.bornsoft.asn.action.productType.ProductTypeManageAction" method="{1}">
+			<result name="success" type="tilesmap">/admin/productType/productTypeManageRoot.jsp</result>
+			<result name="toUpdate">/admin/productType/productTypeManage.jsp</result>
+			<result name="async" type="tilesmap">/front/productNavi/productTypeRoot.jsp</result>
+			<result name="input">/admin/productType/productTypeManage.jsp</result>
+		</action>
+		</package>
+</struts>

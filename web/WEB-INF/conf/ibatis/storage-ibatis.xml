@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+  
+<sqlMap>
+	<typeAlias alias="ProductStorage" type="com.bornsoft.asn.vo.ProductStorage"/>
+	<resultMap class="ProductStorage" id="ProductStorageMap">
+		<result property="productId" column="PRODUCT_ID"/>
+		<result property="smallPicPath" column="small_pic_path"/>
+		<result property="productName" column="product_name"/>
+		<result property="stockAmount" column="STOCK_AMOUNT"/>
+		<result property="unit" column="UNIT"/>
+		<result property="modifyTime" column="MODIFY_TIME"/>
+		<result property="modifyMan" column="MODIFY_MAN"/>
+	</resultMap>
+	<typeAlias alias="StorageInOut" type="com.bornsoft.asn.bean.storage.StorageInOut"/>
+	<resultMap class="StorageInOut" id="StorageInOutMap">
+		<result property="id" column="ID"/>
+		<result property="billNum" column="BILL_NO"/>
+		<result property="billTime" column="BILL_TIME"/>
+		<result property="billType" column="BILL_TYPE"/>
+		<result property="handleMan" column="HANDLE_MAN"/>
+		<result property="handleTime" column="HANDLE_TIME"/>
+	</resultMap>
+	<typeAlias alias="StorageDetail" type="com.bornsoft.asn.vo.ProductStorageDetail"/>
+	<resultMap class="StorageDetail" id="StorageDetailMap">
+		<result property="id" column="ID"/>
+		<result property="smallPicPath" column="small_pic_path"/>
+		<result property="productName" column="product_name"/>
+		<result property="storageInOutId" column="PARENT_ID"/>
+		<result property="productId" column="PRODUCT_ID"/>
+		<result property="billAmount" column="BILL_AMOUNT"/>
+	</resultMap>
+	<typeAlias alias="StorageInOutDetail" type="com.bornsoft.asn.bean.storage.StorageInOutDetail"/>
+	<resultMap class="StorageInOutDetail" id="StorageInOutDetailMap">
+		<result property="id" column="ID"/>
+		<result property="storageInOutId" column="PARENT_ID"/>
+		<result property="productId" column="PRODUCT_ID"/>
+		<result property="billAmount" column="BILL_AMOUNT"/>
+	</resultMap>
+	
+	<select id="getStorageList" parameterClass="java.util.HashMap" resultMap="ProductStorageMap">
+		select * from (
+			select t.*,rownum r from (
+				select ts.*,tr.product_status,tr.small_pic_path,tr.product_name,tr.supplier_id from TBL_STORAGE ts inner join TBL_PRODUCT tr on ts.product_id=tr.product_id 
+					<dynamic prepend="where">
+					<isNotNull prepend="and" property="supplierId">
+						tr.supplier_id=#supplierId# 
+						and tr.product_status !='del'
+					</isNotNull>
+					<isNotNull prepend="and" property="productName">
+						tr.product_name like '%'||#productName#||'%'
+					</isNotNull>
+					</dynamic>
+					order by ts.product_id desc
+				) t
+			) 
+		<![CDATA[
+		where r>=#startCount# and r<=#endCount# 
+		 ]]>
+	</select>
+	<select id="getStorageListCount" parameterClass="java.util.HashMap" resultClass="Integer">
+		select count(*) from TBL_STORAGE ts inner join TBL_PRODUCT tr on ts.product_id=tr.product_id
+		<dynamic prepend="where">
+				<isNotNull prepend="and" property="supplierId">
+						tr.supplier_id=#supplierId#
+						and tr.product_status !='del'
+				</isNotNull>
+				<isNotNull prepend="and" property="productName">
+						tr.product_name like '%'||#productName#||'%'
+				</isNotNull>
+		</dynamic> 
+	</select>
+	<select id="getStorageById" parameterClass="Integer" resultMap="ProductStorageMap">
+		select ts.*,tr.product_status,tr.small_pic_path,tr.product_name,tr.supplier_id from TBL_STORAGE ts inner join TBL_PRODUCT tr on ts.product_id=tr.product_id  where ts.product_id=#id# and tr.product_status !='del' 
+	</select>
+	<update id="updateStorage" parameterClass="java.util.HashMap">
+		update TBL_STORAGE set STOCK_AMOUNT=#stockAmount#,MODIFY_TIME=#modifyTime#,
+		MODIFY_MAN=#modifyMan# where product_id=#productId#
+	</update>
+	
+	<!-- StorageInOut -->
+	
+	<insert id="insertStorageInOut" parameterClass="StorageInOut">
+		insert into TBL_STORAGE_INOUT (
+			ID,BILL_NO,BILL_TIME,BILL_TYPE,HANDLE_MAN,HANDLE_TIME
+		)values(
+			#id#,#billNum#,#billTime#,#billType#,#handleMan#,#handleTime#
+		)
+	</insert>
+	<select id="getStorageInOutByProductId" parameterClass="java.util.HashMap" resultMap="StorageInOutMap">
+		select * from (
+			select t.*,rownum r from (
+				select distinct tsi.id,tsi.BILL_NO,tsi.BILL_TIME,tsi.BILL_TYPE,tsi.HANDLE_MAN,tsi.HANDLE_TIME from TBL_STORAGE_INOUT_DETAIL tsid inner join TBL_STORAGE_INOUT tsi on tsi.id=tsid.parent_id 
+				<dynamic prepend="where">
+					<isNotNull prepend="and" property="id">
+						tsid.product_id=#id# 
+					</isNotNull>
+					<isNotNull prepend="and" property="billNum">
+						tsi.bill_no=#billNum#
+					</isNotNull>
+					<isNotNull prepend="and" property="billType">
+						tsi.BILL_TYPE=#billType#
+					</isNotNull>
+					<isNotNull prepend="and" property="handleMan">
+						tsi.HANDLE_MAN=#handleMan#
+					</isNotNull>
+				</dynamic>
+				order by tsi.id desc 
+			)t
+		)
+		<![CDATA[
+		where r>=#startCount# and r<=#endCount# 
+		 ]]>
+	</select>
+	
+	<select id="getStorageInOutByProductIdCount" parameterClass="java.util.HashMap" resultClass="Integer">
+		select count(distinct tsi.id ) from TBL_STORAGE_INOUT_DETAIL tsid inner join TBL_STORAGE_INOUT tsi on tsi.id=tsid.parent_id 
+			<dynamic prepend="where">
+					<isNotNull prepend="and" property="id">
+						tsid.product_id=#id# 
+					</isNotNull>
+					<isNotNull prepend="and" property="billNum">
+						tsi.bill_no=#billNum#
+					</isNotNull>
+					<isNotNull prepend="and" property="billType">
+						tsi.BILL_TYPE=#billType#
+					</isNotNull>
+					<isNotNull prepend="and" property="handleMan">
+						tsi.HANDLE_MAN=#handleMan#
+					</isNotNull>
+			</dynamic>
+	</select>
+	<select id="getStorageInOutById" parameterClass="Integer" resultMap="StorageInOutMap">
+		select * from TBL_STORAGE_INOUT where id=#id#
+	</select>
+	
+	<!-- StorageInOutDetail -->
+	<insert id="insertStorageInOutDetail" parameterClass="StorageInOutDetail">
+		insert into TBL_STORAGE_INOUT_DETAIL (
+			ID,PARENT_ID,PRODUCT_ID,BILL_AMOUNT
+		)values(
+			#id#,#storageInOutId#,#productId#,#billAmount#
+		)
+	</insert>
+	<select id="getStorageInOutDetailByParentId" parameterClass="Integer" resultMap="StorageDetailMap">
+		select tsid.*,tr.small_pic_path,tr.product_name from TBL_STORAGE_INOUT_DETAIL tsid inner join TBL_PRODUCT tr on tsid.product_id=tr.product_id where tsid.parent_id=#id#
+	</select>
+</sqlMap>  
+   

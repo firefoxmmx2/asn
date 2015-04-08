@@ -1,0 +1,48 @@
+<%@ page contentType="text/html; charset=utf-8" language="java" import="java.sql.*" errorPage="" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Test Pay</title>
+</head>
+
+<body>
+<p>浦发银行 - 浏览器端提交数据</p>
+<p>订单详情：<br />
+  日   期: 20100415214908 <br />
+  订单号: 127133934844 <br />
+  商户名: 麦包包 <br />
+  总金额: ￥218.00 <br />
+</p>
+<form id="form_payment" action="https://ebank.spdb.com.cn/payment/main" method="post">
+<input type="hidden" name="transName" value="IPER">
+<input type="hidden" name="Plain" value="TranAbbr=IPER|MercDtTm=20100415214908|TermSsn=127133934844|MercCode=860153110000101|TermCode=00000000|TranAmt=218.00|MercUrl=http://122.11.61.90/spdb_b2c/return.asp|Remark1=127133934844|Remark2=">
+<input type="hidden" name="Signature" value="45583A3551ECDA8DC74495360CB64AD12560A5456417B2924ECD70EC0E6426FADF0F3733BEB65DD791DF14CEFC6BE3846F3A55E9C2B6EA7777C1DF34F1E5388814901BA0E68D0ECB78323D107DD2281AC94C7883CCDB430EEB961AAA8AE7D128C19E53BF67CC5E473CAE8BFEF378B7BC771A8D8EEF56B920A358A961C2C38EA5">
+<input type="submit" value="submit" />
+</form>
+<p>&nbsp;</p>
+<p>中国农业银行 - 服务器间提交数据，浏览器端转向</p>
+<p>https://easyabc.95599.cn/b2c/NotCheckStatus/PaymentModeAct.ebf?TOKEN=12713408219949386448</p>
+<table cellspacing="0" cellpadding="0">
+  <tr>
+    <td>商户名称</td>
+    <td colspan="3"><a href="http://www.mbaobao.com/">嘉兴市麦包包皮具有限公司</a></td>
+  </tr>
+  <tr>
+    <td width="14%">日期</td>
+    <td width="28%">2010/04/15 </td>
+    <td width="14%">账单号</td>
+    <td width="28%">127134079348464300 </td>
+  </tr>
+  <tr>
+    <td>币种</td>
+    <td>人民币 </td>
+    <td>交易金额</td>
+    <td>139.00 元</td>
+  </tr>
+</table>
+<p>兴业银行 - 支付宝</p>
+<p> http://www.alipay.com/cooperate/gateway.do?_input_charset=utf-8&amp;body=127134146046611800&amp;defaultbank=CIB&amp;logistics_fee=0.00&amp;logistics_payment=BUYER_PAY&amp;logistics_type=EXPRESS&amp;notify_url=http%3A%2F%2Fwww.mbaobao.com%2Fpayment%2Falipay%2Fnotify.php&amp;out_trade_no=127134146046611800&amp;partner=2088001914553738&amp;payment_type=1&amp;paymethod=bankPay&amp;price=139.00&amp;quantity=1&amp;return_url=http%3A%2F%2Fwww.mbaobao.com%2Fpayment%2Falipay%2Freturn.php&amp;seller_email=pay1%40mbaobao.com&amp;service=create_direct_pay_by_user&amp;show_url=http%3A%2F%2Fwww.mbaobao.com%2Fuser%2Forder.php%3Faction%3Dview%26id%3D137960&amp;subject=137960&amp;sign=d07142e2cf1b9531d4f7f7b98d788219&amp;sign_type=MD5 </p>
+<p>&nbsp;</p>
+</body>
+</html>

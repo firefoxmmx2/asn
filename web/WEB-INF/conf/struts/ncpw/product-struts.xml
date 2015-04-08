@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+
+	<package name="product" extends="struts-asn" namespace="/do/product">
+		<action name="toCreateProductSupply" class="com.bornsoft.asn.action.product.ProductSupplyAction" method="toCreateProductSupply">
+			<result name="success" type="tilesmap">/do/product/createProductSupply.jsp</result>
+			<result name="input" type="tilesmap">/do/product/productInput.jsp</result>	
+		</action>
+		<action name="createProductSupply" class="com.bornsoft.asn.action.product.ProductSupplyAction" method="createProductSupply">
+			<result name="success" type="tilesmap">/do/product/productSuccess.jsp</result>
+			<result name="input" type="tilesmap">/do/product/productInput.jsp</result>	
+		</action>
+		<action name="toProductSupplyListOn" class="com.bornsoft.asn.action.product.ProductSupplyAction" method="toProductSupplyListOn">
+			<result name="success" type="tilesmap">/do/product/productSupplyList.jsp</result>
+			<result name="input" type="tilesmap">/do/product/productInput.jsp</result>	
+		</action>
+		<action name="toUpdateProductSupply" class="com.bornsoft.asn.action.product.ProductSupplyAction" method="toUpdateProductSupply">
+			<result name="success" type="tilesmap">/do/product/updateProductSupply.jsp</result>
+			<result name="input" type="tilesmap">/do/product/productInput.jsp</result>	
+		</action>
+		<action name="updateProductSupply" class="com.bornsoft.asn.action.product.ProductSupplyAction" method="updateProductSupply">
+			<result name="success" type="tilesmap">/do/product/productSuccess.jsp</result>
+			<result name="input" type="tilesmap">/do/product/productInput.jsp</result>	
+		</action>
+		<action name="setProductSupplyOff" class="com.bornsoft.asn.action.product.ProductSupplyAction" method="setProductSupplyOff">
+			<result name="success" type="chain">toProductSupplyListOn</result>
+			<result name="input" type="tilesmap">/do/product/productInput.jsp</result>	
+		</action>
+		<action name="toProductSupplyListOff" class="com.bornsoft.asn.action.product.ProductSupplyAction" method="toProductSupplyListOff">
+			<result name="success" type="tilesmap">/do/product/productSupplyListOff.jsp</result>
+			<result name="input" type="tilesmap">/do/product/productInput.jsp</result>	
+		</action>
+		<action name="setProductSupplyOn" class="com.bornsoft.asn.action.product.ProductSupplyAction" method="setProductSupplyOn">
+			<result name="success" type="chain">toProductSupplyListOff</result>
+			<result name="input" type="tilesmap">/do/product/productInput.jsp</result>	
+		</action>
+		<action name="searchProductSupplyListOn" class="com.bornsoft.asn.action.product.ProductSupplyAction" method="searchProductSupplyListOn">
+			<result name="success" type="tilesmap">/do/product/searchProductSupplyListOn.jsp</result>
+			<result name="input" type="tilesmap">/do/product/productInput.jsp</result>	
+		</action>
+		<action name="searchProductSupplyListOff" class="com.bornsoft.asn.action.product.ProductSupplyAction" method="searchProductSupplyListOff">
+			<result name="success" type="tilesmap">/do/product/searchProductSupplyListOff.jsp</result>
+			<result name="input" type="tilesmap">/do/product/productInput.jsp</result>	
+		</action>
+		<action name="setProductSupplyDel" class="com.bornsoft.asn.action.product.ProductSupplyAction" method="setProductSupplyDel">
+			<result name="success" type="chain">toProductSupplyListOff</result>
+			<result name="input" type="tilesmap">/do/product/productInput.jsp</result>	
+		</action>
+		
+		
+		
+		
+		
+		<action name="checkProductNumber" class="com.bornsoft.asn.action.product.ProductAction" method="checkProductNumber">
+				
+		</action>
+		<action name="toCreateProduct" class="com.bornsoft.asn.action.product.ProductAction" method="toCreateProduct">
+			<result name="success" type="tilesmap">/do/product/createProduct.jsp</result>
+			<result name="input" type="tilesmap">/do/product/productInput.jsp</result>	
+		</action>
+		<action name="createProduct" class="com.bornsoft.asn.action.product.ProductAction" method="createProduct">
+			<result name="success" type="tilesmap">/do/product/productOK.jsp</result>
+			<result name="input" type="tilesmap">/do/product/productInput.jsp</result>	
+		</action>
+		<action name="toProductListOn" class="com.bornsoft.asn.action.product.ProductAction" method="toProductListOn">
+			<result name="success" type="tilesmap">/do/product/productListOn.jsp</result>
+			<result name="input" type="tilesmap">/do/product/productInput.jsp</result>	
+		</action>
+		<action name="toUpdateProduct" class="com.bornsoft.asn.action.product.ProductAction" method="toUpdateProduct">
+			<result name="success" type="tilesmap">/do/product/updateProduct.jsp</result>
+			<result name="input" type="tilesmap">/do/product/productInput.jsp</result>	
+		</action>
+		<action name="updateProduct" class="com.bornsoft.asn.action.product.ProductAction" method="updateProduct">
+			<result name="success" type="tilesmap">/do/product/productOK.jsp</result>
+			<result name="input" type="tilesmap">/do/product/productInput.jsp</result>	
+		</action>
+		<action name="searchProductListOn" class="com.bornsoft.asn.action.product.ProductAction" method="searchProductListOn">
+			<result name="success" type="tilesmap">/do/product/searchProductListOn.jsp</result>
+			<result name="input" type="tilesmap">/do/product/productInput.jsp</result>	
+		</action>
+		<action name="setProductOff" class="com.bornsoft.asn.action.product.ProductAction" method="setProductOff">
+			<result name="success" type="chain">toProductListOn</result>
+			<result name="input" type="tilesmap">/do/product/productInput.jsp</result>	
+		</action>
+		<action name="toProductListOff" class="com.bornsoft.asn.action.product.ProductAction" method="toProductListOff">
+			<result name="success" type="tilesmap">/do/product/productListOff.jsp</result>
+			<result name="input" type="tilesmap">/do/product/productInput.jsp</result>	
+		</action>
+		<action name="setProductOn" class="com.bornsoft.asn.action.product.ProductAction" method="setProductOn">
+			<result name="success" type="chain">toProductListOff</result>
+			<result name="input" type="tilesmap">/do/product/productInput.jsp</result>	
+		</action>
+		<action name="setProductDel" class="com.bornsoft.asn.action.product.ProductAction" method="setProductDel">
+			<result name="success" type="chain">toProductListOff</result>
+			<result name="input" type="tilesmap">/do/product/productInput.jsp</result>	
+		</action>
+		<action name="searchProductListOff" class="com.bornsoft.asn.action.product.ProductAction" method="searchProductListOff">
+			<result name="success" type="tilesmap">/do/product/searchProductListOff.jsp</result>
+			<result name="input" type="tilesmap">/do/product/productInput.jsp</result>	
+		</action>
+	</package>
+
+</struts>    

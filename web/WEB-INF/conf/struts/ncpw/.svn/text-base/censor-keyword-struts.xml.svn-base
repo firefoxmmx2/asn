@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+
+	<package name="censor_keyword" extends="struts-asn" namespace="/admin/ck">
+		<action name="toCensorTable" class="com.bornsoft.asn.action.CensorAndKeywordAction" method="toCensorTable">
+			<result name="success" type="tilesmap">/admin/censor_keyword/censorTable.jsp</result>
+		</action>
+		<action name="updateCensorword" class="com.bornsoft.asn.action.CensorAndKeywordAction" method="updateCensorword">
+			<result name="success" type="tilesmap">/admin/censor_keyword/censorTable.jsp</result>
+		</action>
+		<action name="toKeywordTable" class="com.bornsoft.asn.action.CensorAndKeywordAction" method="toKeywordTable">
+			<result name="success" type="tilesmap">/admin/censor_keyword/keywordTable.jsp</result>
+		</action>
+		<action name="updateKeyword" class="com.bornsoft.asn.action.CensorAndKeywordAction" method="updateKeyword">
+			<result name="success" type="tilesmap">/admin/censor_keyword/keywordTable.jsp</result>
+		</action>
+	</package>
+
+</struts>   

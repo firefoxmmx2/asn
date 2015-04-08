@@ -1,0 +1,8 @@
+ 	.container{margin:0; padding:0;position:relative;overflow:hidden;}
+      .slider{position:absolute; margin:0px;padding: 0px;}
+      .slider li{ list-style:none;display:inline;}
+      .slider li a img {border-width:0px;padding: 0px; padding-bottom:0px; width: 169px;height: 207px;}
+      .numberbar{position:absolute; right:5px; bottom:5px;}
+      .numberbar li{float: left; color: #FF7300; text-align: center; line-height: 16px; width: 16px; height: 16px; font-family: Arial; font-size: 12px; cursor: pointer; overflow: hidden; margin: 3px 1px; border: 1px solid #FF7300; background-color: #fff;}
+      .numberbar li.on{color: #fff; line-height: 21px; width: 21px; height: 21px; font-size: 16px; margin: 0 1px; border: 0; background-color: #FF7300; font-weight: bold;}
+      a {color:#000000;font-size: 12px;}

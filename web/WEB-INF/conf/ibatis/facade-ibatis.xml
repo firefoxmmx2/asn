@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="facade">
+	<typeAlias alias="facadeDefine" type="com.bornsoft.asn.bean.facade.ProductFacade"/>
+	
+	<resultMap id="facadeDefineResult" class="facadeDefine">
+		<result property="ptCode"/>
+		<result property="name"/>
+		<result property="options"/>
+		<result property="defineId"/>
+	</resultMap>
+	
+    <!-- 按照分类号查询单个立面定义 -->
+    <select id="queryFacadeDefineByPt" parameterClass="string"  resultMap="facadeDefineResult">
+		select * from tbl_facade_define
+		  where pt_code=substr(#code#, 0, 4)
+		  or pt_code=substr(#code#, 0, 9)
+		  or pt_code=#code#
+		  order by pt_code
+	</select>
+	
+</sqlMap>

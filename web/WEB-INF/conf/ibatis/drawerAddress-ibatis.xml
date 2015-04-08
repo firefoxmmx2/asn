@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+     PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+     "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="drawerAddress">
+  <typeAlias alias="address" type="com.bornsoft.asn.bean.order.DrawerAddress"/>
+  <resultMap class="address" id="t_address">
+     <result property="id" column="id" />
+     <result property="memberId" column="memberId" />
+	 <result property="city" column="city" />
+	 <result property="areaCode" column="areaCode"/>
+	 <result property="detailAddress" column="detailAddress" />
+	 <result property="drawerName" column="drawerName" />
+	 <result property="drawerNumber" column="drawerNumber" />
+	 <result property="mobileNumber" column="mobileNumber" />
+	 <result property="zipCode" column="zipCode" />
+     <result property="createDate" column="createDate"/>
+  </resultMap>
+  
+  <!-- 查询收货人的地址 -->
+  <select id="selectAddress" resultMap="t_address" parameterClass="long" >
+      <![CDATA[
+         select * from tbl_drawer_address t  where t.memberId=#memberId# order by createDate desc
+      ]]>
+  </select>
+  
+  <!-- 插入收货人的地址 -->
+  <insert id="insertAddress" parameterClass="address">
+     <![CDATA[
+        insert into tbl_drawer_address(
+                     id,
+                     memberId,
+                     city,
+                     areaCode,
+                     detailAddress,
+                     drawerName,
+                     drawerNumber,
+                     mobileNumber,
+                     zipCode,
+                     createDate)
+              values(
+                     #id#,
+                     #memberId#,
+                     #city#,
+                     #areaCode#,
+                     #detailAddress#,
+                     #drawerName#,
+                     #drawerNumber#,
+                     #mobileNumber#,
+                     #zipCode#,
+                     #createDate#) ]]>
+  </insert>
+  
+    <!-- 查询单个的地址信息 -->
+  <select id="findAddressInfo" resultMap="t_address" parameterClass="long" >
+      <![CDATA[
+         select * from tbl_drawer_address t  where t.id=#addID#
+      ]]>
+  </select>
+  
+  <delete id="deleteAddressInfo" parameterClass="long">
+     <![CDATA[ delete from tbl_drawer_address t where t.id=#addID# ]]>
+  </delete>
+  
+  <update id="updateAddressInfo" parameterClass="address">
+      <![CDATA[
+         update tbl_drawer_address t 
+            set t.city=#city#,
+                t.areaCode=#areaCode#,
+                t.detailAddress=#detailAddress#,
+                t.drawerName=#drawerName#,
+                t.drawerNumber=#drawerNumber#,
+                t.zipCode=#zipCode#
+         where t.id=#id#
+      ]]>
+  </update>
+</sqlMap> 

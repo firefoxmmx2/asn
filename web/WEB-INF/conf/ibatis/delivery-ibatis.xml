@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="delivery">
+	<typeAlias alias="Logistics" type="com.bornsoft.asn.bean.ship.Logistics"/>
+	<resultMap class="Logistics" id="LogisticsResult">
+		<result property="Id" column="ID"/>
+		<result property="logiName" column="NAME"/>
+		<result property="officialSite" column="OFFICIAL_SITE"/>
+		<result property="querySite" column="QUERY_SITE"/>
+		<result property="address" column="ADDRESS"/>
+		<result property="postCode" column="POST_CODE"/>
+		<result property="phones" column="PHONES"/>
+		<result property="Email" column="EMAIL"/>
+		<result property="linkMan" column="LINK_MAN"/>
+		<result property="createMan" column="CREATE_MAN"/>
+		<result property="createTime" column="CREATE_TIME"/>
+		<result property="status" column="STATUS"/>
+	</resultMap>
+	
+	<select id="getLogistics" resultMap="LogisticsResult">
+		select * from TBL_LOGISTICS
+	</select>
+	
+	
+	<typeAlias alias="Delivery" type="com.bornsoft.asn.bean.ship.Delivery"/>
+	<resultMap class="Delivery" id="DeliveryResult">
+		<result property="Id" column="ID"/>
+		<result property="orderId" column="BILL_NO"/>
+		<result property="logisticsId" column="LOGISTICS_ID"/>
+		<result property="deliveryId" column="DELIVERY_ID"/>
+		<result property="logisticsMan" column="LOGISTICS_MAN"/>
+		<result property="logisticsTime" column="LOGISTICS_TIME"/>
+		<result property="deliverer" column="DELIVERER"/>
+		<result property="delivererTime" column="DELIVERY_DATE"/>
+		<result property="status" column="STATUS"/>
+		<result property="createMan" column="CREATE_MAN"/>
+		<result property="createTime" column="CREATE_TIME"/>
+	</resultMap>
+	
+	<insert id="insertShipDelivery" parameterClass="Delivery">
+		insert into tbl_product_delivery(
+					ID,
+					BILL_NO,
+					LOGISTICS_ID,
+					DELIVERY_ID,
+					LOGISTICS_MAN,
+					LOGISTICS_TIME,
+					DELIVERER,
+					DELIVERY_DATE,
+					STATUS,
+					CREATE_MAN,
+					CREATE_TIME
+				)values(
+					#Id#,
+					#orderId#,
+					#logisticsId#,
+					#deliveryId#,
+					#logisticsMan#,
+					#logisticsTime#,
+					#deliverer#,
+					#delivererTime#,
+					#status#,
+					#createMan#,
+					#createTime#
+				)
+	</insert>
+	
+	<resultMap class="Delivery" id="DeliveryResult-m" extends="DeliveryResult">
+		<result property="logistics" select="getLogisticsById" column="LOGISTICS_ID"/>
+	</resultMap>
+	
+	<select id="getDeliveryById" parameterClass="java.util.HashMap" resultMap="DeliveryResult-m">
+		select * from tbl_product_delivery where BILL_NO = #orderId#
+	</select>
+	
+	<select id="getLogisticsById" resultMap="LogisticsResult">
+		select * from TBL_LOGISTICS where ID = #logisticsId#
+	</select>
+	
+</sqlMap>

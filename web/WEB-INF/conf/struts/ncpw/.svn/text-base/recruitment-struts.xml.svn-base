@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+
+	<package name="recruitment" extends="struts-asn" namespace="/do/recr">
+		<action name="toCreateRecruitment" class="com.bornsoft.asn.action.recruitment.RecruitmentAction" method="toCreateRecruitment">
+			<result name="success" type="tilesmap">/do/recruitment/createRecruitment.jsp</result>
+		</action>
+		<action name="createRecruitment" class="com.bornsoft.asn.action.recruitment.RecruitmentAction" method="createRecruitment">
+			<result name="success" type="tilesmap">/do/recruitment/createSuccess.jsp</result>
+		</action>
+		<action name="toRecruitmentList" class="com.bornsoft.asn.action.recruitment.RecruitmentAction" method="toRecruitmentList">
+			<result name="success" type="tilesmap">/do/recruitment/recruitmentList.jsp</result>
+		</action>
+		<action name="setRecruitmentStatus" class="com.bornsoft.asn.action.recruitment.RecruitmentAction" method="setRecruitmentStatus">
+			<result name="success" type="chain">toRecruitmentList</result>
+			<result name="input" type="tilesmap">/do/recruitment/input.jsp</result>
+		</action>
+		<action name="toUpdateRecruitment" class="com.bornsoft.asn.action.recruitment.RecruitmentAction" method="toUpdateRecruitment">
+			<result name="success" type="tilesmap">/do/recruitment/updateRecruitment.jsp</result>
+			<result name="input" type="tilesmap">/do/recruitment/input.jsp</result>
+		</action>
+		<action name="updateRecruitment" class="com.bornsoft.asn.action.recruitment.RecruitmentAction" method="updateRecruitment">
+			<result name="success" type="tilesmap">/do/recruitment/createSuccess.jsp</result>
+			<result name="input" type="tilesmap">/do/recruitment/input.jsp</result>
+		</action>
+		<action name="toEmployeeList" class="com.bornsoft.asn.action.recruitment.RecruitmentAction" method="toEmployeeList">
+			<result name="success" type="tilesmap">/do/recruitment/employeeList.jsp</result>
+			<result name="input" type="tilesmap">/do/recruitment/input.jsp</result>
+		</action>
+		<action name="deleteEmployee" class="com.bornsoft.asn.action.recruitment.RecruitmentAction" method="deleEmployee">
+			<result name="success" type="chain">toEmployeeList</result>
+			<result name="input" type="tilesmap">/do/recruitment/input.jsp</result>
+		</action>
+		<action name="showEmployee" class="com.bornsoft.asn.action.recruitment.RecruitmentAction" method="showEmployee">
+			<result name="success" type="tilesmap">/do/recruitment/showEmployee.jsp</result>
+			<result name="input" type="tilesmap">/do/recruitment/input.jsp</result>
+		</action>
+		<action name="setEmployeeUse" class="com.bornsoft.asn.action.recruitment.RecruitmentAction" method="setEmployeeUse">
+			<result name="success" type="chain">toEmployeeList</result>
+			<result name="input" type="tilesmap">/do/recruitment/input.jsp</result>
+		</action>
+	</package>
+
+</struts>   

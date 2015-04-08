@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+
+	<package name="info-front" extends="struts-asn" namespace="/front/info">
+		<action name="showInfoMain" class="com.bornsoft.asn.action.information.InfoAction" method="showInfoMain">
+			<result name="success" type="tilesmap">/front/information/infoMain.jsp</result>
+		</action>
+		<action name="showInfo1" class="com.bornsoft.asn.action.information.InfoAction" method="showInfo1">
+			<result name="success">/front/information/info1.jsp</result>
+		</action>
+		<action name="showInfo2" class="com.bornsoft.asn.action.information.InfoAction" method="showInfo2">
+			<result name="success">/front/information/info2.jsp</result>
+		</action>
+		<action name="showInfo3" class="com.bornsoft.asn.action.information.InfoAction" method="showInfo3">
+			<result name="success">/front/information/info3.jsp</result>
+		</action>
+		<action name="showInfo4" class="com.bornsoft.asn.action.information.InfoAction" method="showInfo4">
+			<result name="success">/front/information/info4.jsp</result>
+		</action>
+		<action name="showSupplyInfoList" class="com.bornsoft.asn.action.information.SupplyInfoAction" method="showSupplyInfoList">
+			<result name="success" type="tilesmap">/front/information/supplyInfoList.jsp</result>
+		</action>
+		<action name="showPurchaseInfoList" class="com.bornsoft.asn.action.information.PurchaseInfoAction" method="showPurchaseInfoList" >
+			<result name="success" type="tilesmap">/front/information/purchaseInfoList.jsp</result>
+		</action>
+		<action name="showSupplyInfoList1" class="com.bornsoft.asn.action.information.SupplyInfoAction" method="showSupplyInfoList1">
+			<result name="success" type="tilesmap">/front/information/supplyInfoList1.jsp</result>
+		</action>
+		<action name="showPurchaseInfoList1" class="com.bornsoft.asn.action.information.PurchaseInfoAction" method="showPurchaseInfoList1">
+			<result name="success" type="tilesmap">/front/information/purchaseInfoList1.jsp</result>
+		</action>
+		<action name="showSupplyInfo" class="com.bornsoft.asn.action.information.SupplyInfoAction" method="showSupplyInfo">
+			<result name="success" type="tilesmap">/front/information/supplyInfo.jsp</result>
+			<result name="censor" type="tilesmap">/front/information/noInfo.jsp</result>
+		</action>
+		<action name="showPurchaseInfo" class="com.bornsoft.asn.action.information.PurchaseInfoAction" method="showPurchaseInfo">
+			<result name="success" type="tilesmap">/front/information/purchaseInfo.jsp</result>
+			<result name="censor" type="tilesmap">/front/information/noInfo.jsp</result>
+		</action>
+		
+		<action name="XiuShanInfo1" class="com.bornsoft.asn.action.information.InfoAction" method="xiuShanInfo1">
+			<result name="success">/front/information/xiushan/xiushanInfo1.jsp</result>
+		</action>
+		<action name="XiuShanInfo2" class="com.bornsoft.asn.action.information.InfoAction" method="xiuShanInfo2">
+			<result name="success">/front/information/xiushan/xiushanInfo2.jsp</result>
+		</action>
+		<action name="XiuShanInfo3" class="com.bornsoft.asn.action.information.InfoAction" method="xiuShanInfo3">
+			<result name="success">/front/information/xiushan/xiushanInfo3.jsp</result>
+		</action>
+		<action name="XiuShanInfo4" class="com.bornsoft.asn.action.information.InfoAction" method="xiuShanInfo4">
+			<result name="success">/front/information/xiushan/xiushanInfo4.jsp</result>
+		</action>
+	</package>
+
+</struts>   

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+
+	<package name="toproductType" extends="struts-default" namespace="/do/productType">
+		<action name="getAllType" method="getAllType" class="com.bornsoft.asn.action.productType.ProductTypeAction">
+			<result name="success">/do/productType/productType.jsp</result>			
+		</action>
+		
+		<action name="productType" method="productType" class="com.bornsoft.asn.action.productType.ProductTypeAction">
+			<result name="success">/do/productType/productType2.jsp</result>			
+		</action>
+		
+		<action name="getSonType" method="getSonType" class="com.bornsoft.asn.action.productType.ProductTypeAction">
+		</action>
+		<action name="getThirdType" method="getThirdType" class="com.bornsoft.asn.action.productType.ProductTypeAction"></action>
+	</package>
+
+</struts>    

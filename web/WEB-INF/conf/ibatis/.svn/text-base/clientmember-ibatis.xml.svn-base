@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap>
+	<cacheModel type="LRU" id="clientGroupCache">
+		<flushInterval hours="12"/>
+		<flushOnExecute statement="addClientServiceRecord"/>
+		<flushOnExecute statement="delClientServiceRecord"/>
+		<flushOnExecute statement="getUpClientServiceRecord"/>
+		<flushOnExecute statement="upClientServiceRecord"/>
+		<flushOnExecute statement="getClientGradeScore"/>
+		<flushOnExecute statement="upGradeScore"/>
+	</cacheModel>
+	
+	<typeAlias alias="Member" type="com.bornsoft.asn.bean.member.Member"/>
+	<resultMap id="MemberResult" class="Member">
+		<result property="memberId" column="MEMBER_ID"/>
+		<result property="memberType" column="MEMBER_TYPE"/>
+		<result property="certType" column="CERT_TYPE"/>
+		<result property="certId" column="CERT_ID"/>
+		<result property="fullName" column="FULL_NAME"/>
+		<result property="shortName" column="SHORT_NAME"/>
+		<result property="area" column="AREA"/>
+		<result property="email" column="EMAIL"/>
+		<result property="fixedPhone" column="FIXED_PHONE"/>
+		<result property="mobilePhone" column="MOBILE_PHONE"/>
+		<result property="zip" column="ZIP"/>
+		<result property="address" column="ADDRESS" />
+		<result property="contactor" column="CONTACTOR" />
+		<result property="approveState" column="APPROVE_STATE"/>
+		<result property="lockState" column="LOCK_STATE"/>
+		<result property="registerTime" column="REGISTER_TIME"/>
+		<result property="lastLoginTime" column="LAST_LOGIN_TIME"/>
+		<result property="lastLoginIp" column="LAST_LOGIN_IP"/>
+		<result property="ssoAccount" column="SSO_ACCOUNT"/>
+		<result property="mailVerifyCode" column="MAIL_VERIFY_CODE"/>
+		<result property="qq" column="QQ"/>
+		<result property="notifyMail" column="NOTIFY_MAIL"/>
+		<result property="notifySms" column="NOTIFY_SMS"/>
+		<result property="gradeScore" column="GRADE_SCORE"/>
+	</resultMap>
+	
+	<typeAlias alias="TraceMessage" type="com.bornsoft.asn.bean.client.TraceMessage"/>
+	<resultMap id="TraceMessageResult" class="TraceMessage">
+		<result property="id" column="ID"/>
+		<result property="title" column="TITLE"/>
+		<result property="customer" column="CUSTOMER"/>
+		<result property="createTime" column="CREATE_TIME"/>
+		<result property="modifyTime" column="MODIFY_TIME"/>
+		<result property="createMan" column="CREATE_MAN"/>
+		<result property="content" column="CONTENT"/>
+	</resultMap>
+	
+	<typeAlias alias="Order" type="com.bornsoft.asn.bean.order.Order"/>
+	<resultMap id="OrderResult" class="Order">
+		<result property="drawerName" column="DRAWERNAME"/>
+		<result property="detailAddress" column="DETAILADDRESS"/>
+		<result property="drawerNumber" column="DRAWERNUMBER"/>
+		<result property="createTime" column="CREATETIME"/>
+		<result property="memberId" column="MEMBERID"/>
+		<result property="postFee" column="POSTFEE"/>
+		<result property="totalAmount" column="TOTALAMOUNT"/>
+		<result property="supplierId" column="SUPPLIERID"/>
+	</resultMap>
+	
+	 <typeAlias alias="MemberGroup" type="com.bornsoft.asn.action.member.MemberGroup" /> 
+		  <resultMap class="MemberGroup" id="memberGroup-result">
+		  <result property="GROUP_NAME" column="GROUP_NAME" /> 
+		  <result property="BELONG_TO" column="BELONG_TO" /> 
+		  <result property="ID" column="ID" /> 
+  	</resultMap>
+  	
+  	<typeAlias alias="MemberGroupRelation" type="com.bornsoft.asn.action.member.MemberGroupRelation" />
+	<resultMap class="MemberGroupRelation" id="memberGroupRelation-result">
+		<result property="GROUP_ID" column="GROUP_ID" />
+		<result property="MEMBER_ID" column="MEMBER_ID" />
+	</resultMap>
+	
+	<resultMap class="Member" id="Member-result">
+	  <result property="memberId" column="MEMBER_ID" /> 
+	  <result property="ssoAccount" column="SSO_ACCOUNT" /> 
+	  <result property="memberType" column="MEMBER_TYPE" /> 
+	  <result property="fullName" column="FULL_NAME" /> 
+	  <result property="area" column="AREA" /> 
+  	</resultMap>
+	
+	
+	<!--  得到分组组别的总数 --> 
+<select id="findMemberGroupCount" parameterClass="HashMap" resultClass="int">
+  select count(*) from TBL_Member_Group t 
+<dynamic prepend="where">
+  <isNotEmpty prepend="and" property="GROUP_NAME">t.GROUP_NAME like '%$GROUP_NAME$%'</isNotEmpty> 
+  <isNotNull prepend="and" property="BELONG_TO"> t.belong_to='$BELONG_TO$'</isNotNull> 
+  </dynamic>
+  </select>
+	
+	<!--  得到组名LIST--> 
+<select id="findMemberGroupList" parameterClass="HashMap" resultMap="memberGroup-result">
+  select x.* from ( select t.*,row_number() over (order by t.ID) num from TBL_MEMBER_GROUP t 
+<dynamic prepend="where">
+  <isNotEmpty prepend="and" property="BELONG_TO">belong_to='$BELONG_TO$'</isNotEmpty> 
+  <isNotEmpty prepend="and" property="GROUP_NAME"> group_name like '%$GROUP_NAME$%'</isNotEmpty> 
+  order by t.ID desc ) x 
+</dynamic>
+  </select>
+	
+	<!--  创建分组--> 
+  <insert id="insertMemberGroup" parameterClass="MemberGroup">
+  	insert into TBL_Member_Group(GROUP_NAME,BELONG_TO,ID) values (#GROUP_NAME#,#BELONG_TO#,#ID#)
+  </insert> 
+	
+<!--  得到组员总数 --> 
+<select id="findGroupMemberCount" parameterClass="HashMap" resultClass="int">
+  select count(*) from tbl_member t 
+	<dynamic prepend="where">
+  		<isNotEmpty prepend="and" property="GROUP_ID">t.member_id in (select member_id from tbl_member_group_relation where group_id='$GROUP_ID$')</isNotEmpty> 
+  	</dynamic>
+</select>
+
+<!--  得到组员信息 --> 
+<select id="findGroupMemberList" parameterClass="HashMap" resultMap="Member-result">
+  select MEMBER_ID,SSO_ACCOUNT,MEMBER_TYPE,FULL_NAME,AREA from tbl_member t 
+<dynamic prepend="where">
+  <isNotEmpty prepend="and" property="GROUP_ID">t.member_id in (select member_id from tbl_member_group_relation where group_id='$GROUP_ID$')</isNotEmpty> 
+</dynamic>
+</select>
+	
+	<!-- 查询当前供货商的会员列表 -->
+	<select id="getClient" parameterClass="HashMap" resultMap="MemberResult" cacheModel="clientGroupCache">	
+	select * from (select tm.*,rownum r from (
+		select * from tbl_member where member_id in (select memberid from tbl_order_info where supplierid=#mId#)
+		<dynamic>
+			<isNotEmpty prepend="and" property="memberType">
+				MEMBER_TYPE = '$memberType$'
+			</isNotEmpty>	
+			<isNotEmpty prepend="and" property="fullName">
+				FULL_NAME like '%$fullName$%'
+			</isNotEmpty>	
+			<isNotEmpty prepend="and" property="area">
+				area like '%$area$%'
+			</isNotEmpty>	
+			<isNotEmpty prepend="and" property="approveState">
+				APPROVE_STATE = '$approveState$'
+			</isNotEmpty>	
+		</dynamic>
+		) tm)
+	<![CDATA[
+    		where r>=#startCount# and r<=#endCount#
+    	 ]]>
+	</select>
+	<!-- 求供货商会员总数 -->
+	<select id="getClientCount" parameterClass="HashMap" resultClass="int" cacheModel="clientGroupCache">
+		select count(*) from tbl_member where member_id in (select memberid from tbl_order_info where supplierid=#mId#)
+		<dynamic>
+			<isNotEmpty prepend="and" property="memberType">
+				MEMBER_TYPE = '$memberType$'
+			</isNotEmpty>	
+			<isNotEmpty prepend="and" property="fullName">
+				FULL_NAME like '%$fullName$%'
+			</isNotEmpty>	
+			<isNotEmpty prepend="and" property="area">
+				area like '%$area$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="approveState">
+				APPROVE_STATE = '$area$'
+			</isNotEmpty>	
+		</dynamic>
+	</select>
+	
+	<!-- 取得客户消费信息-->
+	<select id="getClientConsumeInfo" parameterClass="HashMap" resultClass="Order" cacheModel="clientGroupCache">
+	select * from (select tm.*,rownum r from (
+		select * from TBL_ORDER_INFO where SUPPLIERID=#mId#
+		<dynamic>
+			<isNotEmpty prepend="and" property="drawerName">
+				DRAWERNAME like '%$drawerName$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="startTime">
+				createtime>=to_timestamp('$startTime$', 'syyyy-mm-dd hh24:mi:ss') 
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="endTime">
+				createtime<![CDATA[<=]]>to_timestamp('$endTime$', 'syyyy-mm-dd hh24:mi:ss')
+			</isNotEmpty>
+			) tm)
+		</dynamic>
+		<![CDATA[
+    		where r>=#startCount# and r<=#endCount#
+    	 ]]> 
+	</select>
+	<!-- 取得客户消费信息-->
+	<select id="getClientConsumeCount" parameterClass="long" resultClass="int" cacheModel="clientGroupCache">
+		select count(*) from TBL_ORDER_INFO where SUPPLIERID=#mId#
+	</select>
+	
+	 <!--  删除分组 --> 
+  <delete id="deleteMemberGroup" parameterClass="MemberGroup">
+  	delete from TBL_Member_Group where ID =#ID#
+  </delete> 
+	
+	<!--  删除组别时同时删除组别内的会员  --> 
+  <delete id="deleteInGroupMember" parameterClass="MemberGroupRelation">
+  delete from TBL_Member_group_Relation where GROUP_ID=#GROUP_ID#
+  </delete> 
+  
+	<!--  修改组名 --> 
+	<update id="upGroupName" parameterClass="MemberGroup">
+		update tbl_member_group set group_name=#GROUP_NAME# where id=#ID#
+	</update> 
+	
+	 <!--  对会员进行分组 --> 
+  <insert id="insertGroup" parameterClass="MemberGroupRelation">
+  	insert into TBL_Member_group_Relation (member_id,group_id) values (#MEMBER_ID#,#GROUP_ID#)
+  </insert> 
+	
+	<!--  得到未分组组员信息 --> 
+<select id="getUnGroupedMemberList" parameterClass="HashMap" resultMap="Member-result">
+  select * from tbl_member where member_id not in (select member_id from tbl_member_group_relation where group_id in(select ID from tbl_member_group where belong_to='$BELONG_TO$')) and approve_state='Completed' 
+<dynamic>
+  <isNotEmpty prepend="and" property="ssoAccount">sso_account='$ssoAccount$'</isNotEmpty> 
+  </dynamic>
+  </select>
+	
+	
+	 <!--  得到要编辑组名的旧组名 --> 
+  <select id="getEditGroup" parameterClass="MemberGroup" resultMap="memberGroup-result">
+  	select * from tbl_member_group where id='$ID$'
+  </select> 
+	
+	<!--  删除组别内的会员--> 
+  <delete id="deleteGroupMember" parameterClass="MemberGroupRelation">
+  	delete from TBL_Member_group_Relation where MEMBER_ID=#MEMBER_ID#
+  </delete> 
+	
+	
+	<!-- 查询客户跟踪记录 -->
+	<select id="getClientServiceRecord" parameterClass="HashMap" resultMap="TraceMessageResult" cacheModel="clientGroupCache">
+	select * from (select tm.*,rownum r from (
+	
+		select * from TBL_MEMBER_TRACE_MESSAGE where create_man=#mId#
+		<dynamic>
+			<isNotEmpty prepend="and" property="selTitle">
+				title like '%$selTitle$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="selCustomer">
+				customer like '%$selCustomer$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="startTime">
+				create_time>=to_timestamp('$startTime$', 'syyyy-mm-dd hh24:mi:ss') 
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="endTime">
+				create_time<![CDATA[<=]]>to_timestamp('$endTime$', 'syyyy-mm-dd hh24:mi:ss') 
+			</isNotEmpty>
+			) tm)
+		</dynamic>
+		<![CDATA[
+    		where r>=#startCount# and r<=#endCount#
+    	 ]]> 
+	</select>
+	
+	<!-- 查询客户跟踪记录数 -->
+	<select id="getClientServiceRecordCount" parameterClass="HashMap" resultClass="int" cacheModel="clientGroupCache">
+		select count(*) from TBL_MEMBER_TRACE_MESSAGE where create_man=#mId#
+		<dynamic>
+			<isNotEmpty prepend="and" property="selTitle">
+				title like '%$selTitle$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="selCustomer">
+				customer like '%$selCustomer$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="startTime">
+				create_time>=to_timestamp('$startTime$', 'syyyy-mm-dd hh24:mi:ss') 
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="endTime">
+				create_time<![CDATA[<=]]>to_timestamp('$endTime$', 'syyyy-mm-dd hh24:mi:ss') 
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<!-- 得到供货商未分组组员信息 -->
+	<select id="UnGroupedMemberList" parameterClass="HashMap"
+		resultMap="MemberResult">
+		select * from tbl_member where member_id  not in (select member_id from tbl_member_group_relation 
+where group_id in(select ID from tbl_member_group where belong_to='$BELONG_TO$')) and approve_state='Completed'
+		 and member_id  in (select memberid from tbl_order_info where supplierid='$BELONG_TO$')
+		<dynamic>
+			<isNotEmpty prepend="and" property="ssoAccount">
+				 sso_account like '%$ssoAccount$%'
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	
+	<!-- 添加客户跟踪服务记录-->
+	<insert id="addClientServiceRecord" parameterClass="TraceMessage">
+		insert into TBL_MEMBER_TRACE_MESSAGE (ID,TITLE,CUSTOMER,CREATE_TIME,MODIFY_TIME,CREATE_MAN,CONTENT) 
+		values (#id#,#title#,#customer#,#createTime#,#modifyTime#,#createMan#,#content#)
+	</insert>
+	<!-- 添加客户跟踪服务记录-->
+	<delete id="delClientServiceRecord" parameterClass="String">
+		delete from TBL_MEMBER_TRACE_MESSAGE where ID=#delId#
+	</delete>
+	<!-- 添加客户跟踪服务记录-->
+	<select id="getUpClientServiceRecord" parameterClass="String" resultMap="TraceMessageResult" cacheModel="clientGroupCache">
+		select * from TBL_MEMBER_TRACE_MESSAGE where id=#upId#	
+	</select>
+	<!-- 添加客户跟踪服务记录-->
+	<update id="upClientServiceRecord" parameterClass="TraceMessage">
+		update TBL_MEMBER_TRACE_MESSAGE set title=#title#,customer=#customer#,content=#content#,MODIFY_TIME=#modifyTime# where id=#id#
+	</update>
+	<!-- 取得要修改客户积分等级的客户信息-->
+	<select id="getClientGradeScore" parameterClass="long" resultClass="long" cacheModel="clientGroupCache">
+		select GRADE_SCORE from TBL_MEMBER where member_id=#upId#
+	</select>
+	<!-- 修改客户积分-->
+	<update id="upGradeScore" parameterClass="Member">
+		update tbl_member set grade_score=#gradeScore# where member_id=#memberId#
+	</update>	
+	
+</sqlMap>

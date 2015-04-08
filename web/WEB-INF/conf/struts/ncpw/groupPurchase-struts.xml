@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+
+	<package name="adminGroupPurchase" extends="struts-asn" namespace="/admin/groupPurchase">
+		<action name="getMemberBuyDetail" method="getMemberBuyDetail" class="com.bornsoft.asn.action.groupPurchase.GroupPurchaseManagerAction">
+			<result name="success" type="tilesmap">/admin/groupPurchase/getMemberBuyDetail.jsp</result>		
+		</action>
+		<!--<action name="myBuyDetail" method="getMemberBuyDetail" class="com.bornsoft.asn.action.groupPurchase.GroupPurchaseManagerAction">
+			<result name="success" type="tilesmap">/do/groupPurchase/myBuyDetail.jsp</result>		
+		</action>-->
+		
+		<action name="listGroupPurchase" method="listGroupPurchase" class="com.bornsoft.asn.action.groupPurchase.GroupPurchaseManagerAction">
+			<result name="success" type="tilesmap">/admin/groupPurchase/groupPurchase_list.jsp</result>		
+		</action>
+		
+		<action name="removeGroupPurchase" method="removeGroupPurchase" class="com.bornsoft.asn.action.groupPurchase.GroupPurchaseManagerAction">
+			<result name="success" type="chain">listGroupPurchase</result>		
+		</action>
+		
+		<action name="displayGroupPD" method="displayGroupPurchaseDetail" class="com.bornsoft.asn.action.groupPurchase.GroupPurchaseManagerAction">
+			<result type="tilesmap">/admin/groupPurchase/groupPurchaseDetail.jsp</result>
+		</action>
+		<action name="mkgMemberValid" method="makeGroupMemberVaild" class="com.bornsoft.asn.action.groupPurchase.GroupPurchaseManagerAction">
+			<result type="chain">displayGroupPD</result>
+		</action>
+		<action name="mkgMemberInvalid" method="makeGroupMemberInvaild" class="com.bornsoft.asn.action.groupPurchase.GroupPurchaseManagerAction">
+			<result type="chain">displayGroupPD</result>
+		</action>
+		
+		<action name="statusGroupPurchase" method="statusGroupPurchase" class="com.bornsoft.asn.action.groupPurchase.GroupPurchaseManagerAction">
+			<result name="success" type="chain">listGroupPurchase</result>		
+		</action>
+		
+		<action name="toCreateGroupPurchase" method="toCreateGroupPurchase" class="com.bornsoft.asn.action.groupPurchase.GroupPurchaseManagerAction">
+			<result name="success" type="tilesmap">/admin/groupPurchase/createGroupPurchase.jsp</result>
+		</action>
+		<action name="appendGroupPurchase" method="appendGroupPurchase" class="com.bornsoft.asn.action.groupPurchase.GroupPurchaseManagerAction">
+			<result name="success" type="chain">listGroupPurchase</result>
+		</action>
+		<action name="toUpdateGroupPurchase" method="toUpdateGroupPurchase" class="com.bornsoft.asn.action.groupPurchase.GroupPurchaseManagerAction">
+			<result name="success" type="tilesmap">/admin/groupPurchase/updateGroupPurchase.jsp</result>
+		</action>
+		<action name="modifyGroupPurchase" method="modifyGroupPurchase" class="com.bornsoft.asn.action.groupPurchase.GroupPurchaseManagerAction">
+			<result name="success" type="chain">listGroupPurchase</result>
+		</action>	
+		
+		
+	</package>
+	<package name="memberGroupPurchase" extends="struts-asn" namespace="/do/groupPurchase">
+		<action name="myGroupPurchases" method="myGroupPurchases" class="com.bornsoft.asn.action.groupPurchase.GroupPurchaseManagerAction">
+			<result name="success" type="tilesmap">/do/groupPurchase/myGroupPurchases.jsp</result>		
+		</action>
+		<action name="displayMyGroupPD" method="displayMyGroupPurchaseDetail" class="com.bornsoft.asn.action.groupPurchase.GroupPurchaseManagerAction">
+			<result type="tilesmap">/do/groupPurchase/groupPurchaseDetail.jsp</result>
+		</action>
+		<action name="getMemberBuyDetail" method="getMemberBuyDetail" class="com.bornsoft.asn.action.groupPurchase.GroupPurchaseManagerAction">
+			<result name="success" type="tilesmap">/admin/groupPurchase/getMemberBuyDetail.jsp</result>		
+		</action>
+	</package>
+	
+	<package name="grouppurchaseFront" extends="struts-asn" namespace="/front/groupPurchase">		
+		<!--insert获取团购信息  cz sel 2010-12-11 -->
+		<!--
+		<action name="getGroupPurchaseInfoById" method="getGroupPurchaseInfoById" class="com.bornsoft.asn.action.groupPurchase.GroupPurchaseDisplayAction">
+			<result name="success">/front/groupPurcase/groupPurchase.jsp</result>
+		</action>
+		-->
+		
+		<!--绿优鲜网上超市 2010-12-11 -->
+		<!--
+		<action name="getGroupPurchaseOnApg" method="getGroupPurchaseInfoByIdOnApg" class="com.bornsoft.asn.action.groupPurchase.GroupPurchaseDisplayAction">
+			<result name="success">/front/groupPurcase/groupPurchase_apg.jsp</result>
+		</action>
+		-->
+			
+		<!--获取团购明细  cz sel 2010-12-11 -->
+		<!--
+		<action name="getGroupPurchaseDetail" method="getGroupPurchaseDetailById" class="com.bornsoft.asn.action.groupPurchase.GroupPurchaseDisplayAction">
+			<result name="success">/front/groupPurcase/joinGroupPurchase.jsp</result>
+		</action>
+		-->
+		
+		<!--insert团购成员  cz  2010-12-11 -->
+		<!--
+		<action name="addGroupPurchaseMember" method="addGroupPurchaseMember" class="com.bornsoft.asn.action.groupPurchase.GroupPurchaseDisplayAction">
+			<result name="success">/front/groupPurcase/joinGroupPurchaseOk.jsp</result>
+		</action>
+		-->
+	</package> 
+
+</struts>

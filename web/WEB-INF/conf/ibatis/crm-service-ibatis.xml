@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="crm-service">
+	<cacheModel type="OSCACHE" id="crmSerCache" readOnly="true">
+		<flushInterval hours="12" />
+		<flushOnExecute statement="insertCrmSer" />
+		<flushOnExecute statement="updateCrmSer" />
+		<flushOnExecute statement="deleteCrmSer" />
+		<property name="size" value="1000" />
+	</cacheModel><!-- 客户排程 -->
+	<typeAlias alias="CrmSer" type="com.bornsoft.asn.bean.crm.CrmServicePlan" /><!-- 
+		客户排程结果集 -->
+	<resultMap class="CrmSer" id="CrmSer">
+		<result property="id" />
+		<result property="title" />
+		<result property="content" />
+		<result property="type" />
+		<result property="sendType" />
+		<result property="excuteType" />
+		<result property="createTime" />
+		<result property="createMan" />
+		<result property="timing" />
+		<result property="sendTime" />
+		<result property="status" />
+	</resultMap><!-- 添加排程 -->
+	<insert id="insertCrmSer" parameterClass="CrmSer">
+		insert into
+		tbl_service_plan(id,title,content,type,send_type,excute_type,create_time,create_man,timing,send_time,status)
+		values(#id#,#title#,#content#,#type#,#sendType#,#excuteType#,#createTime#,#createMan#,#timing#,#sendTime#,#status#)
+	</insert><!-- 更新排程 -->
+	<update id="updateCrmSer" parameterClass="CrmSer">
+		update tbl_service_plan
+		set
+		title=#title#,content=#content#,type=#type#,send_type=#sendType#,excute_type=#excuteType#,
+		timing=#timing#,send_time=#sendTime#,status=#status#
+		where id=#id#
+	</update><!-- 删除排程 -->
+	<delete id="deleteCrmSer" parameterClass="Long">
+		delete from
+		tbl_service_plan where id = #value#
+	</delete>
+
+	<select id="getCrmSerById" cacheModel="crmSerCache" resultMap="CrmSer"
+		parameterClass="Long">
+		select t.* from tbl_service_plan t where t.id = #value#
+	</select>
+	<!-- 根据条件查询排程 -->
+	<select id="getCrmSer" cacheModel="crmSerCache" parameterClass="map"
+		resultMap="CrmSer">
+		select t.* from tbl_service_plan t
+		<dynamic prepend="where">
+			<isPropertyAvailable property="title" prepend="and">
+				t.title like '%$title$%'
+			</isPropertyAvailable>
+			<isPropertyAvailable property="status" prepend="and">
+				t.status = #status#
+			</isPropertyAvailable>
+		</dynamic>
+	</select>
+	<cacheModel type="OSCACHE" id="selectCustomersCache">
+		<flushInterval hours="12" />
+		<flushOnExecute statement="insertPlanMapping" />
+		<flushOnExecute statement="deletePlanMapping" />
+		<property name="size" value="1000" />
+	</cacheModel>
+	<!-- 获取需要加入服务客户 -->
+	<select id="getSelectedCustomers" cacheModel="selectCustomersCache"
+		resultMap="member.MemberResult" parameterClass="map">
+		select t.* from tbl_member t where member_id in (
+		select distinct
+		m.member_id
+		from
+		tbl_service_plan_mapping m, tbl_order_info o where
+		t.member_id=m.member_id and
+		o.orderstatus='JYC'
+		<dynamic>
+			<isNotEmpty prepend="and" property="memberId">
+				o.SUPPLIERID =
+				#memberId# 
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="planId">
+				m.plan_id = #planId#
+			</isNotEmpty>
+		</dynamic>
+		)
+	</select>
+
+	<insert id="insertPlanMapping" parameterClass="map">
+		<isPropertyAvailable property="planId">
+			<isPropertyAvailable property="memberId">
+				insert into
+				tbl_service_plan_mapping (plan_id,member_id)
+				values(#planId#,#memberId#)
+			</isPropertyAvailable>
+		</isPropertyAvailable>
+
+	</insert>
+	<delete id="deletePlanMapping" parameterClass="map">
+		<isPropertyAvailable property="planId">
+			<isPropertyAvailable property="memberId">
+				delete from
+				tbl_service_plan_mapping where plan_id = #planId# and member_id =
+				#memberId#
+			</isPropertyAvailable>
+		</isPropertyAvailable>
+
+	</delete>
+</sqlMap>

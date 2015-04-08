@@ -1,0 +1,147 @@
+BODY {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; FONT-SIZE: 12px; BACKGROUND: #fff; PADDING-BOTTOM: 0px; MARGIN: 0px; COLOR: #444; PADDING-TOP: 0px; FONT-FAMILY: Arial, Helvetica, sans-serif,ËÎÌו
+}
+UL {
+	BORDER-TOP-WIDTH: 0px; PADDING-RIGHT: 0px; PADDING-LEFT: 0px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px; BORDER-RIGHT-WIDTH: 0px
+}
+OL {
+	BORDER-TOP-WIDTH: 0px; PADDING-RIGHT: 0px; PADDING-LEFT: 0px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px; BORDER-RIGHT-WIDTH: 0px
+}
+LI {
+	BORDER-TOP-WIDTH: 0px; PADDING-RIGHT: 0px; PADDING-LEFT: 0px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px; BORDER-RIGHT-WIDTH: 0px
+}
+P {
+	BORDER-TOP-WIDTH: 0px; PADDING-RIGHT: 0px; PADDING-LEFT: 0px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px; BORDER-RIGHT-WIDTH: 0px
+}
+FORM {
+	BORDER-TOP-WIDTH: 0px; PADDING-RIGHT: 0px; PADDING-LEFT: 0px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px; BORDER-RIGHT-WIDTH: 0px
+}
+TABLE {
+	BORDER-TOP-WIDTH: 0px; PADDING-RIGHT: 0px; PADDING-LEFT: 0px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px; BORDER-RIGHT-WIDTH: 0px
+}
+TD {
+	BORDER-TOP-WIDTH: 0px; PADDING-RIGHT: 0px; PADDING-LEFT: 0px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px; BORDER-RIGHT-WIDTH: 0px
+}
+INPUT {
+	FONT-SIZE: 12px; LINE-HEIGHT: 16px
+}
+SELECT {
+	FONT-SIZE: 12px; LINE-HEIGHT: 16px
+}
+IMG {
+	BORDER-TOP-WIDTH: 0px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; BORDER-RIGHT-WIDTH: 0px
+}
+UL {
+	LIST-STYLE-TYPE: none
+}
+OL {
+	LIST-STYLE-TYPE: none
+}
+LI {
+	LIST-STYLE-TYPE: none
+}
+A:link {
+	COLOR: #444; FONT-FAMILY: Arial, Helvetica, sans-serif; TEXT-DECORATION: none
+}
+A:visited {
+	COLOR: #444; TEXT-DECORATION: none
+}
+A:hover {
+	COLOR: #FF0000; TEXT-DECORATION: underline
+}
+A:active {
+	COLOR: #db5200
+}
+#box {
+	PADDING-RIGHT: 15px; PADDING-LEFT: 15px; BACKGROUND: url(../images/bodybj.jpg) repeat-y; PADDING-BOTTOM: 0px; MARGIN: 0px auto; WIDTH: 950px; PADDING-TOP: 0px
+}
+
+#pageleft {
+	FLOAT: left; MARGIN-BOTTOM: 10px; WIDTH: 219px; MARGIN-RIGHT: -1px
+}
+#pageleft_02 {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; BACKGROUND: url(../images/pageleft_bj.gif) no-repeat left bottom; PADDING-BOTTOM: 10px; PADDING-TOP: 10px
+}
+#pageleft_02 LI {
+	PADDING-LEFT: 20px; COLOR: #888; LINE-HEIGHT: 35px; FONT-FAMILY: ËÎÌו; font-size:12px;
+}
+#pageleft_02 LI A {
+	FONT-FAMILY: Arial
+}
+#pageleft_02 LI.sel {
+	BACKGROUND: url(../images/pageleft_sel.gif) no-repeat right 50%; COLOR: #ff6600
+}
+#pageleft_02 LI.sel A {
+	COLOR: #f60; FONT-FAMILY: Arial
+}
+#pageright {
+	FLOAT: right; WIDTH: 732px
+}
+#pageright_02 {
+	BORDER-RIGHT: #87ce44 1px solid; BACKGROUND: url(../images/pageright_bj.jpg) no-repeat 50% top; BORDER-LEFT: #87ce44 1px solid
+;WIDTH: 732px}
+#pageright_bottom {
+	BACKGROUND: url(../images/pageright_bottom.jpg) no-repeat 50% bottom; MARGIN-BOTTOM: 10px; LINE-HEIGHT: 15px; HEIGHT: 25px
+}
+#pageright_03 {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 35px; FONT-WEIGHT: bold; BACKGROUND: url(../images/pageright_03.jpg) no-repeat; PADDING-BOTTOM: 0px; MARGIN: 0px 0px 15px 5px; COLOR: #fff; LINE-HEIGHT: 24px; PADDING-TOP: 2px; font-size:12px;
+}
+#pageright_04 {
+	PADDING-RIGHT: 38px; PADDING-LEFT: 38px; PADDING-BOTTOM: 0px; COLOR: #444; LINE-HEIGHT: 17px; PADDING-TOP: 0px
+}
+#pageright_04 IMG {
+	BORDER-RIGHT: #dcdcdc 1px solid; BORDER-TOP: #dcdcdc 1px solid; FLOAT: left; BORDER-LEFT: #dcdcdc 1px solid; MARGIN-RIGHT: 10px; BORDER-BOTTOM: #dcdcdc 1px solid
+}
+.page_blue:link {
+	COLOR: #3063fd
+}
+page_blue:visited {
+	COLOR: #3063fd
+}
+.page_blue:hover {
+	COLOR: #ff6600
+}
+#pageright_fenye01 {
+	BORDER-RIGHT: #d5d5d5 1px solid; PADDING-RIGHT: 10px; BORDER-TOP: #d5d5d5 1px solid; PADDING-LEFT: 10px; PADDING-BOTTOM: 0px; MARGIN: 20px 22px 0px; BORDER-LEFT: #d5d5d5 1px solid; LINE-HEIGHT: 28px; PADDING-TOP: 0px; BORDER-BOTTOM: #d5d5d5 1px solid
+}
+#pageright_jifen {
+	BORDER-RIGHT: #e7e7e7 1px solid; PADDING-RIGHT: 20px; BORDER-TOP: #e7e7e7 1px solid; PADDING-LEFT: 20px; BACKGROUND: #f8faf7; PADDING-BOTTOM: 15px; MARGIN: -15px 22px 0px 23px; BORDER-LEFT: #e7e7e7 1px solid; LINE-HEIGHT: 26px; PADDING-TOP: 15px; BORDER-BOTTOM: #e7e7e7 1px solid
+}
+#pageright_jifen TABLE {
+	WIDTH: 400px
+}
+#pageright_jifen TH {
+	PADDING-RIGHT: 10px; COLOR: #555; TEXT-ALIGN: right
+}
+#pageright_jifen TD {
+	COLOR: #555
+}
+#pageright_pass {
+	BORDER-RIGHT: #e7e7e7 1px solid; PADDING-RIGHT: 50px; BORDER-TOP: #e7e7e7 1px solid; PADDING-LEFT: 50px; BACKGROUND: #f8faf7; PADDING-BOTTOM: 30px; MARGIN: -15px 22px 0px 23px; BORDER-LEFT: #e7e7e7 1px solid; LINE-HEIGHT: 26px; PADDING-TOP: 30px; BORDER-BOTTOM: #e7e7e7 1px solid
+}
+#pageright_pass TABLE {
+	WIDTH: 572px
+}
+#pageright_pass TD {
+	COLOR: #222
+}
+#pageright_person {
+	BORDER-RIGHT: #e7e7e7 1px solid; PADDING-RIGHT: 30px; BORDER-TOP: #e7e7e7 1px solid; PADDING-LEFT: 30px; BACKGROUND: #f8faf7; PADDING-BOTTOM: 20px; MARGIN: -15px 22px 0px 23px; BORDER-LEFT: #e7e7e7 1px solid; LINE-HEIGHT: 35px; PADDING-TOP: 20px; BORDER-BOTTOM: #e7e7e7 1px solid
+}
+#pageright_person TABLE {
+	WIDTH: 600px; LINE-HEIGHT: 28px
+}
+#pageright_person TH {
+	PADDING-RIGHT: 5px; TEXT-ALIGN: right
+}
+#pageright_person TD {
+	COLOR: #222
+}
+#pageright_jilu {BORDER: #d5d5d5 1px solid;  MARGIN: -15px 22px 0px 5px; font-size:12px;}
+#pageright_jilu TABLE {LINE-HEIGHT: 18px}
+#pageright_jilu TH {FONT-WEIGHT: normal; COLOR: #222; LINE-HEIGHT: 25px; BORDER-BOTTOM: #d5d5d5 1px solid;border-right: #d5d5d5 1px solid;}
+#pageright_jilu TD {PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 8px; COLOR: #222; PADDING-TOP: 8px; BORDER-BOTTOM: #d5d5d5 1px solid; TEXT-ALIGN: center; border-right: #d5d5d5 1px solid;}
+#pageright_jilu .jilu {PADDING-LEFT: 15px; BACKGROUND: #f3f3f3; COLOR: #555; LINE-HEIGHT: 16px; TEXT-ALIGN: left}
+
+ 
+

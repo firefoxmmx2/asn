@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="account">
+	<typeAlias alias="Account" type="com.bornsoft.asn.bean.account.Account" />
+	<resultMap class="Account" id="account.AccountResult">
+		<result property="id" column="ID" />
+		<result property="income" column="INCOME" />
+		<result property="expenditure" column="EXPENDITURE" />
+		<result property="balance" column="BALANCE" />
+		<result property="memberId" column="MEMBER_ID" />
+		<result property="description" column="DESCRIPTION" />
+		<result property="createTime" column="CREATE_TIME" />
+		<result property="payType" column="PAY_TYPE" />
+		<result property="orderId" column="ORDER_ID"/>
+	</resultMap>
+
+	<insert id="account.insert" parameterClass="Account">
+		insert into
+		tbl_account(
+		ID,
+		INCOME,
+		EXPENDITURE,
+		BALANCE,
+		MEMBER_ID,
+		DESCRIPTION,
+		CREATE_TIME,
+		PAY_TYPE,
+		ORDER_ID
+		)
+		values(
+		#id#,
+		#income#,
+		#expenditure#,
+		#balance#,
+		#memberId#,
+		#description#,
+		#createTime#,
+		#payType#,
+		#orderId#
+		)
+	</insert>
+
+	<update id="account.update" parameterClass="Account">
+		update tbl_account
+		set
+		INCOME=#income#,
+		EXPENDITURE=#expenditure#,
+		BALANCE=#balance#,
+		DESCRIPTION=#description#,
+		PAY_TYPE=#payType#
+		where ID=#id#
+	</update>
+
+	<select id="account.get" parameterClass="java.util.HashMap"
+		resultMap="account.AccountResult">
+		select x.* from(
+		select t.*, row_number() over(ORDER BY
+		t.create_time desc) num
+		from tbl_account t
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="id">
+				t.id = #id#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="memberId">
+				t.member_id =#memberId#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="orderId">
+				t.order_id =#orderId#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="createTimeStart">
+				t.create_time >= #createTimeStart#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="createTimeEnd">
+				t.create_time &lt;= #createTimeEnd# 
+			</isNotEmpty>
+		</dynamic>
+		) x
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="startCount">
+				num between '$startCount$' and '$endCount$'
+            </isNotEmpty>
+		</dynamic>
+	</select>
+
+	<select id="account.count" parameterClass="java.util.HashMap"
+		resultClass="Integer">
+		select count(*) from tbl_account t
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="id">
+				t.id = #id#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="memberId">
+				t.member_id =#memberId#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="memberId">
+				t.member_id =#memberId#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="orderId">
+				t.order_id =#orderId#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="createTimeStart">
+				t.create_time >= #createTimeStart#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="createTimeEnd">
+				t.create_time &lt;= #createTimeEnd# 
+			</isNotEmpty>
+		</dynamic>
+	</select>
+
+	<select id="account.getById" parameterClass="Long"
+		resultMap="account.AccountResult">
+		select * from tbl_account
+		where id = #value#	
+	</select>
+
+</sqlMap>

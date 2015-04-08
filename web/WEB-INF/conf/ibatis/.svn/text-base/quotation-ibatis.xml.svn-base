@@ -1,0 +1,605 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="quotation">
+
+	<!-- 设置别名 ，如果设置Quotation为com.bornsoft.asn.example.bean.quotation.Quotation的别名或者短名称 -->
+	<!-- quotationInfo -->
+
+	<typeAlias alias="Quotation"
+		type="com.bornsoft.asn.bean.quotation.QuotationInfo" />
+	<!-- 设置返回结果映射, id为以后select要使用的resultMap名称 -->
+	<resultMap class="Quotation" id="getQuotation-result">
+
+		<!-- 设置返回的结果属性，如果该CLASS的属性和数据表里字段对应，这不需要设置数据表字段，如这里的 quotationCode -->
+
+		<result property="quotationCode" />
+		<result property="quotationContent" column="QUOTATION_CONTENT" />
+		<result property="quotationName" column="QUOTATION_NAME" />
+		<result property="releaseDate" column="RELEASE_DATE" />
+		<result property="releasePerson" column="RELEASE_PERSON" />
+		<result property="source" column="SOURCES" />
+		<result property="updateDate" column="UPDATE_TIME" />
+		<result property="updatePerson" />
+	</resultMap>
+
+	<resultMap class="Quotation" id="getQuotation-QuoStat-result"
+		extends="getQuotation-result">
+		<result property="quoInfoStat" select="getQuoStatListByQuocode"
+			column="QUOTATION_CODE" />
+	</resultMap>
+
+	<insert id="insertQuotation" parameterClass="Quotation">
+		insert into
+		TBL_QUOTATION_INFO(
+		QUOTATION_CODE,
+		QUOTATION_NAME,
+		QUOTATION_CONTENT,
+		RELEASE_DATE,
+		RELEASE_PERSON,
+		SOURCES,
+		UPDATE_TIME,
+		UPDATE_PERSON
+		)
+		values(
+		#quotationCode#,
+		#quotationName#,
+		#quotationContent#,
+		#releaseDate#,
+		#releasePerson#,
+		#source#,
+		#updateDate#,
+		#updatePerson#
+
+		)
+    </insert>
+
+	<!-- 删除 -->
+	<delete id="deleteQuotation" parameterClass="int">
+		delete from
+		TBL_QUOTATION_INFO where QUOTATION_CODE=#quotationCode#
+    </delete>
+
+	<!-- 修改 -->
+	<update id="updateQuotation" parameterClass="Quotation">
+		update
+		TBL_QUOTATION_INFO set
+		QUOTATION_NAME=#quotationName# ,
+		QUOTATION_CONTENT=#quotationContent# ,
+		RELEASE_DATE=#releaseDate# ,
+		RELEASE_PERSON=#releasePerson# ,
+		SOURCES=#source# ,
+		UPDATE_TIME=#updateDate# ,
+		UPDATE_PERSON=#updatePerson#
+		where
+		QUOTATION_CODE=#quotationCode#
+    </update>
+
+	<cacheModel type="OSCACHE" id="quotationCache"  >
+		<flushInterval hours="12"/>
+		<flushOnExecute statement="insertQuotation"/>
+		<flushOnExecute statement="updateQuotation"/>
+		<flushOnExecute statement="deleteQuotation"/>
+	</cacheModel>
+	<!-- 查询 resultMap为之前设置的result-Map ID -->
+	<select id="getQuotation" resultMap="getQuotation-QuoStat-result" cacheModel="quotationCache"
+		parameterClass="int">
+		select
+		QUOTATION_CODE,
+		QUOTATION_NAME,
+		QUOTATION_CONTENT,
+		RELEASE_PERSON,
+		SOURCES,
+		UPDATE_PERSON,
+		RELEASE_DATE,
+		UPDATE_TIME
+		from
+		TBL_QUOTATION_INFO t where QUOTATION_CODE=#quotationCode#
+    </select>
+
+	<select id="getQuotationAllList" resultMap="getQuotation-QuoStat-result" cacheModel="quotationCache">
+		select
+		QUOTATION_CODE,
+		QUOTATION_NAME,
+		QUOTATION_CONTENT,
+		RELEASE_PERSON,
+		SOURCES,
+		UPDATE_PERSON,
+		RELEASE_DATE,
+		UPDATE_TIME
+		from TBL_QUOTATION_INFO
+		t
+    </select>
+
+	<select id="getQuotaionAllwoStatList" resultMap="getQuotation-result" cacheModel="quotationCache">
+		select
+		QUOTATION_CODE,
+		QUOTATION_NAME,
+		QUOTATION_CONTENT,
+		RELEASE_PERSON,
+		SOURCES,
+		UPDATE_PERSON,
+		RELEASE_DATE,
+		UPDATE_TIME
+		from TBL_QUOTATION_INFO
+	</select>
+
+	<select id="findQuotationwoStatList" parameterClass="HashMap" cacheModel="quotationCache"
+		resultMap="getQuotation-result">
+		select x.* from(
+		select t.*, row_number() over(ORDER BY
+		t.QUOTATION_CODE) num
+		from TBL_QUOTATION_INFO t
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="quoName">
+				t.QUOTATION_NAME like
+				'%#quoName#%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="relDateSt">
+				t.RELEASE_DATE &lt;=
+				#relDateSt#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="relDateEd">
+				t.RELEASE_DATE >=
+				#relDateEd#
+            </isNotEmpty>
+		</dynamic>
+		ORDER BY t.RELEASE_DATE desc
+		) x
+
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="startCount">
+				num between
+				'$startCount$' and '$endCount$'
+            </isNotEmpty>
+		</dynamic>
+
+	</select>
+	<!-- 得到总数 -->
+	<select id="findQuotationCount" parameterClass="HashMap"
+		resultClass="int">
+		select count(*)
+		from TBL_QUOTATION_INFO t
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="quoName">
+				t.QUOTATION_NAME like
+				'%#quoName#%'
+            </isNotEmpty>
+			<isNotEmpty prepend="and" property="relDateSt">
+				t.RELEASE_DATE &lt;=
+				#relDateSt#
+            </isNotEmpty>
+			<isNotEmpty prepend="and" property="relDateEd">
+				t.RELEASE_DATE >=
+				#relDateEd#
+            </isNotEmpty>
+		</dynamic>
+	</select>
+
+	<!-- quotationInfoStat -->
+	<typeAlias alias="QuoStat"
+		type="com.bornsoft.asn.bean.quotation.QuotationInfoStat" />
+	<resultMap class="QuoStat" id="getQuoStat-result">
+		<result property="statCode" column="STAT_CODE" />
+		<result property="quotationProduct" column="QUOTATION_PRODUCT_CODE"
+			select="getQuoProductByCode" />
+		<result property="quotationMarket" column="QUOTATION_MARKET_CODE"
+			select="getMarketByCode" />
+		<result property="avgPrice" column="AVG_PRICE" />
+		<result property="comments" column="COMMENTS" />
+		<result property="statDate" column="STAT_DATE" />
+		<result property="quotationCode" column="QUOTATION_CODE" />
+	</resultMap>
+
+	<cacheModel type="OSCACHE" id="quostatCache"  >
+		<flushInterval hours="12"/>
+		<flushOnExecute statement="insertQuoStat"/>
+		<flushOnExecute statement="updateQuoStat"/>
+		<flushOnExecute statement="deleteQuoStatByStatcode"/>
+	</cacheModel>
+	<select id="getQuoStatBystatcode" resultMap="getQuoStat-result" cacheModel="quostatCache"
+		parameterClass="QuoStat">
+		select
+		STAT_CODE,
+		QUOTATION_PRODUCT_CODE ,
+		QUOTATION_MARKET_CODE ,
+		AVG_PRICE ,
+		COMMENTS ,
+		QUOTATION_CODE ,
+		STAT_DATE
+		from TBL_QUOTATION_INFO_STAT t
+		where STAT_CODE=#statCode#
+    </select>
+
+	<select id="getQuoStatListByQuocode" resultMap="getQuoStat-result" cacheModel="quostatCache"
+		parameterClass="int">
+		select
+		STAT_CODE,
+		QUOTATION_PRODUCT_CODE ,
+		QUOTATION_MARKET_CODE ,
+		AVG_PRICE ,
+		COMMENTS ,
+		QUOTATION_CODE ,
+		STAT_DATE
+		from TBL_QUOTATION_INFO_STAT
+		where QUOTATION_CODE=#quotationCode#
+	</select>
+
+	<select id="getQuoStatAllList" resultMap="getQuoStat-result" cacheModel="quostatCache">
+		select t.*
+		from
+		TBL_QUOTATION_INFO_STAT t
+    </select>
+	<insert id="insertQuoStat" parameterClass="QuoStat">
+		insert into
+		TBL_QUOTATION_INFO_STAT (
+		STAT_CODE ,
+		QUOTATION_PRODUCT_CODE ,
+		QUOTATION_MARKET_CODE ,
+		AVG_PRICE ,
+		COMMENTS ,
+		STAT_DATE ,
+		QUOTATION_CODE
+		)
+		values (
+		#statCode#,
+		#quotationProduct.quotationPCode# ,
+		#quotationMarket.marketCode# ,
+		#avgPrice#,
+		#comments#,
+		#statDate# ,
+		#quotationCode#
+		)
+    </insert>
+
+	<update id="updateQuoStat" parameterClass="QuoStat">
+		update
+		TBL_QUOTATION_INFO_STAT set
+		STAT_CODE = #statCode# ,
+		QUOTATION_PRODUCT_CODE = #quotationProduct.quotationPCode# ,
+		QUOTATION_MARKET_CODE = #quotationMarket.marketCode# ,
+		AVG_PRICE=
+		#avgPrice# ,
+		COMMENTS= #comments# ,
+		STAT_DATE=#statDate# ,
+		QUOTATION_CODE = #quotationCode#
+		where STAT_CODE = #statCode#
+    </update>
+
+	<delete id="deleteQuoStatByStatcode" parameterClass="int">
+		delete from
+		TBL_QUOTATION_INFO_STAT
+		where STAT_CODE=#statCode#
+    </delete>
+    
+    <!-- 查询统计信息 -->
+    <select id="getQuotationStat" resultMap="getQuoStat-result" cacheModel="quostatCache">
+    	select t.* from TBL_QUOTATION_INFO_STAT t
+    	<dynamic prepend="where">
+    		<isNotEmpty prepend="and" property="quotation_product_code">
+    			t.QUOTATION_PRODUCT_CODE = #quotation_product_code#
+    		</isNotEmpty>
+    		<isNotEmpty prepend="and" property="quotation_market_code">
+    			t.QUOTATION_MARKET_CODE = #quotation_market_code#
+    		</isNotEmpty>
+    		<isNotEmpty prepend="and" property="start_date">
+    			t.STAT_DATE >= #start_date# 
+    		</isNotEmpty>
+    		<isNotEmpty prepend="and" property="end_date">
+    			t.STAT_DATE &lt;=#end_date#
+    		</isNotEmpty>
+    	</dynamic>
+    </select>
+	<!-- 注意 在设置类别名和各种操作ID的时候，最好不要出现重复的信息，好像IBATIS内部属性都是全局 -->
+
+	<!-- 行情市场数据库相关 -->
+	<typeAlias alias="market"
+		type="com.bornsoft.asn.bean.quotation.QuotationMarket" />
+
+	<resultMap id="marketRM" class="market">
+		<result property="marketCode" column="MARKET_CODE" javaType="Integer" />
+		<result property="area" column="AREA" javaType="String" />
+		<result property="marketName" column="MARKET_NAME" javaType="String" />
+		<result property="updatePerson" column="UPDATE_PERSON"
+			javaType="String" />
+		<result property="updateTime" column="UPDATE_TIME" javaType="Date" />
+	</resultMap>
+
+	<cacheModel type="OSCACHE" id="marketCache">
+		<flushInterval hours="12"/>
+		<flushOnExecute statement="addMarket"/>
+		<flushOnExecute statement="updateMarket"/>
+		<flushOnExecute statement="delMarket"/>
+	</cacheModel>
+	<select cacheModel="marketCache" resultMap="marketRM" parameterClass="HashMap"
+		id="getMarket">
+		select x.* from(
+		select t.*,row_number() over (order by t.MARKET_CODE)
+		num from
+		TBL_QUOTATION_MARKET t
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="marketName">
+				t.MARKET_NAME like
+				'%$marketName$%'
+            </isNotEmpty>
+			<isNotEmpty prepend="and" property="marketCode">
+				t.MARKET_CODE =
+				#marketCode#
+            </isNotEmpty>
+			<isNotEmpty prepend="and" property="area">
+				t.AREA = #area#
+			</isNotEmpty>
+		</dynamic>
+		) x
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="start">
+				num between #start# and
+				#end#
+            </isNotEmpty>
+		</dynamic>
+	</select>
+
+	<select cacheModel="marketCache" resultMap="marketRM" parameterClass="HashMap"
+		id="findMarket">
+		select x.* from(
+		select t.*,row_number() over (order by t.MARKET_CODE)
+		num from
+		TBL_QUOTATION_MARKET t
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="marketName">
+				t.MARKET_NAME like
+				'%$marketName$%'
+            </isNotEmpty>
+			<isNotEmpty prepend="and" property="marketCode">
+				t.MARKET_CODE =
+				#marketCode#
+            </isNotEmpty>
+			<isNotEmpty prepend="and" property="area">
+				t.AREA = #area#
+			</isNotEmpty>
+		</dynamic>
+		) x
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="start">
+				num between #start# and
+				#end#
+            </isNotEmpty>
+		</dynamic>
+	</select>
+
+	<select cacheModel="marketCache" resultClass="int" parameterClass="HashMap"
+		id="getMarketCount">
+		select count(*) from TBL_QUOTATION_MARKET t
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="marketName">
+				t.MARKET_NAME like
+				'%$marketName$%'
+            </isNotEmpty>
+			<isNotEmpty prepend="and" property="marketCode">
+				t.MARKET_CODE =
+				#marketCode#
+            </isNotEmpty>
+			<isNotEmpty prepend="and" property="area">
+				t.AREA = #area#
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	<select cacheModel="marketCache" resultMap="marketRM" parameterClass="int"
+		id="getMarketByCode">
+		select t.* from TBL_QUOTATION_MARKET t where t.MARKET_CODE =
+		#value#
+	</select>
+
+	<update id="updateMarket" parameterClass="market">
+		update
+		TBL_QUOTATION_MARKET set
+		AREA = #area# ,
+		MARKET_NAME = #marketName# ,
+		UPDATE_PERSON = #updatePerson# ,
+		UPDATE_TIME = #updateTime#
+		where
+		MARKET_CODE = #marketCode#
+    </update>
+
+	<insert id="addMarket" parameterClass="market">
+		insert into
+		TBL_QUOTATION_MARKET(
+		MARKET_CODE ,
+		MARKET_NAME ,
+		AREA ,
+		UPDATE_PERSON ,
+		UPDATE_TIME
+		)
+		values (
+		#marketCode# ,
+		#marketName# ,
+		#area# ,
+		#updatePerson# ,
+		#updateTime#
+		)
+    </insert>
+
+	<delete id="delMarket" parameterClass="int">
+		delete from
+		TBL_QUOTATION_MARKET where MARKET_CODE = #marketCode#
+    </delete>
+
+	<!-- 行情产品类型 -->
+	<typeAlias alias="quoPT"
+		type="com.bornsoft.asn.bean.quotation.QuotationProductType" />
+	<resultMap class="quoPT" id="quoPTRM">
+		<result property="quotationPTypeCode" column="QUOTATION_PRODUCT_TYPE_CODE" />
+		<result property="quotationPTName" column="QUOTATION_PRODUCT_TYPE_NAME" />
+		<result property="quotationPTSort" column="QUOTATION_PRODUCT_TYPE_SORT" />
+	</resultMap>
+
+	<cacheModel type="OSCACHE" id="quoptCache"  >
+		<flushInterval hours="12"/>
+		<flushOnExecute statement="addQuoPT"/>
+		<flushOnExecute statement="delQuoPT"/>
+		<flushOnExecute statement="updateQuoPT"/>
+	</cacheModel>
+	<insert id="addQuoPT" parameterClass="quoPT">
+		insert into
+		TBL_QUOTATION_PRODUCT_TYPE (
+		QUOTATION_PRODUCT_TYPE_CODE ,
+		QUOTATION_PRODUCT_TYPE_NAME ,
+		QUOTATION_PRODUCT_TYPE_SORT
+		)
+		values (
+		#quotationPTypeCode# ,
+		#quotationPTName# ,
+		#quotationPTSort#
+		)
+    </insert>
+
+	<delete id="delQuoPT" parameterClass="int">
+		delete from
+		TBL_QUOTATION_PRODUCT_TYPE where QUOTATION_PRODUCT_TYPE_CODE =
+		#quotationPTypeCode#
+    </delete>
+
+	<update id="updateQuoPT" parameterClass="quoPT">
+		update
+		TBL_QUOTATION_PRODUCT_TYPE set
+		QUOTATION_PRODUCT_TYPE_NAME =
+		#quotationPTName# ,
+		QUOTATION_PRODUCT_TYPE_SORT = #quotationPTSort#
+		where
+		QUOTATION_PRODUCT_TYPE_CODE = #quotationPTypeCode#
+    </update>
+
+	<select id="getQuoPT" cacheModel="quoptCache" resultMap="quoPTRM"
+		parameterClass="HashMap">
+		select t.* from TBL_QUOTATION_PRODUCT_TYPE t
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="quotationPTypeCode">
+				t.QUOTATION_PRODUCT_TYPE_CODE = #quotationPTypeCode#
+            </isNotEmpty>
+			<isNotEmpty prepend="and" property="quotationPTName">
+				t.QUOTATION_PRODUCT_TYPE_NAME = #quotationPTName#
+            </isNotEmpty>
+		</dynamic>
+	</select>
+
+	<select id="getQuoPT2" cacheModel="quoptCache" resultMap="quoPTRM"
+		parameterClass="int">
+		select t.* from TBL_QUOTATION_PRODUCT_TYPE t where
+		t.QUOTATION_PRODUCT_TYPE_CODE = #quotationPTypeCode#
+    </select>
+
+	<!-- 行情产品信息 -->
+	<typeAlias alias="quoProduct"
+		type="com.bornsoft.asn.bean.quotation.QuotationProduct" />
+
+	<resultMap class="quoProduct" id="quoProductRM">
+		<result property="quotationPCode" column="QUOTATION_PRODUCT_CODE" />
+		<result property="quotationPName" column="QUOTATION_PRODUCT_NAME" />
+		<result property="quotationPNameAlias" column="QUOTATION_PRODUCT_NAME_ALIAS" />
+		<result property="quotationPT" column="QUOTATION_PRODUCT_TYPE_CODE"
+			select="getQuoPT2" />
+	</resultMap>
+
+	<cacheModel type="OSCACHE" id="quopdtCache"  >
+		<flushInterval hours="12"/>
+		<flushOnExecute statement="addQuoProduct"/>
+		<flushOnExecute statement="delQuoProduct"/>
+		<flushOnExecute statement="updateQuoProduct"/>
+	</cacheModel>
+	<insert id="addQuoProduct" parameterClass="quoProduct">
+		insert into
+		TBL_QUOTATION_PRODUCT (
+		QUOTATION_PRODUCT_CODE ,
+		QUOTATION_PRODUCT_NAME
+		,
+		QUOTATION_PRODUCT_NAME_ALIAS ,
+		QUOTATION_PRODUCT_TYPE_CODE
+		)
+		values (
+		#quotationPCode# ,
+		#quotationPName# ,
+		#quotationPNameAlias# ,
+		#quotationPT.quotationPTypeCode#
+		)
+    </insert>
+
+	<delete id="delQuoProduct" parameterClass="int">
+		delete from
+		TBL_QUOTATION_PRODUCT where QUOTATION_PRODUCT_CODE =
+		#quotationPCode#
+	</delete>
+
+	<update id="updateQuoProduct" parameterClass="quoProduct">
+		update
+		TBL_QUOTATION_PRODUCT set
+		QUOTATION_PRODUCT_NAME = #quotationPName# ,
+		QUOTATION_PRODUCT_NAME_ALIAS = #quotationPNameAlias# ,
+		QUOTATION_PRODUCT_TYPE_CODE = #quotationPT.quotationPTypeCode#
+		where
+		QUOTATION_PRODUCT_CODE = #quotationPCode#
+    </update>
+
+	<select id="getQuoProduct" cacheModel="quopdtCache" resultMap="quoProductRM"
+		parameterClass="HashMap">
+
+		select x.* from (
+		select t.*,row_number() over (order by
+		t.QUOTATION_PRODUCT_CODE) num from
+		TBL_QUOTATION_PRODUCT t
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="quotationPCode">
+				t.QUOTATION_PRODUCT_CODE = #quotationPCode#
+            </isNotEmpty>
+			<isNotEmpty prepend="and" property="quotationPTCode">
+				t.QUOATION_PRODUCT_TYPE_CODE = #quotationPTypeCode#
+            </isNotEmpty>
+		</dynamic>
+		<dynamic prepend="and">
+			<isNotEmpty prepend="or" property="quotationPName">
+				t.QUOTATION_PRODUCT_NAME like '%$quotationPName$%'
+            </isNotEmpty>
+			<isNotEmpty prepend="or" property="quotationPNameAlias">
+				t.QUOTATION_PRODUCT_NAME_ALIAS like '%$quotationPNameAlias$%'
+			</isNotEmpty>
+		</dynamic>
+		order by t.STAT_COUNT desc
+		) x
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="start">
+				num between #start# and
+				#end#
+            </isNotEmpty>
+		</dynamic>
+	</select>
+
+	<select id="getQuoProductCount" cacheModel="quopdtCache" resultClass="int"
+		parameterClass="HashMap">
+		select count(*) from TBL_QUOTATION_PRODUCT t
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="quotationPCode">
+				t.QUOTATION_PRODUCT_CODE = #quotationPCode#
+            </isNotEmpty>
+			<isNotEmpty prepend="and" property="quotationPTCode">
+				t.QUOATION_PRODUCT_TYPE_CODE = #quotationPTypeCode#
+            </isNotEmpty>
+		</dynamic>
+		<dynamic prepend="and">
+			<isNotEmpty prepend="or" property="quotationPName">
+				t.QUOTATION_PRODUCT_NAME like '%$quotationPName$%'
+            </isNotEmpty>
+			<isNotEmpty prepend="or" property="quotationPNameAlias">
+				t.QUOTATION_PRODUCT_NAME_ALIAS like '%$quotationPNameAlias$%'
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	<select id="getQuoProductByCode" cacheModel="quopdtCache"
+		parameterClass="int" resultMap="quoProductRM">
+		select t.* from TBL_QUOTATION_PRODUCT t
+		where t.QUOTATION_PRODUCT_CODE =
+		#value#
+    </select>
+
+	<!-- 使用一个触发器在添加行情统计信息的时候,触发效果，向统计的产品插入使用次数COUNT,从而得出常用的产品。 -->
+</sqlMap>

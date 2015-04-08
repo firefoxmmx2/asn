@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+
+	<package name="todiscount" extends="struts-asn" namespace="/do/discount">
+		<action name="listDiscount" method="listDiscount" class="com.bornsoft.asn.action.discount.DiscountAction">
+			<result name="success" type="tilesmap">/do/discount/discount_all_list.jsp</result>
+		</action>		
+		
+		<action name="toJoinDiscount" method="toJoinDiscount" class="com.bornsoft.asn.action.discount.DiscountAction">
+			<result name="success" type="tilesmap">/do/discount/discount_join.jsp</result>
+		</action>
+		
+		<action name="joinDiscount" method="joinDiscount" class="com.bornsoft.asn.action.discount.DiscountAction">
+			<result name="success" type="redirect">listDiscount?supplierActivity=supplier</result>
+			<result name="all" type="redirect">listDiscount?supplierActivity=supplier</result>
+			<result name="self" type="chain">listSelfDiscount</result>
+		</action>
+		
+		<action name="listSelfDiscount" method="listSelfDiscount" class="com.bornsoft.asn.action.discount.DiscountAction">
+			<result name="success" type="tilesmap">/do/discount/discount_self_list.jsp</result>
+		</action>
+		
+		<action name="delselfDiscount" method="delselfDiscount" class="com.bornsoft.asn.action.discount.DiscountAction">
+			<result name="success" type="chain">listSelfDiscount</result>
+		</action>
+		
+	</package>
+
+
+	<package name="admindiscount" extends="struts-asn" namespace="/admin/discount">
+		<action name="listAdminDiscount" method="listAdminDiscount" class="com.bornsoft.asn.action.discount.DiscountAction">
+			<result name="success" type="tilesmap">/admin/discount/discount_list.jsp</result>			
+		</action>
+		
+		<action name="insertAdminDiscount" method="insertAdminDiscount" class="com.bornsoft.asn.action.discount.DiscountAction">
+			<result name="success" type="tilesmap">/admin/discount/discount_Admin_add.jsp</result>
+		</action>
+		
+		<action name="delAdminDiscount" method="delAdminDiscount" class="com.bornsoft.asn.action.discount.DiscountAction">
+			<result name="success" type="chain">listAdminDiscount</result>
+		</action>
+		
+		<!-- 初始化修改页面 -->
+		<action name="toUpdateAdminDiscount" method="toUpdateAdminDiscount" class="com.bornsoft.asn.action.discount.DiscountAction">
+			<result name="success" type="tilesmap">/admin/discount/discount_update.jsp</result>
+		</action>
+		
+		<!-- 修改-->
+		<action name="updateAdminDiscount" method="updateAdminDiscount" class="com.bornsoft.asn.action.discount.DiscountAction">
+			<result name="success" type="tilesmap">/admin/discount/discount_update.jsp</result>
+		</action>
+		
+		<action name="listAdminSupplierJoinInfo" method="listAdminSupplierJoinInfo" class="com.bornsoft.asn.action.discount.DiscountAction">
+			<result name="success" type="tilesmap">/admin/discount/discount_info.jsp</result>
+		</action>
+	</package>
+	
+</struts>

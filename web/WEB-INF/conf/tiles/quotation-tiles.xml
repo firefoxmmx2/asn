@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN" "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+<tiles-definitions>
+    <!-- definition name命名规则  模块名.自定义动作 -->
+    <definition name="quotation.toView" template="/admin/quotation/backQuotationLayout.jsp">
+    	<put-attribute name="quoButtonBar" value="/admin/quotation/quoButtonBar.jsp"/>
+    	<put-attribute name="quoContent" value="/admin/quotation/quotation_viewlist.jsp" />
+    </definition>
+    <definition name="quotation.backQuotation" template="/admin/admin_mod.jsp">
+    	<put-attribute name="head" value=""/>
+    	<put-attribute name="top" value="/admin/admin_top.jsp"/>
+    	<put-attribute name="left" value="/admin/admin_left.jsp"/>
+    	<put-attribute name="content" value="quotation.toView"/>
+    	<put-attribute name="bottom" value="/admin/admin_bottom.jsp" />
+    </definition>
+     <definition name="quotation.backQuotationNew" template="/admin/admin_mod.jsp">
+    	<put-attribute name="head" value=""/>
+    	<put-attribute name="top" value="/admin/admin_top.jsp"/>
+    	<put-attribute name="left" value="/admin/admin_left.jsp"/>
+    	<put-attribute name="content" value="quotation.toNew"/>
+    	<put-attribute name="bottom" value="/admin/admin_bottom.jsp" />
+    </definition>
+     <definition name="quotation.backQuotationNews" template="/admin/admin_mod.jsp">
+    	<put-attribute name="head" value=""/>
+    	<put-attribute name="top" value="/admin/admin_top.jsp"/>
+    	<put-attribute name="left" value="/admin/admin_left.jsp"/>
+    	<put-attribute name="content" value="quotation.toNews"/>
+    	<put-attribute name="bottom" value="/admin/admin_bottom.jsp" />
+    </definition>
+     <definition name="quotation.backQuotationPreview" template="/admin/admin_mod.jsp">
+    	<put-attribute name="head" value=""/>
+    	<put-attribute name="top" value="/admin/admin_top.jsp"/>
+    	<put-attribute name="left" value="/admin/admin_left.jsp"/>
+    	<put-attribute name="content" value="quotation.toPreview"/>
+    	<put-attribute name="bottom" value="/admin/admin_bottom.jsp" />
+    </definition>
+     <definition name="quotation.backQuotationUpdate" template="/admin/admin_mod.jsp">
+    	<put-attribute name="head" value=""/>
+    	<put-attribute name="top" value="/admin/admin_top.jsp"/>
+    	<put-attribute name="left" value="/admin/admin_left.jsp"/>
+    	<put-attribute name="content" value="quotation.toUpdate"/>
+    	<put-attribute name="bottom" value="/admin/admin_bottom.jsp" />
+    </definition>
+    
+    <definition name="quotation.toNew" template="/admin/quotation/backQuotationLayout.jsp">
+    	<put-attribute name="quoButtonBar" value="/admin/quotation/quoButtonBar.jsp"/>
+    	<put-attribute name="quoContent" value="/admin/quotation/quotation_new.jsp"/>
+    </definition>
+    <definition name="quotation.toNews" template="/admin/quotation/backQuotationLayout.jsp">
+    	<put-attribute name="quoButtonBar" value="/admin/quotation/quoButtonBar.jsp"/>
+    	<put-attribute name="quoContent" value="/admin/quotation/quotation_news.jsp"/>
+    </definition>
+    <definition name="quotation.toUpdate" template="/admin/quotation/backQuotationLayout.jsp">
+    	<put-attribute name="quoButtonBar" value="/admin/quotation/quoButtonBar.jsp"/>
+    	<put-attribute name="quoContent" value="/admin/quotation/quotation_update.jsp"/>
+    </definition>
+    <definition name="quotation.toPreview" template="/admin/quotation/backQuotationLayout.jsp">
+    	<put-attribute name="quoButtonBar" value="/admin/quotation/quoButtonBar.jsp"/>
+    	<put-attribute name="quoContent" value="/admin/quotation/quotation_preview.jsp"/>
+    </definition>
+    <definition name="quotation.quolistView" template="/front/quotation/quotation_list_mod.jsp" >
+    	<put-attribute name="head" value="/top-front.jsp"/>
+    	<put-attribute name="search" value=""/>
+    	<put-attribute name="list_title" value="/front/quotation/list_title.jsp"/>
+    	<put-attribute name="position" value="/front/quotation/position.jsp"/>
+    	<put-attribute name="content" value="/front/quotation/quo_cont_list.jsp"/>
+    	<put-attribute name="page_tion" value="/front/quotation/pager_div.jsp"/>
+    	<put-attribute name="rel_ad" value="/front/quotation/blank.jsp"/>
+    	<put-attribute name="rel_title" value="/front/quotation/blank.jsp"/>
+    	<put-attribute name="rel_cont" value="/front/quotation/blank.jsp"/>
+    	<put-attribute name="rel_title2" value="/front/quotation/blank.jsp"/>
+    	<put-attribute name="rel_cont2" value="/front/quotation/blank.jsp"/>
+    	<put-attribute name="foot" value="/bottom.jsp"/>
+    </definition>
+    
+    <definition name="quotation.quoView" template="/front/quotation/quotation_list_mod.jsp" >
+    	<put-attribute name="head" value="/top-front.jsp"/>
+    	<put-attribute name="search" value="/front/quotation/head.jsp"/>
+    	<put-attribute name="list_title" value="/front/quotation/content_title.jsp"/>
+    	<put-attribute name="position" value="/front/quotation/position.jsp"/>
+    	<put-attribute name="content" value="/front/quotation/quotation_content.jsp"/>
+    	<put-attribute name="page_tion" value="/front/quotation/blank.jsp"/>
+    	<put-attribute name="rel_ad" value="/front/quotation/blank.jsp"/>
+    	<put-attribute name="rel_title" value="/front/quotation/blank.jsp"/>
+    	<put-attribute name="rel_cont" value="/front/quotation/blank.jsp"/>
+    	<put-attribute name="rel_title2" value="/front/quotation/blank.jsp"/>
+    	<put-attribute name="rel_cont2" value="/front/quotation/blank.jsp"/>
+    	<put-attribute name="foot" value="/bottom.jsp"/>
+    </definition>
+    
+    <definition name="quotation.curveView" extends="quotation.quoView">
+    	<put-attribute name="list_title" value="/front/quotation/curve/curve_title.jsp"/>
+    	<put-attribute name="content" value="/front/quotation/curve/curve_content.jsp"/>
+    </definition>
+    
+    <definition name="ncpw.quotation.quolistView" template="/front/quotation/quotation_list_mod.jsp" >
+    	<put-attribute name="head" value="/platform_top.jsp"/>
+    	<put-attribute name="search" value=""/>
+    	<put-attribute name="list_title" value="/front/quotation/list_title.jsp"/>
+    	<put-attribute name="position" value="/front/quotation/position.jsp"/>
+    	<put-attribute name="content" value="/front/quotation/quo_cont_list.jsp"/>
+    	<put-attribute name="page_tion" value="/front/quotation/pager_div.jsp"/>
+    	<put-attribute name="rel_ad" value="/front/quotation/blank.jsp"/>
+    	<put-attribute name="rel_title" value="/front/quotation/blank.jsp"/>
+    	<put-attribute name="rel_cont" value="/front/quotation/blank.jsp"/>
+    	<put-attribute name="rel_title2" value="/front/quotation/blank.jsp"/>
+    	<put-attribute name="rel_cont2" value="/front/quotation/blank.jsp"/>
+    	<put-attribute name="foot" value="/platform_bottom.jsp"/>
+    </definition>
+    
+    <definition name="ncpw.quotation.quoView" template="/front/quotation/quotation_list_mod.jsp" >
+    	<put-attribute name="head" value="/platform_top.jsp"/>
+    	<put-attribute name="search" value="/front/quotation/head.jsp"/>
+    	<put-attribute name="list_title" value="/front/quotation/content_title.jsp"/>
+    	<put-attribute name="position" value="/front/quotation/position.jsp"/>
+    	<put-attribute name="content" value="/front/quotation/quotation_content.jsp"/>
+    	<put-attribute name="page_tion" value="/front/quotation/blank.jsp"/>
+    	<put-attribute name="rel_ad" value="/front/quotation/blank.jsp"/>
+    	<put-attribute name="rel_title" value="/front/quotation/blank.jsp"/>
+    	<put-attribute name="rel_cont" value="/front/quotation/blank.jsp"/>
+    	<put-attribute name="rel_title2" value="/front/quotation/blank.jsp"/>
+    	<put-attribute name="rel_cont2" value="/front/quotation/blank.jsp"/>
+    	<put-attribute name="foot" value="/platform_bottom.jsp"/>
+    </definition>
+    
+    <definition name="ncpw.quotation.curveView" extends="ncpw.quotation.quoView">
+    	<put-attribute name="list_title" value="/front/quotation/curve/curve_title.jsp"/>
+    	<put-attribute name="content" value="/front/quotation/curve/curve_content.jsp"/>
+    </definition>
+</tiles-definitions>

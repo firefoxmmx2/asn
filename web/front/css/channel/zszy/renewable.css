@@ -1,0 +1,136 @@
+body {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	text-align:center;	
+	background-color:#FFF;
+	color:#555555;
+	line-height:24px;
+}
+a:link {
+	color: #555555;
+	text-decoration: none;
+}
+a:visited {
+	color: #555555;
+	text-decoration: none;
+}
+a:hover {
+	color: #ff0000;
+	text-decoration: none;
+}
+a:active {
+	color: #555555;
+	text-decoration: none;
+}
+
+.red a:link {
+	color: #ff0000;
+	text-decoration: none;
+}
+.red a:visited {
+	color: #ff0000;
+	text-decoration: none;
+}
+.red a:hover {
+	color: #ff0000;
+	text-decoration: none;
+}
+.red a:active {
+	color: #ff0000;
+	text-decoration: none;
+}
+
+.title a:link {
+	color: #ffffff;
+	text-decoration: none;
+}
+.title a:visited {
+	color: #ffffff;
+	text-decoration: none;
+}
+.title a:hover {
+	color: #ffffff;
+	text-decoration: none;
+}
+.title a:active {
+	color: #ffffff;
+	text-decoration: none;
+}
+/*����������ʽ*/
+.pl5{ padding-left:5px;}
+.pl30{ padding-left:30px;}
+.pr5{ padding-right:5px;}
+.mt10{ margin-top:10px;}
+.line{ border:1px solid #d8e1ac; border-top:none;}
+
+
+/*ͷ����ʽ*/
+.head{ background:url(../../../image/channel/zszy/head_bg.jpg) repeat-x; width:980px; height:26px;}
+.redb{ color:#FF0000; font-weight:bold; font-size:12px;}
+.logo{ background:url(../../../image/channel/zszy/logo_zszy.jpg) no-repeat; width:220px; height:70px;}
+.wz_search{ font-size:14px; font-weight:bold;}
+.nav{ background:url(../../../image/channel/zszy/nav.jpg) no-repeat; width:980px; height:39px;}
+.title{ font-size:14px; font-weight:bold; color:#ffffff; text-align:center;}
+.red{ color:#FF0000;font-size:12px;}
+.gwc{ padding-left:40px;}
+
+
+/*��Ʒ������ʽ*/
+.dht_left{ width:183px; height:29px; background:url(../../../image/channel/zszy/dht183.jpg) no-repeat; font-size:14px; font-weight:bold; color:#ffffff; line-height:29px; text-align:left;}
+.yjl{ font-size:14px; color:#477b19; font-weight:bold; text-align:left; padding-left:10px;}
+.ejl{ text-align:left;}
+.line_bottom{ border-bottom:1px dashed #dae2b0; height:10px;}
+
+
+
+/*�۸�������ʽ*/
+.dht_right{ width:225px; height:29px; background:url(../../../image/channel/zszy/dht225.jpg) no-repeat; font-size:14px; font-weight:bold; color:#ffffff; line-height:29px; text-align:left}
+.xbd3{ background:url(../../../image/channel/zszy/xbd3.jpg) no-repeat; background-position:left 50%; height:24px; padding-left:10px; text-align:left;}
+
+/*��ͼƬ��ʽ*/
+.ztp img{ width:545px; height:210px; padding:1px; border:1px solid #e0e0e8;}
+
+
+/*������Ϣ��ʽ*/
+.gqxx{ background:url(../../../image/channel/zszy/gyxx.jpg) no-repeat; width:786px; height:35px; border-bottom:1px solid #e7e7ef;}
+.gqxx_bg{ background:url(../../../image/channel/zszy/gqxx_bg.jpg) repeat-x;}
+.line_r{ border-right:1px dotted  #979c9f;}
+.green{ color:#3a6d00;}
+
+/*��Ʒչʾ��ʽ*/
+.cpzs{ background:url(../../../image/channel/zszy/cpzs.jpg) no-repeat; width:768px; height:30px;}
+.title_cpzs{ font-weight:bold; color:#ffffff; font-size:14px; text-align:right;}
+.chanpin img{ width:106px; height:106px; border:1px solid #ccc; padding:2px; margin:6px;}
+.huib{ color:#595959; font-weight:bold;}
+.wz_xsj{ color:#ff6308; font-weight:bold;}
+.wz_xsj a:link {
+	color: #ff6308;
+	text-decoration: none;
+}
+.wz_xsj a:visited {
+	color: #ff6308;
+	text-decoration: none;
+}
+.wz_xsj a:hover {
+	color: #ff6308;
+}
+.wz_xsj a:active {
+	color: #ff6308;
+	text-decoration: none;
+}
+.mt5{ margin-top:4px; margin-bottom:5px;}
+
+
+
+ 
+
+/*foot��ʽ*/
+.wzph{ color:#ff6308; font-weight:bold; padding-right:4px;}
+.scj{text-decoration:line-through;}
+.foot{ background:url(../../../image/channel/zszy/footmid.jpg) repeat-x;}
+.gwzn{ background:url(../../../image/channel/zszy/gwzn.jpg) no-repeat; background-position:left 50%;}
+.fkfs{ background:url(../../../image/channel/zszy/fkfs.jpg) no-repeat; background-position:left 50%;}
+.psfs{ background:url(../../../image/channel/zszy/psfs.jpg) no-repeat; background-position:left 50%;}
+.shfw{ background:url(../../../image/channel/zszy/shfw.jpg) no-repeat; background-position:left 50%;}
+.wz_foot{ line-height:24px;}
+.phone_foot{ color:#0e569e; font-weight:bold;}

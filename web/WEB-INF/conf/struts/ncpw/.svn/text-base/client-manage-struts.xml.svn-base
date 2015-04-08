@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<package name="client-manage" extends="struts-asn" namespace="/do/client">
+		<!-- 客户档案资料管理 -->
+		<action name="getClientInfo" class="com.bornsoft.asn.action.client.ClientManageAction" method="getClientInfo">
+			<result name="success" type="tilesmap">/do/client/clientInfo.jsp</result>
+		</action>
+		<!-- 增加客户跟踪记录 -->
+		<action name="addClientServiceRecord" class="com.bornsoft.asn.action.client.ClientManageAction" method="addClientServiceRecord">
+			<result name="success" type="chain">getClientServiceRecord</result>
+		</action>
+		<!-- 查询客户跟踪记录 -->
+		<action name="getClientServiceRecord" class="com.bornsoft.asn.action.client.ClientManageAction" method="getClientServiceRecord">
+			<result name="success" type="tilesmap">/do/client/clientServiceRecord.jsp</result>
+		</action>
+		<!-- 删除客户跟踪记录 -->
+		<action name="delClientServiceRecord" class="com.bornsoft.asn.action.client.ClientManageAction" method="delClientServiceRecord">
+			<result name="success" type="chain">getClientServiceRecord</result>
+		</action>
+		<!-- 取得修改客户跟踪记录 -->
+		<action name="getUpClientServiceRecord" class="com.bornsoft.asn.action.client.ClientManageAction" method="getUpClientServiceRecord">
+			<result name="success" type="tilesmap">/do/client/getUpClientServiceRecord.jsp</result>
+		</action>
+		<!-- 修改客户跟踪记录 -->
+		<action name="upClientServiceRecord" class="com.bornsoft.asn.action.client.ClientManageAction" method="upClientServiceRecord">
+			<result name="success" type="chain">getClientServiceRecord</result>
+		</action>
+		<!-- 取得要修改客户积分等级的客户信息-->
+		<action name="getUpGradeScore" class="com.bornsoft.asn.action.client.ClientManageAction" method="getUpGradeScore">
+			<result name="success" type="tilesmap">/do/client/upGradeScore.jsp</result>
+		</action>
+		<!-- 修改客户积分等级的客户信息-->
+		<action name="upGradeScore" class="com.bornsoft.asn.action.client.ClientManageAction" method="upGradeScore">
+			<result name="success" type="chain">getClientInfo</result>
+		</action>
+		<!-- 客户消费信息管理-->
+		<action name="getClientConsumeInfo" class="com.bornsoft.asn.action.client.ClientManageAction" method="getClientConsumeInfo">
+			<result name="success" type="tilesmap">/do/client/getClientConsumeInfo.jsp</result>
+		</action>
+	
+		
+		<!-- 读取供货商未分组的会员 -->
+		<action name="getUnGroupedMember" class="com.bornsoft.asn.action.client.ClientManageAction" method="getUnGroupedMember">
+			<result name="success">/do/client/getUnGroupedMember.jsp</result>
+		</action>
+		<!-- 取得组别的会员?? -->
+		<action name="getGroupMember" class="com.bornsoft.asn.action.member.MemberInGroupAction" method="getGroupMember">
+			<result name="success" >/do/client/get_group_member.jsp</result>
+		</action>
+		<!-- 取得组别 -->
+		<action name="groupChoose" class="com.bornsoft.asn.action.member.MemberInGroupAction" method="listGroup">
+			<result name="success" >/do/client/groupChoose.jsp</result>
+		</action>
+		<!-- 选定会员后弹出的取得组别页面 -->
+		<action name="checkGroup" class="com.bornsoft.asn.action.member.MemberInGroupAction" method="listGroup">
+			<result name="success" >/do/client/checkGroup.jsp</result>
+		</action>
+		<!-- 分配未分组的会员到所选的组别 -->
+		<action name="inGroup" class="com.bornsoft.asn.action.member.MemberInGroupAction" method="inGroup">
+			<result name="success" type="chain">getUnGroupedMember</result>
+		</action>
+		<!-- 添加组别时，同时读取该用户未分组的会员 -->
+		<action name="addGroup" class="com.bornsoft.asn.action.client.ClientManageAction" method="getUnGroupedMember">
+			<result name="success">/do/client/add_member_group.jsp</result>
+		</action>
+		<!-- 添加组别，同时添加该组的成员(如果有) -->
+		<action name="addMemberGroup" class="com.bornsoft.asn.action.member.MemberInGroupAction" method="addMemberGroup">
+			<result name="success" type="chain">addGroup</result>
+		</action>
+		<!-- 删除组别内的会员 -->
+		<action name="delGroupMember" class="com.bornsoft.asn.action.member.MemberInGroupAction" method="delGroupMember">
+			<result name="success" type="chain">getUnGroupedMember</result>
+		</action>
+		<!-- 删除组别同时删除该组内的会员 -->
+		<action name="delMemberGroup" class="com.bornsoft.asn.action.member.MemberInGroupAction" method="delMemberGroup">
+			<result name="success" type="chain">groupChoose</result>
+		</action>
+		<!-- 得到所有组员 -->
+		<action name="getAllMember" class="com.bornsoft.asn.action.member.MemberInGroupAction" method="getAllMember">
+			<result name="success">/do/client/getAllMember.jsp</result>
+		</action>
+		<!-- 编辑组：取得旧组名 -->
+		<action name="getEditGroup" class="com.bornsoft.asn.action.member.MemberInGroupAction" method="getEditGroup">
+			<result name="success">/do/client/editGroup.jsp</result>
+		</action>
+		<!-- 编辑组：修改组名 -->
+		<action name="upGroupName" class="com.bornsoft.asn.action.member.MemberInGroupAction" method="upGroupName">
+			<result name="success" type="chain">getUnGroupedMember</result>
+		</action>
+		<!--查询会员详细信息  cl add 2010-04-01 -->
+		<action name="getMemberById" method="getMemberById" class="com.bornsoft.asn.action.member.MemberAction">
+			<result name="success">/do/member/member_info.jsp</result>
+		</action>
+	</package>    
+	
+
+	
+</struts>

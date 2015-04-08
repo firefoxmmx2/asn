@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+  
+<sqlMap>
+	<typeAlias alias="HuaZhangOrder" type="com.bornsoft.asn.bean.order.Order"/>
+	<resultMap class="HuaZhangOrder" id="HuaZhangOrderMap">
+		    <result property="id" column="id" />
+			<result property="city" column="city" />
+			<result property="areaCode" column="areaCode"/>
+			<result property="detailAddress" column="detailAddress" />
+			<result property="drawerName" column="drawerName" />
+			<result property="drawerNumber" column="drawerNumber" />
+			<result property="zipCode" column="zipCode" />
+			<result property="specialExplain" column="specialExplain" />
+			<result property="paymentMethod" column="paymentMethod"/>
+			<result property="orderStatus" column="orderStatus" />
+			<result property="supplierId" column="supplierId"/>
+			<result property="createTime" column="createTime" />
+			<result property="memberId" column="memberId" />
+			<result property="operatorId" column="operatorId" /> 
+			<result property="operatorTime" column="operatorTime" />
+			<result property="postFee" column="postFee"/>
+			<result property="totalAmount" column="totalAmount"/>
+			<result property="isPayed" column="is_payed"/>
+			<result property="payedTime" column="payed_time"/>
+	</resultMap>
+	
+	<select id="getHuaZhangOrderList" resultMap="HuaZhangOrderMap" parameterClass="java.util.HashMap">
+		select * from (select m.*, rownum r from (
+		
+		select o.* from tbl_order_info o,tbl_member tm 
+		where tm.member_id = o.supplierid		
+		<dynamic>
+			<isNotEmpty property="ssoAccount" prepend="and">
+				tm.sso_account like '%$ssoAccount$%' 
+			</isNotEmpty>
+			<isNotEmpty property="fullName" prepend="and">
+				tm.full_name like '%$fullName$%' 
+			</isNotEmpty>
+			<isNotEmpty property="email" prepend="and">
+				tm.email like '%$email$%' 
+			</isNotEmpty>
+			<isNotEmpty property="certId" prepend="and">
+				tm.cert_id like '%$certId$%' 
+			</isNotEmpty>
+			<isNotEmpty property="drawerName" prepend="and">
+				o.drawername like '%$drawerName$%' 
+			</isNotEmpty>
+			<isNotEmpty property="detailAddress" prepend="and">
+				o.detailaddress like '%$detailAddress$%' 
+			</isNotEmpty>
+			<isNotEmpty property="mobileNumber" prepend="and">
+				o.drawernumber like '%$mobileNumber$%' 
+			</isNotEmpty>
+			<isNotEmpty property="supplierId" prepend="and">
+				o.supplierId !=#supplierId# 
+			</isNotEmpty>
+			<isNotEmpty property="isPayed" prepend="and">
+				o.is_payed=#isPayed#
+			</isNotEmpty>
+			<isNotEmpty property="orderId" prepend="and">
+				o.id like '%$orderId$%' 
+			</isNotEmpty>
+			<isNotEmpty property="orderStatus" prepend="and">
+				o.orderStatus=#orderStatus#
+			</isNotEmpty>
+		</dynamic>	
+		) m) 
+    		
+    	<![CDATA[	where r>=#startCount# and r<=#endCount# ]]>  
+	</select>
+	
+	<select id="getHuaZhangOrderListCount" parameterClass="java.util.HashMap" resultClass="Integer">
+		select count(*) from tbl_order_info o inner join tbl_member tm 
+		on tm.member_id = o.supplierid		
+		<dynamic prepend="where">
+			<isNotEmpty property="ssoAccount" prepend="and">
+				tm.sso_account like '%$ssoAccount$%' 
+			</isNotEmpty>
+			<isNotEmpty property="fullName" prepend="and">
+				tm.full_name like '%$fullName$%' 
+			</isNotEmpty>
+			<isNotEmpty property="email" prepend="and">
+				tm.email like '%$email$%' 
+			</isNotEmpty>
+			<isNotEmpty property="certId" prepend="and">
+				tm.cert_id like '%$certId$%' 
+			</isNotEmpty>
+			<isNotEmpty property="drawerName" prepend="and">
+				o.drawername like '%$drawerName$%' 
+			</isNotEmpty>
+			<isNotEmpty property="detailAddress" prepend="and">
+				o.detailaddress like '%$detailAddress$%' 
+			</isNotEmpty>
+			<isNotEmpty property="mobileNumber" prepend="and">
+				o.drawernumber like '%$mobileNumber$%' 
+			</isNotEmpty>
+			<isNotEmpty property="supplierId" prepend="and">
+				o.supplierId !=#supplierId# 
+			</isNotEmpty>
+			<isNotEmpty property="isPayed" prepend="and">
+				o.is_payed=#isPayed#
+			</isNotEmpty>
+			<isNotEmpty property="orderId" prepend="and">
+				o.id like '%$orderId$%' 
+			</isNotEmpty>
+			<isNotEmpty property="orderStatus" prepend="and">
+				o.orderStatus=#orderStatus#
+			</isNotEmpty>
+		</dynamic>	
+	</select>
+	<update id="updateHuaZhangOrder" parameterClass="java.util.HashMap">
+		update tbl_order_info set is_payed=#isPayed#,payed_time=#payedTime# where id=#orderId# 
+	</update>
+	
+</sqlMap>

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+
+	<package name="info" extends="struts-asn" namespace="/do/info">
+		<action name="toCreateSupplyInfo" class="com.bornsoft.asn.action.information.SupplyInfoAction" method="toCreateSupplyInfo">
+			<result name="success" type="tilesmap">/do/information/createSupplyInfo.jsp</result>
+			<result name="input" type="tilesmap">/do/information/infoInput.jsp</result>
+		</action>
+		<action name="createSupplyInfo" class="com.bornsoft.asn.action.information.SupplyInfoAction" method="createSupplyInfo">
+			<result name="success" type="tilesmap">/do/information/infoOK.jsp</result>
+			<result name="input" type="tilesmap">/do/information/infoInput.jsp</result>
+		</action>
+		<action name="toSupplyInfoListOn" class="com.bornsoft.asn.action.information.SupplyInfoAction" method="toSupplyInfoListOn">
+			<result name="success" type="tilesmap">/do/information/supplyInfoListOn.jsp</result>
+			<result name="input" type="tilesmap">/do/information/infoInput.jsp</result>
+		</action>
+		<action name="toSupplyInfoListOff" class="com.bornsoft.asn.action.information.SupplyInfoAction" method="toSupplyInfoListOff">
+			<result name="success" type="tilesmap">/do/information/supplyInfoListOff.jsp</result>
+			<result name="input" type="tilesmap">/do/information/infoInput.jsp</result>
+		</action>
+		<action name="setSupplyInfoOff" class="com.bornsoft.asn.action.information.SupplyInfoAction" method="setSupplyInfoOff">
+			<result name="success" type="chain">toSupplyInfoListOn</result>
+			<result name="input" type="tilesmap">/do/information/infoInput.jsp</result>
+		</action>
+		<action name="setSupplyInfoOn" class="com.bornsoft.asn.action.information.SupplyInfoAction" method="setSupplyInfoOn">
+			<result name="success" type="chain">toSupplyInfoListOff</result>
+			<result name="input" type="tilesmap">/do/information/infoInput.jsp</result>
+		</action>
+		<action name="setSupplyInfoDel" class="com.bornsoft.asn.action.information.SupplyInfoAction" method="setSupplyInfoDel">
+			<result name="success" type="chain">toSupplyInfoListOff</result>
+			<result name="input" type="tilesmap">/do/information/infoInput.jsp</result>
+		</action>
+		<action name="toUpdateSupplyInfo" class="com.bornsoft.asn.action.information.SupplyInfoAction" method="toUpdateSupplyInfo">
+			<result name="success" type="tilesmap">/do/information/updateSupplyInfo.jsp</result>
+			<result name="input" type="tilesmap">/do/information/infoInput.jsp</result>
+		</action>
+		<action name="updateSupplyInfo" class="com.bornsoft.asn.action.information.SupplyInfoAction" method="updateSupplyInfo">
+			<result name="success" type="tilesmap">/do/information/infoOK.jsp</result>
+			<result name="input" type="tilesmap">/do/information/infoInput.jsp</result>
+		</action>
+		<action name="searchSupplyInfoListOn" class="com.bornsoft.asn.action.information.SupplyInfoAction" method="searchSupplyInfoListOn">
+			<result name="success" type="tilesmap">/do/information/searchSupplyInfoListOn.jsp</result>
+			<result name="input" type="tilesmap">/do/information/infoInput.jsp</result>
+		</action>
+		<action name="searchSupplyInfoListOff" class="com.bornsoft.asn.action.information.SupplyInfoAction" method="searchSupplyInfoListOff">
+			<result name="success" type="tilesmap">/do/information/searchSupplyInfoListOff.jsp</result>
+			<result name="input" type="tilesmap">/do/information/infoInput.jsp</result>
+		</action>
+		
+		
+		<action name="toCreatePurchaseInfo" class="com.bornsoft.asn.action.information.PurchaseInfoAction" method="toCreatePurchaseInfo">
+			<result name="success" type="tilesmap">/do/information/createPurchaseInfo.jsp</result>
+			<result name="input" type="tilesmap">/do/information/infoInput.jsp</result>
+		</action>
+		<action name="createPurchaseInfo" class="com.bornsoft.asn.action.information.PurchaseInfoAction" method="createPurchaseInfo">
+			<result name="success" type="tilesmap">/do/information/infoOK.jsp</result>
+			<result name="input" type="tilesmap">/do/information/infoInput.jsp</result>
+		</action>
+		<action name="toPurchaseInfoListOn" class="com.bornsoft.asn.action.information.PurchaseInfoAction" method="toPurchaseInfoListOn">
+			<result name="success" type="tilesmap">/do/information/purchaseInfoListOn.jsp</result>
+			<result name="input" type="tilesmap">/do/information/infoInput.jsp</result>
+		</action>
+		<action name="toPurchaseInfoListOff" class="com.bornsoft.asn.action.information.PurchaseInfoAction" method="toPurchaseInfoListOff">
+			<result name="success" type="tilesmap">/do/information/purchaseInfoListOff.jsp</result>
+			<result name="input" type="tilesmap">/do/information/infoInput.jsp</result>
+		</action>
+		<action name="setPurchaseInfoOff" class="com.bornsoft.asn.action.information.PurchaseInfoAction" method="setPurchaseInfoOff">
+			<result name="success" type="chain">toPurchaseInfoListOn</result>
+			<result name="input" type="tilesmap">/do/information/infoInput.jsp</result>
+		</action>
+		<action name="setPurchaseInfoOn" class="com.bornsoft.asn.action.information.PurchaseInfoAction" method="setPurchaseInfoOn">
+			<result name="success" type="chain">toPurchaseInfoListOff</result>
+			<result name="input" type="tilesmap">/do/information/infoInput.jsp</result>
+		</action>
+		<action name="setPurchaseInfoDel" class="com.bornsoft.asn.action.information.PurchaseInfoAction" method="setPurchaseInfoDel">
+			<result name="success" type="chain">toPurchaseInfoListOff</result>
+			<result name="input" type="tilesmap">/do/information/infoInput.jsp</result>
+		</action>
+		<action name="toUpdatePurchaseInfo" class="com.bornsoft.asn.action.information.PurchaseInfoAction" method="toUpdatePurchaseInfo">
+			<result name="success" type="tilesmap">/do/information/updatePurchaseInfo.jsp</result>
+			<result name="input" type="tilesmap">/do/information/infoInput.jsp</result>
+		</action>
+		<action name="updatePurchaseInfo" class="com.bornsoft.asn.action.information.PurchaseInfoAction" method="updatePurchaseInfo">
+			<result name="success" type="tilesmap">/do/information/infoOK.jsp</result>
+			<result name="input" type="tilesmap">/do/information/infoInput.jsp</result>
+		</action>
+		<action name="searchPurchaseInfoListOn" class="com.bornsoft.asn.action.information.PurchaseInfoAction" method="searchPurchaseInfoListOn">
+			<result name="success" type="tilesmap">/do/information/searchPurchaseInfoListOn.jsp</result>
+			<result name="input" type="tilesmap">/do/information/infoInput.jsp</result>
+		</action>
+		<action name="searchPurchaseInfoListOff" class="com.bornsoft.asn.action.information.PurchaseInfoAction" method="searchPurchaseInfoListOff">
+			<result name="success" type="tilesmap">/do/information/searchPurchaseInfoListOff.jsp</result>
+			<result name="input" type="tilesmap">/do/information/infoInput.jsp</result>
+		</action>
+		
+		
+		<action name="getKeyword" class="com.bornsoft.asn.action.information.InfoAction" method="getKeyword">
+			
+		</action>
+		
+	</package>
+
+</struts>   

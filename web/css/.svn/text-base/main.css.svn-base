@@ -1,0 +1,183 @@
+/* 全局CSS定义 */
+body {
+	font-size:10pt;
+}
+ul { list-style: none; margin: 0px; padding: 0px; }
+
+form,.nomargin{margin:0;padding:0;border:0;}
+.back_top{margin:0;padding:0;border:0; background:url(../image/title_bg.gif) repeat-x;}
+.nomargin_left{ width:40%px; float:left;}
+.nomargin_right{ width:60%px; float:right; padding-right:50px; padding-top:50px; text-align:right; display:inherit;}
+
+
+/* CSS空白 */
+.blank1{margin:0 auto;height:1px;font-size:1px;clear:both;}
+.blank2{margin:0 auto;height:2px;font-size:1px;clear:both;}
+.blank3{margin:0 auto;height:3px;font-size:1px;clear:both;}
+.blank5{margin:0 auto;height:5px;font-size:1px;clear:both;}
+.blank8{margin:0 auto;height:8px;font-size:1px;clear:both;}
+.blank10{margin:0 auto;height:10px;font-size:1px;clear:both;}
+.blank15{margin:0 auto;height:15px;font-size:1px;clear:both;}
+.blank6{height:6px; font-size:1px; clear:both;overflow:hidden;}
+
+/* 默认链接颜色 */
+a{outline-style:none;color:#666666;text-decoration:none}
+a:hover{color:#c00;text-decoration:underline;}
+  
+/* 颜色 */
+.cRed,a.cRed:link,a.cRed:visited{ color:#f00; }
+.cBlue,a.cBlue:link,a.cBlue:visited,a.cBlue:active{color:#1f3a87;}
+.cDRed,a.cDRed:link,a.cDRed:visited{ color:#bc2931;}
+.cGray,a.cGray:link,a.cGray:visited{ color: #4F544D;}
+.cDGray,a.cDGray:link,a.cDGray:visited{ color: #666;}
+.cWhite,a.cWhite:link,a.cWhite:visited{ color:#fff;}
+.cBlack,a.cBlack:link,a.cBlack:visited{color:#000;}
+a.cBlack:hover{color:#bc2931;}
+.cYellow,a.cYellow:link,a.cYellow:visited{color:#ff0;}
+.cGreen,a.cGreen:link,a.cGreen:visited{color:#008000;}
+
+/* 通用属性 */
+.left{ float: left;}
+.right{ float: right;}
+
+/* 文字大小*/
+.f10pt{ font-size:10pt;}
+.f14px{ font-size:14px;}
+.b{font-weight:bold;}
+h1{font-size:16px;font-weight:200;font-family:黑体;}
+h1 a{color:#303030;}
+p{margin:5px;text-indent:2em;text-align:justify;}
+
+
+/*分隔线*/
+hr{border:0;border-top: #D1D7DC 1px solid;height:2;float: none;	width: 95%;}
+
+
+/*文字对齐方式*/
+.txtLeft{text-align:left}
+.txtRight{text-align:right}
+.txtCenter{text-align:center}
+
+/*常用方法*/
+.show{display:block}
+.hidden{display:none}
+.hand{cursor:pointer;}
+.fontArial{font-family:'Arial';}
+
+/* 普通颜色按纽 */
+.button {
+	font-size: 10pt;
+	background-color: #63AFF5;
+	border: solid;
+	border-top-color: #FFFFFF;
+	border-right-color: #0066CC;
+	border-bottom-color: #0066CC;
+	border-left-color: #FFFFFF;
+	color: #FFFFFF;
+	padding-right: 2px;
+	padding-left: 2px;
+	padding-top: 1px;
+	border-top-width: 1px;
+	border-right-width: 1px;
+	border-bottom-width: 1px;
+	border-left-width: 1px;
+	border-top-style: solid;
+	border-right-style: solid;
+	border-bottom-style: solid;
+	border-left-style: solid;
+	margin-top: 1px;
+	margin-left: 10px;
+}
+
+
+/* 带图片按纽 */
+.button1 {font-size: 10pt;height: 20px; background-image: url(image/button1.gif);border: 1px;border: solid;padding-right: 2px;padding-left: adding-top:1px;}
+
+
+/* 文本框 */
+.textkuan {border: 1px solid #666666;}
+
+
+/* 多行文本框 */
+.textkuandh {border: 1px solid #666666;	background-image: url(image/textkuandh.gif);width: 500px;}
+
+
+/* 下拉文本框 */
+.xiala {width: 200px;color: #FFFFFF;background-color: #0099FF;font-family: "宋体";font-size: 10pt;}
+
+
+
+
+/*单选框边距 */
+.danxuan{margin-top: 10px;margin-right: 10px;margin-bottom: 10px;margin-left: 10px;}
+
+
+
+/*复选框边距 */
+.fuxuan{margin-top: 10px;margin-right: 10px;margin-bottom: 10px;margin-left: 10px;}
+
+
+/*隔行变色划过表格 JS加入页面body区*/
+/*<script language="javascript">
+var rows = document.getElementsByTagName('tr');
+for (var i=0;i<rows.length;i++){
+	rows[i].onmouseover = function(){		//鼠标在行上面的时候
+		this.className += 'altrow';
+	}
+	rows[i].onmouseout = function(){		//鼠标离开时
+		this.className = this.className.replace('altrow','');
+	}
+}
+</script>*/
+.biaoge{
+	border:1px solid #FFFFFF;	/* 表格边框 */
+	font-family:Arial;
+	border-collapse:collapse;	/* 边框重叠 */
+	background-color:#F0F0F0;	/* 表格背景色 */
+	font-size:14px;
+	margin-right: auto;
+	margin-left: auto;
+}
+.biaoge th{
+	border:1px solid #9BD2FF;	/* 表头名称边框 */
+	background-color:#CFE8F3;	/* 表头名称背景色 */
+	color:#FFFFFF;				/* 表头名称颜色 */
+	font-weight:bold;
+	padding-top:4px; padding-bottom:4px;
+	padding-left:10pt; padding-right:10pt;
+	text-align:center;
+}
+.biaoge td{
+	border:1px solid #FFFFFF;	/* 单元格边框 */
+	text-align:left;
+	padding-top:4px; padding-bottom:4px;
+	padding-left:10px; padding-right:10px;
+}
+.biaoge tr:hover, .biaoge tr.altrow{
+	background-color:#CCCCCC;	/* 动态变色 */
+}
+
+.required {
+	font-size: 10pt;
+	color: #990000;
+}
+
+/*绿色*/
+a.green:link, a.green:visited {
+	color:#78a633;
+	text-decoration:none;
+}
+a.green:hover, a.green:active {
+	color:#78a633;
+	text-decoration:underline;
+}
+.green a:link, .green a:visited {
+	color:#d3fcae;
+	text-decoration:none;
+}
+.green a:hover, .green a:active {
+	color:#fff;
+	text-decoration:underline;
+}
+
+

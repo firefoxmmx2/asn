@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="customerStatistics">
+	
+	<resultMap class="HashMap" id="statisticsMap">
+		<result property="memberId" column="memberId"/>
+		<result property="fullName" column="FULL_NAME"/>
+		<result property="amount" column="amount"/>
+	</resultMap>
+	
+	
+	<select id="getStatisticsbyOrderCount" parameterClass="java.util.HashMap" resultMap="statisticsMap">
+		select * from (select A.*, rownum r from (
+		
+		select * from (
+			select m.MEMBER_ID as memberId,m.FULL_NAME,count(o.ID) as amount  from TBL_ORDER_INFO o,TBL_MEMBER m 
+				where 	o.MEMBERID = m.MEMBER_ID and 
+						o.SUPPLIERID = #supplierId#
+	            group by m.MEMBER_ID, m.FULL_NAME
+	            order by amount desc
+	    ) aa	    
+		where 1=1
+		<dynamic>
+			<isNotEmpty property="orderCountDown" prepend="and">
+				aa.amount >= #orderCountDown#
+			</isNotEmpty>		
+			<isNotEmpty property="orderCountUp" prepend="and">
+				<![CDATA[ aa.amount <= #orderCountUp# ]]> 
+			</isNotEmpty>
+		</dynamic>    
+            
+        ) A) 
+    	<![CDATA[
+    		where r>=#startCount# and r<=#endCount#
+    	]]> 
+	</select>
+	<select id="getStatisticsbyOrderCountCount" parameterClass="java.util.HashMap" resultClass="int" >
+		<!-- select count(distinct m.FULL_NAME) from TBL_ORDER_INFO o,TBL_MEMBER m 
+			where 	o.MEMBERID = m.MEMBER_ID and 
+					o.SUPPLIERID = #supplierId#
+		-->
+		select count(*) from (
+			select m.MEMBER_ID as memberId,m.FULL_NAME,count(o.ID) as amount  from TBL_ORDER_INFO o,TBL_MEMBER m 
+				where 	o.MEMBERID = m.MEMBER_ID and 
+						o.SUPPLIERID = #supplierId#
+	            group by m.MEMBER_ID, m.FULL_NAME
+	            order by amount desc
+	    ) aa	    
+		where 1=1
+		<dynamic>
+			<isNotEmpty property="orderCountDown" prepend="and">
+				aa.amount >= #orderCountDown#
+			</isNotEmpty>		
+			<isNotEmpty property="orderCountUp" prepend="and">
+				<![CDATA[ aa.amount <= #orderCountUp# ]]> 
+			</isNotEmpty>
+		</dynamic>
+					
+	</select>
+	
+	<select id="getStatisticsbyAmountMoney" parameterClass="java.util.HashMap" resultMap="statisticsMap">
+		select * from (select A.*, rownum r from (
+		
+		select * from (
+			select m.MEMBER_ID as memberId,m.FULL_NAME,sum(o.TOTALAMOUNT) as amount  from TBL_ORDER_INFO o,TBL_MEMBER m 
+				where 	o.MEMBERID = m.MEMBER_ID and 
+						o.SUPPLIERID = #supplierId#
+	              group by m.MEMBER_ID, m.FULL_NAME              
+	              order by amount desc
+         
+         ) aa	    
+		where 1=1
+		<dynamic>
+			<isNotEmpty property="orderMoneyDown" prepend="and">
+				aa.amount >= #orderMoneyDown#
+			</isNotEmpty>		
+			<isNotEmpty property="orderMoneyUp" prepend="and">
+				<![CDATA[ aa.amount <= #orderMoneyUp# ]]> 
+			</isNotEmpty>
+		</dynamic>   
+		      
+        ) A) 
+    	<![CDATA[
+    		where r>=#startCount# and r<=#endCount#
+    	]]> 
+	</select>
+	<select id="getStatisticsbyAmountMoneyCount" parameterClass="java.util.HashMap" resultClass="int">
+		<!-- select count(distinct m.FULL_NAME) from TBL_ORDER_INFO o,TBL_MEMBER m 
+			where 	o.MEMBERID = m.MEMBER_ID and 
+					o.SUPPLIERID = #supplierId#
+		-->		
+		select count(*) from (
+			select m.MEMBER_ID as memberId,m.FULL_NAME,sum(o.TOTALAMOUNT) as amount  from TBL_ORDER_INFO o,TBL_MEMBER m 
+				where 	o.MEMBERID = m.MEMBER_ID and 
+						o.SUPPLIERID = #supplierId#
+	              group by m.MEMBER_ID, m.FULL_NAME              
+	              order by amount desc
+         
+         ) aa	    
+		where 1=1
+		<dynamic>
+			<isNotEmpty property="orderMoneyDown" prepend="and">
+				aa.amount >= #orderMoneyDown#
+			</isNotEmpty>		
+			<isNotEmpty property="orderMoneyUp" prepend="and">
+				<![CDATA[ aa.amount <= #orderMoneyUp# ]]> 
+			</isNotEmpty>
+		</dynamic>  
+					
+	</select>
+	
+	
+	<!--************* 消费能力分析 ***********************-->
+	<resultMap class="HashMap" id="consumePowerMap">
+		<result property="memberId" column="memberId"/>
+		<result property="fullName" column="FULL_NAME"/>
+		<result property="orderId" column="orderId"/>
+		<result property="totalAmount" column="totalamount"/>
+		<result property="createTime" column="createtime" javaType="Date"/>
+	</resultMap>
+	<select id="getconsumePower" parameterClass="java.util.HashMap" resultMap="consumePowerMap">	
+	 select * from (select A.*, rownum r from (	
+	 
+		select m.MEMBER_ID as memberId, m.FULL_NAME, o.id as orderId, o.totalamount, o.createtime 
+  			from   TBL_ORDER_INFO o,TBL_MEMBER m 
+		where 	o.SUPPLIERID = #supplierId#  and  o.MEMBERID = m.MEMBER_ID
+			
+			<dynamic>
+				<isNotEmpty property="fullName" prepend="and">
+					( m.FULL_NAME like '%$fullName$%' or m.SHORT_NAME like '%$fullName$%' )
+				</isNotEmpty>
+				<isNotEmpty property="startTime" prepend="and">
+					o.createtime >= to_timestamp('$startTime$'' 0:0:0', 'syyyy-mm-dd hh24:mi:ss')
+				</isNotEmpty>
+				<isNotEmpty property="endTime" prepend="and">
+					o.createtime <![CDATA[ <= ]]> to_timestamp('$endTime$'' 0:0:0', 'syyyy-mm-dd hh24:mi:ss')
+				</isNotEmpty>
+			</dynamic>
+			
+		group by m.FULL_NAME , m.MEMBER_ID,o.id ,o.totalamount ,o.createtime
+		order by o.createtime desc	
+		
+		) A) 
+    	<![CDATA[
+    		where r>=#startCount# and r<=#endCount#
+    	]]>  
+		
+	</select>
+	<select id="getconsumePowerCount" parameterClass="java.util.HashMap" resultClass="int">
+		select count(*)	from   TBL_ORDER_INFO o,TBL_MEMBER m 
+		where 	o.SUPPLIERID = #supplierId#  and  o.MEMBERID = m.MEMBER_ID
+			<dynamic>
+				<isNotEmpty property="fullName" prepend="and">
+					( m.FULL_NAME like '%$fullName$%' or m.SHORT_NAME like '%$fullName$%' )
+				</isNotEmpty>
+				<isNotEmpty property="startTime" prepend="and">
+					o.createtime >= to_timestamp('$startTime$'' 0:0:0', 'syyyy-mm-dd hh24:mi:ss')
+				</isNotEmpty>
+				<isNotEmpty property="endTime" prepend="and">
+					o.createtime <![CDATA[ <= ]]> to_timestamp('$endTime$'' 0:0:0', 'syyyy-mm-dd hh24:mi:ss')
+				</isNotEmpty>
+			</dynamic>
+	</select>
+	 
+	
+	<!--*********************** 产品销售排行榜  按产品名称***********************-->
+	<resultMap class="HashMap" id="productSaleTopMap">
+		<result property="productName" column="itemproductname"/>
+		<result property="amount" column="amount"/>
+		<result property="unit" column="product_unit"/>
+		<result property="productId" column="product_id"/>		
+	</resultMap>
+	<select id="getProductSaleTop" parameterClass="java.util.HashMap" resultMap="productSaleTopMap">
+		select * from (select A.*, rownum r from (	
+		
+		select distinct i.itemproductname, sum(i.quantity) amount, p.product_unit, p.product_id  
+		from tbl_order_info o,tbl_order_items i,tbl_product p 
+		where 	o.id = i.orderid and i.itemproductid = p.product_id and o.supplierid=#supplierId# 
+		
+				<dynamic>
+					<isNotEmpty property="productName" prepend="and">
+						i.itemproductname like '%$productName$%'
+					</isNotEmpty>
+					<isNotEmpty property="startTime" prepend="and">
+						o.createtime >= to_timestamp('$startTime$'' 0:0:0', 'syyyy-mm-dd hh24:mi:ss')
+					</isNotEmpty>
+					<isNotEmpty property="endTime" prepend="and">
+						o.createtime <![CDATA[ <= ]]> to_timestamp('$endTime$'' 0:0:0', 'syyyy-mm-dd hh24:mi:ss')
+					</isNotEmpty>
+				</dynamic>
+			
+			group by i.itemproductname, p.product_unit, p.product_id 
+			order by amount desc
+		
+		) A) 
+    	<![CDATA[
+    		where r>=#startCount# and r<=#endCount#
+    	]]>  
+	</select>
+	<select id="getProductSaleTopCount" parameterClass="java.util.HashMap" resultClass="int">
+		select count(distinct i.itemproductname) 
+		from tbl_order_info o,tbl_order_items i,tbl_product p 
+		where 	o.id = i.orderid and i.itemproductid = p.product_id and o.supplierid=#supplierId# 	
+			<dynamic>
+				<isNotEmpty property="productName" prepend="and">
+					i.itemproductname like '%$productName$%'
+				</isNotEmpty>
+				<isNotEmpty property="startTime" prepend="and">
+					o.createtime >= to_timestamp('$startTime$'' 0:0:0', 'syyyy-mm-dd hh24:mi:ss')
+				</isNotEmpty>
+				<isNotEmpty property="endTime" prepend="and">
+					o.createtime <![CDATA[ <= ]]> to_timestamp('$endTime$'' 0:0:0', 'syyyy-mm-dd hh24:mi:ss')
+				</isNotEmpty>
+			</dynamic>			      
+	</select>
+	
+	<!--******************** 产品销售排行榜  按类别排行*************************3-->
+	<resultMap class="HashMap" id="productSaleTopMapByType">
+		<result property="amount" column="amount"/>
+		<result property="productTypeName" column="pt_typename"/>
+		<result property="parentName" column="pt_parentName"/>
+		<result property="ptId" column="pt_id"/>
+	</resultMap>
+	<select id="getProductSaleTopByType" parameterClass="java.util.HashMap" resultMap="productSaleTopMapByType">
+	select * from (select A.*, rownum r from (	
+	
+		select pt3.pt_id, pt3.pt_typename, pt3.amount, pt2.pt_typename as pt_parentName from tbl_product_type pt2,
+
+			( select pt.pt_id,pt.pt_parentid, pt.pt_typename,count(i.itemproductname) as amount
+			  from tbl_order_info o, tbl_order_items i, tbl_product p, tbl_product_type pt
+			  where o.id = i.orderid and i.itemproductid = p.product_id and p.product_type = pt.pt_code and     
+			        o.supplierid = #supplierId# 
+			        
+			        <dynamic>
+			        	<isNotEmpty property="productTypeName" prepend="and">
+							pt.pt_typename like '%$productTypeName$%'
+						</isNotEmpty>
+						<isNotEmpty property="startTime" prepend="and">
+							o.createtime >= to_timestamp('$startTime$'' 0:0:0', 'syyyy-mm-dd hh24:mi:ss')
+						</isNotEmpty>
+						<isNotEmpty property="endTime" prepend="and">
+							o.createtime <![CDATA[ <= ]]> to_timestamp('$endTime$'' 0:0:0', 'syyyy-mm-dd hh24:mi:ss')
+						</isNotEmpty>			        
+			        </dynamic>
+			        
+			        group by pt.pt_id, pt.pt_parentid, pt.pt_typename 
+		 	 ) pt3
+		
+		where pt2.pt_id = pt3.pt_parentid
+		
+		) A) 
+    	<![CDATA[
+    		where r>=#startCount# and r<=#endCount#
+    	]]> 	
+		
+	</select>
+	<select id="getTypeProductSaleTopCount" parameterClass="java.util.HashMap" resultClass="int">
+		select count(*) from tbl_product_type pt2,
+			( select pt.pt_id,pt.pt_parentid, pt.pt_typename,count(i.itemproductname) as amount
+			  from tbl_order_info o, tbl_order_items i, tbl_product p, tbl_product_type pt
+			  where o.id = i.orderid and i.itemproductid = p.product_id and p.product_type = pt.pt_code and     
+			        o.supplierid = #supplierId# 
+			        
+			        <dynamic>
+			        	<isNotEmpty property="productTypeName" prepend="and">
+							pt.pt_typename like '%$productTypeName$%'
+						</isNotEmpty>
+						<isNotEmpty property="startTime" prepend="and">
+							o.createtime >= to_timestamp('$startTime$'' 0:0:0', 'syyyy-mm-dd hh24:mi:ss')
+						</isNotEmpty>
+						<isNotEmpty property="endTime" prepend="and">
+							o.createtime <![CDATA[ <= ]]> to_timestamp('$endTime$'' 0:0:0', 'syyyy-mm-dd hh24:mi:ss')
+						</isNotEmpty>			        
+			        </dynamic>
+			        
+			        group by pt.pt_id, pt.pt_parentid, pt.pt_typename 
+		        
+		     ) pt3
+		
+		where pt2.pt_id = pt3.pt_parentid				
+	</select>
+	
+	
+	
+	<!-- 客户满意度分析 -->
+	<resultMap class="HashMap" id="satisfactionMap">
+		<result property="memberId" column="buyer_id"/>
+		<result property="fullName" column="buyer_name"/>
+		<result property="productReal" column="PRODUCT"/>
+		<result property="delivery" column="DELIVERY"/>
+		<result property="communication" column="COMMUNICATION"/>
+	</resultMap>
+	<select id="getsatisfaction" parameterClass="java.util.HashMap" resultMap="satisfactionMap">
+	select * from (select A.*, rownum r from (	
+	
+		select buyer_id,buyer_name,avg(PRODUCT) as PRODUCT,avg(DELIVERY) as DELIVERY,avg(COMMUNICATION) as COMMUNICATION  
+		from tbl_trade_review 
+		where supplier_id = #supplierId# 
+			
+			<dynamic>
+				<isNotEmpty property="fullName" prepend="and">
+					buyer_name like '%$fullName$%'
+				</isNotEmpty>
+				<isNotEmpty property="startTime" prepend="and">
+					REVIEW_TIME >= to_timestamp('$startTime$'' 0:0:0', 'syyyy-mm-dd hh24:mi:ss')
+				</isNotEmpty>
+				<isNotEmpty property="endTime" prepend="and">
+					REVIEW_TIME <![CDATA[ <= ]]> to_timestamp('$endTime$'' 0:0:0', 'syyyy-mm-dd hh24:mi:ss')
+				</isNotEmpty>
+			</dynamic>	
+			
+			group by buyer_id, buyer_name 
+	) A) 
+   	<![CDATA[
+   		where r>=#startCount# and r<=#endCount#
+   	]]> 		
+	</select>
+	<select id="getsatisfactionCount" parameterClass="java.util.HashMap" resultClass="int">
+		select count(distinct buyer_name) from tbl_trade_review 
+		where supplier_id = #supplierId#
+			<dynamic>
+				<isNotEmpty property="fullName" prepend="and">
+					buyer_name like '%$fullName$%'
+				</isNotEmpty>
+				<isNotEmpty property="startTime" prepend="and">
+					REVIEW_TIME >= to_timestamp('$startTime$'' 0:0:0', 'syyyy-mm-dd hh24:mi:ss')
+				</isNotEmpty>
+				<isNotEmpty property="endTime" prepend="and">
+					REVIEW_TIME <![CDATA[ <= ]]> to_timestamp('$endTime$'' 0:0:0', 'syyyy-mm-dd hh24:mi:ss')
+				</isNotEmpty>
+			</dynamic>
+	</select>
+	
+</sqlMap>

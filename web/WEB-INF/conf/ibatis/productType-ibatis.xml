@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap>
+    <cacheModel id="ptypeCache" type="OSCACHE">
+        <flushInterval hours="500"/>
+        <flushOnExecute statement="insertType"/>
+        <flushOnExecute statement="updateType"/>
+        <flushOnExecute statement="deleteType"/>
+    </cacheModel>
+	<typeAlias alias="ProductType" type="com.bornsoft.asn.bean.productType.ProductType"/>
+	<resultMap id="productTypeResult" class="ProductType">
+		<result property="ptid" column="PT_ID"></result>
+		<result property="ptcode" column="PT_CODE"></result>
+		<result property="pttypeName" column="PT_TYPENAME"></result>
+		<result property="ptparentid" column="PT_PARENTID"></result>
+		<!-- add by hooxin 10-3-24 -->
+		<result property="priority" column="PRIORITY"/>
+		<!-- add by hooxin 10-4-26 -->
+		<result property="ptseq" column="PT_SEQ" nullValue="1"/>
+		<!-- add by hooxin 10-5-7 -->
+		<result property="productCount" column="PRODUCT_COUNT" nullValue="0"/>
+	</resultMap>
+	<!-- 添加分类序列 by hooxin 10-4-26 -->
+	<select id="selectFirstProductType" resultMap="productTypeResult" cacheModel="ptypeCache">
+		select * from tbl_product_type where PT_PARENTID = 0 order by PT_SEQ asc
+	</select>
+	
+	<select id="selectSecondProductType" resultMap="productTypeResult" cacheModel="ptypeCache">
+		select t.* from tbl_product_type t,tbl_product_type t1 
+		where t.pt_parentid = t1.pt_id and t1.pt_parentid=0 
+	</select>
+	
+	<select id="selectThirdProductType" resultMap="productTypeResult" cacheModel="ptypeCache">
+		select t.* from tbl_product_type t,tbl_product_type t1 
+		where t.pt_parentid = t1.pt_id and t1.pt_parentid > 0 order by t.PT_SEQ asc
+	</select>
+	
+	<select id="getProductTypeByCode" resultMap="productTypeResult" parameterClass="String" cacheModel="ptypeCache">
+		select * from tbl_product_type where PT_CODE = #ptcode#
+	</select>
+	<!-- add by hooxin 10-3-24 -->
+	<select id="selectFirstProductTypeByPriority" resultMap="productTypeResult" cacheModel="ptypeCache">
+		select * from tbl_product_type where PT_PARENTID = 0 and priority = #priority# order by PT_SEQ asc
+	</select>
+	
+	<select id="selectSecondProductTypeByPriority" resultMap="productTypeResult" cacheModel="ptypeCache">
+		select t.* from tbl_product_type t,tbl_product_type t1 
+		where t.pt_parentid = t1.pt_id and t1.pt_parentid=0 and t.priority = #priority# order by t.PT_SEQ asc
+	</select>
+	
+	<select id="selectThirdProductTypeByPriority" resultMap="productTypeResult" cacheModel="ptypeCache">
+		select t.* from tbl_product_type t,tbl_product_type t1 
+		where t.pt_parentid = t1.pt_id and t1.pt_parentid > 0 and t.priority = #priority# order by t.PT_SEQ asc
+	</select>
+	
+	<insert id="insertType" parameterClass="ProductType" >
+		insert into tbl_product_type(PT_ID,PT_CODE,PT_TYPENAME,PT_PARENTID,PRIORITY) values(
+			#ptid#,
+			#ptcode#,
+			#pttypeName#,
+			#ptparentid#,
+			#priority#
+		)
+	</insert>
+	<update id="updateType" parameterClass="ProductType">
+		update tbl_product_type t set
+			PT_CODE=#ptcode#,
+			PT_TYPENAME=#pttypeName#,
+			PT_PARENTID=#ptparentid#,
+			PRIORITY=#priority#
+		where PT_ID = #ptid#
+	</update>
+	
+	<delete id="deleteType" parameterClass="int">
+		delete from tbl_product_type t where pt_id = #ptid#
+	</delete>
+	<!-- end by hooxin -->
+	<select id="getProductTypeByFatherId" parameterClass="String" resultMap="productTypeResult" cacheModel="ptypeCache">
+		select * from TBL_PRODUCT_TYPE where PT_PARENTID=#id#
+	</select>
+	<select id="getProductTypeById" parameterClass="String" resultMap="productTypeResult" cacheModel="ptypeCache">
+		select * from TBL_PRODUCT_TYPE where PT_ID=#id#
+	</select>
+</sqlMap>
+   

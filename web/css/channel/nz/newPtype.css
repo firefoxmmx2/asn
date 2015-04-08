@@ -1,0 +1,34 @@
+/*
+	农资分类样式
+	继承自css/newPtype/newPtye.css
+*/
+
+/*
+边框 颜色 #b2cbe1
+内容底色 #f4fafa
+分类项底色 #dce8f4
+2级类颜色 #0162c1
+*/
+
+
+.item {
+	border-color: #b2cbe1;
+}
+
+.second {
+	color: #0162c1;
+}
+
+
+.extend_item {
+	background:url(../../../image/channel/nz//yjl_bg.jpg) no-repeat;color:#0263c1; font-weight:bold; text-align:left; padding-left:10px;
+}
+
+.p10 {
+	color: #0162c1;
+}
+
+.pop_subentry {
+	background-color: #f4fafa;
+	border-color: #b2cbe1;
+}

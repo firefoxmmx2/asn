@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<error-processors>
+	<error-processor class="com.bornsoft.asn.exception.NotFoundImgErrorProcessor" code="404"/>
+	<error-processor class="com.bornsoft.asn.exception.NotFoundErrorProcessor" code="404"/>
+	<error-processor class="com.bornsoft.asn.exception.ServerErrorProcessor" code="500"/>
+</error-processors>

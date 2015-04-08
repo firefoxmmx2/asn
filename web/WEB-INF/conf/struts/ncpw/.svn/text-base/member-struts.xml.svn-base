@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<package name="member" extends="struts-asn" namespace="/do/member">
+		<action name="testMemberService" class="com.bornsoft.asn.test.TestMemberService">
+		</action>
+		
+		<!-- 开通商务功能  cl add 2010-02-26 -->
+		<action name="enrollMember" class="com.bornsoft.asn.action.member.MemberAction" method="enrollMember">
+			<result name="success" type="tilesmap">/do/member/member_mailverify.jsp</result>
+			<result name="fail" type="tilesmap">/do/member/member_register.jsp</result>
+		</action>
+		
+		
+		<!-- 修改会员信息  cl add 2010-03-15 -->
+		<action name="updateMember" class="com.bornsoft.asn.action.member.MemberAction" method="updateMember">
+			<result name="fail">/do/member/member_update.jsp</result>
+		</action>
+		
+		
+		
+		<!-- 重新获取邮件验证编码  cl add 2010-03-15 -->
+		<action name="remailVerifyCode" method="remailVerifyCode" class="com.bornsoft.asn.action.member.MemberAction">
+			<result name="success" type="tilesmap">/do/member/member_mailverify.jsp</result>
+		</action>
+		
+		
+		
+		<!--修改邮箱  cl add 2010-03-21 -->
+		<action name="updateEmail" method="updateEmail" class="com.bornsoft.asn.action.member.MemberAction">
+			<result name="success" type="tilesmap">/do/member/member_mailverify.jsp</result>
+		</action>
+		
+		<!-- 查询所有的企业会员信息  cl add 2010-03-15 -->
+		<action name="listEnterprise" class="com.bornsoft.asn.action.member.MemberAction" method="listEnterprise">
+			<result name="success">/do/member/allguarantee.jsp</result>
+		</action>
+		
+		<!-- 查询企业会员资料——————根据会员名称  cl add 2010-03-15 -->
+		<action name="checkEnterprise"  class="com.bornsoft.asn.action.member.MemberAction"  method="checkEnterprise">
+			<result name="success">/do/member/allguarantee.jsp</result>
+		</action>
+		
+		<!-- 成为会员及供应商流程图  cl add 2010-05-06 -->
+		<action name="process"  class="com.bornsoft.asn.action.member.MemberAction"  method="process">
+			<result name="success" type="tilesmap">/do/process.jsp</result>
+		</action>
+		
+		<!--查询会员详细信息  cl add 2010-11-01 -->
+		<action name="getMemberById" method="getMemberById" class="com.bornsoft.asn.action.member.MemberAction">
+			<result name="success" type="tilesmap">/do/member/member_info.jsp</result>
+		</action>
+		
+	</package>
+	
+	<package name="adminMember" extends="struts-asn" namespace="/admin/member">
+		<action name="jsonData" class="com.bornsoft.asn.test.JsonData">
+		</action>
+	
+		<!-- 按条件查询商务会员列表<result name="success" type="tilesmap">/do/member/member_others.jsp</result> -->
+		<action name="listMemberByParam" class="com.bornsoft.asn.action.member.MemberAction" method="listMemberByParam">
+			<result name="success" type="tilesmap">/admin/member/member_list.jsp</result>
+		</action>
+		
+		<!-- 按条件查询商务会员列表—————— 综合查询 -->
+		<action name="generalListMember" class="com.bornsoft.asn.action.member.MemberAction" method="listGeneralMember">
+			<result name="success" type="tilesmap">/admin/member/general_member_list.jsp</result>
+		</action>
+		
+		<!-- 管理员审核用户信息 cl add 2010-03-16 -->
+		<action name="adminCheckMember" method="adminCheckMember" class="com.bornsoft.asn.action.member.MemberAction">
+			<result name="success" type="chain">listMemberByParam</result>
+		</action>
+		
+		<!-- 管理员删除用户信息 cl add 2010-03-18 -->
+		<action name="delMemberInfo" method="delMemberInfo" class="com.bornsoft.asn.action.member.MemberAction">
+			<result name="success" type="chain">listMemberByParam</result>
+		</action>
+		
+		<!--修改锁定状态  cl add 2010-04-01 -->
+		<action name="updMemberLocked" method="updMemberLocked" class="com.bornsoft.asn.action.member.MemberAction">
+			<result name="success" type="chain">listMemberByParam</result>
+		</action>
+		
+		<!--查询会员详细信息  cl add 2010-04-01 -->
+		<action name="getMemberById" method="getMemberById" class="com.bornsoft.asn.action.member.MemberAction">
+			<result name="success" type="tilesmap">/admin/member/member_info.jsp</result>
+		</action>
+	</package>
+</struts>

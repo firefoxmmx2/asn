@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<package name="tradeReview" namespace="/do/tReview" extends="struts-asn">
+		<action name="*" method="{1}" class="com.bornsoft.asn.action.tradeReview.TradeReviewAction">
+			<result name="success" type="tilesmap">/do/tradeReview/tradeReview.jsp</result>
+			<result name="已评价" type="redirect">queryBuyOrder?orderStatus=JYC</result>
+			<result name="toViewlist" type="tilesmap">/do/tradeReview/tradeReviewToview.jsp</result>
+		</action>
+		<action name="queryBuyOrder" 
+		        class="com.bornsoft.asn.action.order.FrontOrderAction"
+		        method="queryBuyOrder">
+			<result name="success" type="tilesmap">/do/order/myBuyOrderInfo.jsp</result>
+		</action>
+	</package>
+	
+</struts>

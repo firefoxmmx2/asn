@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="proposerAdvert">
+	<typeAlias alias="proposerAdvert" type="com.bornsoft.asn.bean.advert.proposerAdvert"/>
+	<resultMap class="proposerAdvert" id="proposerAdvertResult">
+		<result property="proposerId" column="ID"/>
+		<result property="advertId" column="ADVERT_ID"/>
+		<result property="memberId" column="EMPLOYE_ID"/>
+		<result property="applyTime" column="APPLY_TIME"/>
+		<result property="handleStatus" column="HANDLE_STATUS"/>
+		<result property="handleTime" column="HANDLE_TIME"/>
+		<result property="picPath" column="PIC"/>
+		<result property="contractNumber" column="CONTRACT_NO"/>
+		<result property="SignTime" column="SIGN_TIME"/>
+		<result property="member" select="getMemberById" column="EMPLOYE_ID"/>
+	</resultMap>
+	
+	<resultMap class="Advert" id="AdvertMap-pa">
+		<result property="advertId" column="ID"/>
+		<result property="advName" column="NAME"/>
+		<result property="advType" column="TYPE"/>
+		<result property="advAddress" column="ADDRESS"/>
+		<result property="advSpec" column="SPEC"/>
+		<result property="description" column="DESCRIPTION"/>
+		<result property="picPath" column="PIC_PATH"/>
+		<result property="quote" column="QUOTE"/>
+		<result property="startTime" column="START_TIME"/>
+		<result property="endTime" column="END_TIME"/>
+		<result property="status" column="STATUS"/>
+		<result property="handleStatus" column="HANDLE_STATUS"/>
+		<result property="createTime" column="CREATE_TIME"/>
+		<result property="createName" column="CREATE_MAN" />
+		<result property="proposerAdvert" select="getProposerAdvertById-pa" column="advertId=ID,memberId=CREATE_MAN"/>
+	</resultMap>
+	
+	<select id="listAdvert-pa" parameterClass="java.util.HashMap" resultMap="AdvertMap-pa">
+		select * from (select a.*, rownum r from (
+	
+			select 
+					adv.ID,
+					adv.NAME,
+					adv.TYPE,
+					adv.ADDRESS,
+					adv.SPEC,
+					adv.DESCRIPTION,
+					adv.PIC_PATH,
+					adv.QUOTE,
+					adv.START_TIME,
+					adv.END_TIME,
+					adv.STATUS,
+					adv.HANDLE_STATUS,
+					adv.CREATE_TIME,
+					#memberId# CREATE_MAN 
+			from tbl_advert adv
+			
+			where (adv.HANDLE_STATUS ='N' or adv.HANDLE_STATUS = 'A' or adv.HANDLE_STATUS = 'P') 
+				  and adv.STATUS ='P' 									
+			
+			order by adv.id desc
+		) a) 
+	    <![CDATA[		
+	    		where r>=#startCount# and r<=#endCount# 
+	    ]]>  
+	</select>
+	
+	<select id="getProposerAdvertById-pa" parameterClass="java.util.HashMap" resultMap="proposerAdvertResult">
+		select * from tbl_advert_proposer
+			where ADVERT_ID = #advertId# and EMPLOYE_ID = #memberId#	
+	</select>
+	
+	<select id="getAdvertCount-pa" parameterClass="java.util.HashMap" resultClass="Integer" >
+			select count(*) from tbl_advert
+			where (HANDLE_STATUS ='N' or HANDLE_STATUS = 'A' or HANDLE_STATUS = 'P') 
+				  and STATUS ='P' 								
+	</select>
+	
+	<insert id="insertProposerAdvert" parameterClass="proposerAdvert">
+			insert into tbl_advert_proposer(
+								ID,
+								ADVERT_ID,
+								EMPLOYE_ID,
+								APPLY_TIME,
+								HANDLE_STATUS,
+								PIC,
+								CONTRACT_NO
+							)
+						values(
+								#proposerId#,	
+								#advertId#,
+								#memberId#,
+								#applyTime#,
+								#handleStatus#,
+								#picPath#,
+								#contractNumber#
+							)
+	</insert>
+	
+	<update id="updateHandleStatus" parameterClass="java.util.HashMap">
+		update tbl_advert_proposer set
+				
+				<dynamic>
+					<isNotEmpty property="picPath"> PIC = #picPath#, </isNotEmpty>
+				</dynamic>		 
+				HANDLE_STATUS = #handleStatus#
+				
+			where ID = #proposerId#
+	</update>
+	
+	<select id="getProposerAdvertById" parameterClass="Long" resultMap="proposerAdvertResult">
+		select * from tbl_advert_proposer
+			where ADVERT_ID = #advertId#	
+	</select>	
+	
+
+</sqlMap>

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>customer-view</title>
+<script type="text/javascript" src="../js/jquery-1.4.2.min.js"></script>
+<script type="text/javascript"
+	src="../js/jquery-ui-1.8rc3.custom.min.js"></script>
+<link type="text/css" rel="stylesheet"
+	href="../js/jquilib/themes/base/jquery.ui.all.css" />
+<script type="text/javascript">
+	$(function()
+	{
+		$('.accordion').accordion({
+			icons : {
+			header : "ui-icon-circle-arrow-e",
+			headerSelected : "ui-icon-circle-arrow-s"
+			},
+			autoHeight: false,
+			navigation: true,
+			event: "mouseover"
+		});
+	});
+</script>
+<style>
+.hidden {
+	display: none;
+}
+
+#view_title {
+	width: 98%;
+}
+
+#view_title span {
+	font-size: 44px;
+	color: blue;
+}
+
+#view_body {
+	width: 98%;
+}
+
+.distr_view {
+	width: 49%;
+	min-height: 300px;
+	margin: 1px;
+	background-color: gray;
+}
+
+.finance_view {
+	width: 49%;
+	min-height: 300px;
+	margin: 2px;
+}
+
+.fl {
+	float: left;
+}
+
+.fr {
+	float: right;
+}
+
+.cb {
+	clear: both;
+}
+
+</style>
+</head>
+<body>
+<div id="view_title"><span>客户视图</span>
+<hr />
+</div>
+<div id="view_body" class="accordion" role="tablist">
+<h3 role="tab"><a href="#">客户分布视图</a></h3>
+<div style="display: block; overflow: auto;" >
+<div class="distr_view fl">&nbsp;</div>
+<div class="distr_view fl">&nbsp;</div>
+<i class="cb"></i></div>
+<h3 role="tab"><a href="#">客户财务视图</a></h3>
+<div style="display: block; overflow: auto;">
+<div class="fl finance_view">&nbsp;</div>
+<div class="fl finance_view">&nbsp;</div>
+<i class="cb"></i></div>
+<h3 role="tab"><a href="#">客户销售视图</a></h3>
+<div style="display: block; overflow: auto;">&nbsp;
+<div class="fl distr_view">&nbsp;</div>
+<div class="fl distr_view">&nbsp;</div>
+<i class="cb"></i></div>
+<h3 role="tab"><a href="#">客户活跃度</a></h3>
+<div style="display: block; overflow: auto;">&nbsp;
+<div class="fl distr_view">&nbsp;</div>
+<div class="fl distr_view">&nbsp;</div>
+<i class="cb"></i></div>
+</div>
+</body>
+</html>

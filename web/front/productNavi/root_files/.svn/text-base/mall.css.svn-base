@@ -1,0 +1,54 @@
+BODY {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; FONT-SIZE: 12px; BACKGROUND:#a5d2a7; PADDING-BOTTOM: 0px; MARGIN: 0px; COLOR: #000000; PADDING-TOP: 0px; FONT-FAMILY: "ËÎÌå", "ÐÂËÎÌå", Terminal, sans-serif; TEXT-ALIGN: center
+}
+TABLE 
+{BORDER-TOP-WIDTH: 0px; PADDING-RIGHT: 0px; PADDING-LEFT: 0px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px; BORDER-RIGHT-WIDTH: 0px
+}
+DIV {
+	BORDER-TOP-WIDTH: 0px; PADDING-RIGHT: 0px; PADDING-LEFT: 0px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px; BORDER-RIGHT-WIDTH: 0px
+}
+FORM {
+	BORDER-TOP-WIDTH: 0px; PADDING-RIGHT: 0px; PADDING-LEFT: 0px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px; BORDER-RIGHT-WIDTH: 0px
+}
+IMG {
+	BORDER-TOP-WIDTH: 0px; PADDING-RIGHT: 0px; PADDING-LEFT: 0px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px; BORDER-RIGHT-WIDTH: 0px
+}
+UL {
+	BORDER-TOP-WIDTH: 0px; PADDING-RIGHT: 0px; PADDING-LEFT: 0px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px; BORDER-RIGHT-WIDTH: 0px
+}
+OL {
+	BORDER-TOP-WIDTH: 0px; PADDING-RIGHT: 0px; PADDING-LEFT: 0px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px; BORDER-RIGHT-WIDTH: 0px
+}
+LI {
+	BORDER-TOP-WIDTH: 0px; PADDING-RIGHT: 0px; PADDING-LEFT: 0px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px; BORDER-RIGHT-WIDTH: 0px
+}
+TABLE {FONT-SIZE: 12px}
+P{margin:0;padding:0;}
+A {COLOR: #000000; TEXT-DECORATION: none}
+A:hover {COLOR: #000000; TEXT-DECORATION: underline}
+.white A {color:#FFFFFF; TEXT-DECORATION: none;}
+.white A:hover {color:#000000; TEXT-DECORATION: none;}
+.gray A {color:#0045df; TEXT-DECORATION: none;}
+.gray A:hover {COLOR:#0045df; TEXT-DECORATION: none;}
+.fb {FONT-WEIGHT: bold}
+.f12 {FONT-SIZE: 12px}
+.f14{FONT-SIZE: 14px}
+.f16{FONT-SIZE: 16px}
+.f18{FONT-SIZE: 18px}
+.left {FLOAT: left}
+.right {FLOAT: right}
+.clear {CLEAR: both; FONT-SIZE: 1px; VISIBILITY: hidden; WIDTH: 1px}
+.hidden {dispaly: none}
+.unline {TEXT-DECORATION: none}
+.unline A {TEXT-DECORATION: none}
+.clear {CLEAR: both; MARGIN: 0px}
+
+.f12b {FONT-SIZE: 12px; font-weight:bold;}
+.huise{ color:#444444; text-align:left;}
+.point_y{ background:url(../images/point_y.gif) no-repeat 50% left; text-align:left; color:#ff6000; padding-left:5px;}
+.point_h{ background:url(../images/point_h.gif) no-repeat 50% left;text-align:left;padding-left:5px; line-height:20px;}
+.spfb{ background:url(../images/spfl_title01.gif) no-repeat; width:750px; height:30px; text-align:right; line-height:30px; vertical-align:middle; padding-right:5px;}
+.table_line{ border:1px solid #d3d2d2; border-top:none;}
+
+.category-item h4{float:left;width:20px;padding-left:4px;padding-right:4px;background:#f1e7c7;border-right:1px solid #f4f8fb;color:#1a397c;font-size:14px;text-align:center;line-height:20px;}
+

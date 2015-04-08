@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+
+	<package name="purchase" extends="struts-default" namespace="/do/purchase">
+		<action name="toCreateProductPurchase" class="com.bornsoft.asn.action.product.ProductPurchaseAction" method="toCreateProductPurchase">
+			<result name="success">/do/purchase/createProductPurchase.jsp</result>			
+		</action>
+		<action name="createProductPurchase" class="com.bornsoft.asn.action.product.ProductPurchaseAction" method="createProductPurchase">
+			<result name="success">/do/product/productSuccess.jsp</result>
+		</action>
+		<action name="toProductPurchaseListOn" class="com.bornsoft.asn.action.product.ProductPurchaseAction" method="toProductPurchaseListOn">
+			<result name="success">/do/purchase/productPurchaseListOn.jsp</result>
+		</action>
+		<action name="toProductPurchaseListOff" class="com.bornsoft.asn.action.product.ProductPurchaseAction" method="toProductPurchaseListOff">
+			<result name="success">/do/purchase/productPurchaseListOff.jsp</result>
+		</action>
+		<action name="toUpdateProductPurchase" class="com.bornsoft.asn.action.product.ProductPurchaseAction" method="toUpdateProductPurchase">
+			<result name="success">/do/purchase/updateProductPurchase.jsp</result>
+		</action>
+		<action name="updateProductPurchase" class="com.bornsoft.asn.action.product.ProductPurchaseAction" method="updateProductPurchase">
+			<result name="success">/do/product/productSuccess.jsp</result>
+		</action>
+		<action name="setProductPurchaseOff" class="com.bornsoft.asn.action.product.ProductPurchaseAction" method="setProductPurchaseOff">
+			<result name="success" type="chain">toProductPurchaseListOn</result>
+		</action>
+		<action name="setProductPurchaseOn" class="com.bornsoft.asn.action.product.ProductPurchaseAction" method="setProductPurchaseOn">
+			<result name="success" type="chain">toProductPurchaseListOff</result>
+		</action>
+		<action name="setProductPurchaseDel" class="com.bornsoft.asn.action.product.ProductPurchaseAction" method="setProductPurchaseDel">
+			<result name="success" type="chain">toProductPurchaseListOff</result>
+		</action>
+		<action name="searchProductPurchaseListOn" class="com.bornsoft.asn.action.product.ProductPurchaseAction" method="searchProductPurchaseListOn">
+			<result name="success">/do/purchase/searchProductPurchaseListOn.jsp</result>
+		</action>
+		<action name="searchProductPurchaseListOff" class="com.bornsoft.asn.action.product.ProductPurchaseAction" method="searchProductPurchaseListOff">
+			<result name="success">/do/purchase/searchProductPurchaseListOff.jsp</result>
+		</action>
+	</package>
+
+</struts>    

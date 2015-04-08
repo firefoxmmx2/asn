@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+
+	<package name="advertAdmin" extends="struts-asn" namespace="/admin/advert">
+		<action name="listAdvert" method="listAdvert" class="com.bornsoft.asn.action.advert.AdverAction">
+			<result name="success" type="tilesmap">/admin/advert/advert_list.jsp</result>
+		</action>
+		
+		<action name="insertAdvert" method="insertAdvert" class="com.bornsoft.asn.action.advert.AdverAction">
+			<result name="success" type="tilesmap">/admin/advert/advert_add.jsp</result>
+		</action>
+		
+		<action name="updAdvertStatus" method="updAdvertStatus" class="com.bornsoft.asn.action.advert.AdverAction">
+			<result name="success" type="chain">listAdvert</result>
+		</action>
+		
+		<action name="infoAdvert" method="infoAdvert" class="com.bornsoft.asn.action.advert.AdverAction">
+			<result name="success" type="tilesmap">/admin/advert/advert_info.jsp</result>
+		</action>
+		
+		<action name="updAdvertHandleStatus" method="updAdvertHandleStatus" class="com.bornsoft.asn.action.advert.AdverAction">
+			<result name="success" type="chain">infoAdvert</result>
+		</action>
+		
+		<action name="toUpdateAdvert" method="toUpdateAdvert" class="com.bornsoft.asn.action.advert.AdverAction">
+			<result name="success" type="tilesmap">/admin/advert/advert_update.jsp</result>
+		</action>
+		
+		<action name="updateAdvert" method="updateAdvert" class="com.bornsoft.asn.action.advert.AdverAction">
+			<result name="success" type="chain">toUpdateAdvert</result>
+		</action>
+		
+	</package>
+
+</struts>

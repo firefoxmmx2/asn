@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+ 
+<sqlMap namespace="report">
+
+<typeAlias alias="reportTrade" type="com.bornsoft.asn.bean.report.ReportTrade" />
+<resultMap class="reportTrade" id="reportTradeResult">
+   <result property="productName" column="productName"/>
+   <result property="countQuantity" column="countQuantity"/>
+   <result property="countProPrice" column="countProPrice"/>
+   <result property="totalProPrice" column="totalProPrice"/>
+</resultMap>
+
+
+<typeAlias alias="productClick" type="com.bornsoft.asn.bean.report.ReportClick"/>
+<resultMap class="productClick" id="productClickResult">
+	<result property="productName" column="productName"/>
+	<result property="clickCount" column="clickCount"/>	
+</resultMap>
+
+<typeAlias alias="reportMember" type="com.bornsoft.asn.bean.report.ReportMember"/>
+<resultMap class="reportMember" id="reportMemberResult">
+	<result property="area" column="AREA"/>
+	<result property="memberType" column="memberType"/>
+	<result property="countMember" column="countMember"/>
+</resultMap>
+
+
+<select id="report_member_result" resultMap="reportMemberResult" parameterClass="map">
+<![CDATA[select * from (select B.*,rownum rn from ( ]]>
+
+ <![CDATA[select t.area,t.member_type as memberType,count(t.member_type) as countMember from tbl_member t where t.area is not null and t.member_type is not null ]]>      
+    <dynamic>
+       <isNotEmpty property="area" prepend="and">
+           <![CDATA[ t.area like '$area$%']]>
+       </isNotEmpty>
+       
+       <isNotEmpty property="startDate" prepend="and">
+           <![CDATA[ t.register_time >=#startDate#]]>
+       </isNotEmpty>
+       
+       <isNotEmpty property="endDate" prepend="and">
+           <![CDATA[ t.register_time <=#endDate#]]>
+       </isNotEmpty>
+       
+    </dynamic>      
+    <![CDATA[ group by t.area,t.member_type order by countMember desc]]>
+    
+    <![CDATA[ ) B where rownum<=#end#) where rn>=#start# ]]>
+</select>
+
+<select id="report_member_count" resultClass="int" parameterClass="map">
+<![CDATA[ select count(*) from ]]>
+<![CDATA[(select t.area,t.member_type as memberType,count(t.member_type) as countMember from tbl_member t where t.area is not null and t.member_type is not null ]]>      
+    <dynamic>
+       <isNotEmpty property="area" prepend="and">
+           <![CDATA[ t.area like '$area$%']]>
+       </isNotEmpty>
+       <isNotEmpty property="startDate" prepend="and">
+           <![CDATA[ t.register_time >=#startDate#]]>
+       </isNotEmpty>
+       
+       <isNotEmpty property="endDate" prepend="and">
+           <![CDATA[ t.register_time <=#endDate#]]>
+       </isNotEmpty>
+       
+    </dynamic>      
+    <![CDATA[ group by t.area,t.member_type order by countMember desc)]]>
+</select>
+
+
+
+
+
+<select id="report_click_result" resultMap="productClickResult" parameterClass="map">
+   <![CDATA[select * from (select A.*,rownum rn from (
+ select * from (
+  select t.product_name as productName,t.view_count as clickCount from tbl_product t order by clickCount desc )
+  where rownum<=#rank#
+ ) A where rownum<=#end#) where rn>=#start#  ]]>
+</select>
+
+<select id="report_click_count" resultClass="int" parameterClass="map">
+ <![CDATA[ 
+  select count(*) from (
+  select t.product_name as productName,t.view_count as clickCount from tbl_product t order by clickCount desc )
+  where rownum<=#rank#]]>
+</select>
+
+
+
+<select id="report_trade_result" resultMap="reportTradeResult" parameterClass="map">
+   <![CDATA[select * from (select B.*,rownum rn from ( 
+              select * from (select A.productName, A.countQuantity,A.countProPrice,A.countQuantity*A.countProPrice as totalProPrice from (select t.itemproductname as productName,sum(t.quantity) as countQuantity,t.proprice as countProPrice
+              from tbl_order_items t,tbl_order_info m where m.id=t.orderid and m.orderstatus='JYC' ]]>
+    
+    <dynamic>
+      <isNotEmpty property="startDate" prepend="and">
+           <![CDATA[ m.operatortime >=#startDate#]]>
+       </isNotEmpty>
+       
+       <isNotEmpty property="endDate" prepend="and">
+           <![CDATA[ m.operatortime <=#endDate#]]>
+       </isNotEmpty>
+    </dynamic>         
+             
+              
+   <![CDATA[ group by t.itemproductname,t.proprice) A order by $conditions$ desc ) where rownum<=#tranCount#
+             ) B where rownum<=#end#) where rn>=#start#]]>
+</select>
+
+<select id="report_trade_count" resultClass="int" parameterClass="map">
+        <![CDATA[
+              select count(*) from (
+              select A.productName, A.countQuantity,A.countProPrice,A.countQuantity*A.countProPrice as totalProPrice from (select t.itemproductname as productName,sum(t.quantity) as countQuantity,t.proprice as countProPrice
+              from tbl_order_items t ,tbl_order_info m where m.id=t.orderid and m.orderstatus='JYC' ]]>
+            <dynamic>
+      <isNotEmpty property="startDate" prepend="and">
+           <![CDATA[ m.operatortime >=#startDate#]]>
+       </isNotEmpty>
+       
+       <isNotEmpty property="endDate" prepend="and">
+           <![CDATA[ m.operatortime <=#endDate#]]>
+       </isNotEmpty>
+    </dynamic>          
+        <![CDATA[ group by t.itemproductname,t.proprice) A order by $conditions$ desc ) where rownum<=#tranCount# ]]>
+</select>
+
+
+</sqlMap>    

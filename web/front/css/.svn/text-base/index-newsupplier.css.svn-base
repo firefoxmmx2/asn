@@ -1,0 +1,16 @@
+*{ margin: 0; padding: 0; }
+
+#page-wrap{ background: white; width: 960px; margin: 0 auto; background-color:#FFFFF2;}
+
+#slider	{ height: 40px; overflow: hidden; position: relative;}
+								  
+/* DEFAULT is for three panels in width, adjust as needed This only matters if JS is OFF, otherwise JS sets this. */								  
+#mover{ width: 960px; position: relative; }
+#slide-1{width:960px;position:relative;}
+.slide{width: 960px; float: left; position: relative; }
+.slide p{ color: #999; font-size: 12px; line-height: 20px; width: 960px; }
+.slide p span{width:230px;line-height:20px; padding-left:5px;float:left; background:url(../image/comdo/point_g.gif) left center no-repeat;}
+.slide a:link{color:#313131;text-decoration:none;font-size:12px;}
+.slide a:visited{color:#666666;text-decoration:none;font-size:12px;}
+.slide a:hover{color:#FF0000;text-decoration:underline;font-size:12px;}
+.slide a:active{color:#313131;text-decoration:underline;font-size:12px;}    

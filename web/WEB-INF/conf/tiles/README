@@ -1,0 +1,24 @@
+使用tiles有几个需要注意的地方 
+1. tiles配置文件的命名一律采用 自己的模块名（或者web jsp文件夹的名称）加"-tiles.xml"来命名
+,例如quotaion模块，在web/下有个quotaion文件夹，以这个名字加"-tiles.xml",也就是quotation-tiles.xml
+
+2. 在配置好自己的tiles.配置后（如quotation-tiles.xml），需要更新一下web.xml文件的TILES参数部分，如下：
+
+<context-param>
+       <param-name>
+       		org.apache.tiles.impl.BasicTilesContainer.DEFINITIONS_CONFIG
+       </param-name>
+       <param-value>
+       		/WEB-INF/conf/tiles/tiles.xml,
+       		/WEB-INF/conf/tiles/quotation-tiles.xml
+       	</param-value>
+    </context-param>
+
+添加你自己的配置路径到这里。
+
+3. struts配置文件里，package部分需要 继承"tiles-default" 类，如
+	...
+	<package name="com.born.quotation.action1" extends="tiles-default" namespace="/quotation">
+    ...
+  
+  祝君好运。

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<!-- include struts setting -->
+	<include file="ncpw/shoppingCart-struts.xml"></include>
+	<include file="ncpw/orderInfo-struts.xml"></include>
+	
+	<include file="ncpw/quotation-front-struts.xml" />
+	<include file="ncpw/supplier-struts.xml" />
+	<include file="ncpw/info-front-struts.xml"></include>
+	<include file="ncpw/infoc-front-struts.xml"></include>
+	<include file="ncpw/recruitment-front-struts.xml"></include>
+	<include file="ncpw/ncp-struts.xml"></include>
+	<include file="ncpw/crm-service-struts.xml"></include>
+	<include file="ncpw/customer-statistics-struts.xml"></include>
+	<include file="ncpw/groupPurchase-struts.xml"></include>
+	<include file="ncpw/activity-struts.xml"></include>
+	<include file="ncpw/productType-struts.xml"/>
+	<include file="ncpw/quotation-example-struts.xml"/>
+	<include file="ncpw/member-struts.xml"/>
+	<include file="ncpw/member-front-struts.xml"/>
+	<include file="ncpw/quotation-struts.xml"/>
+	<include file="ncpw/product-struts.xml"/>
+	<include file="ncpw/saleProduct-struts.xml"></include>
+    <include file="ncpw/shoppingCart-struts.xml"></include>
+	<include file="ncpw/orderInfo-struts.xml"></include>
+	<include file="ncpw/quotation-front-struts.xml"/>
+	<include file="ncpw/facade-struts.xml"/>
+	<include file="ncpw/purchase-struts.xml"/>
+	<include file="ncpw/checkcode-struts.xml"/>
+	<include file="ncpw/supplier-struts.xml"/>
+	<include file="ncpw/productNavigator-front-struts.xml"/>
+	<include file="ncpw/productTypeManage-struts.xml"/>
+	<include file="ncpw/test-struts.xml"/>
+	<include file="ncpw/geoLocManage-struts.xml"/>
+	<include file="ncpw/discount-struts.xml"></include>
+	<include file="ncpw/purchase-supplier-manage-struts.xml"/>
+	<include file="ncpw/info-struts.xml"></include>
+	<include file="ncpw/info-front-struts.xml"></include>
+	<include file="ncpw/infoc-struts.xml"></include>
+	<include file="ncpw/infoc-front-struts.xml"></include>
+	<include file="ncpw/tradeReview-struts.xml"></include>
+	<include file="ncpw/report-struts.xml"></include>
+	<include file="ncpw/addressManage-struts.xml"></include>
+	<include file="ncpw/system-config-struts.xml"></include>
+	<include file="ncpw/censor-keyword-struts.xml"></include>
+	<include file="ncpw/product-admin-struts.xml"></include>
+	<include file="ncpw/info-admin-struts.xml"></include>
+	<include file="ncpw/info-order-struts.xml"></include>
+	<include file="ncpw/advert-struts.xml"></include>
+	<include file="ncpw/recruitment-struts.xml"></include>
+	<include file="ncpw/recruitment-front-struts.xml"></include>
+	<include file="ncpw/advert-struts.xml"></include>
+	<include file="ncpw/advert-proposer-struts.xml"></include>
+	<include file="ncpw/special-product-struts.xml"></include>
+	<include file="ncpw/sms-struts.xml"></include>
+	<include file="ncpw/platform-struts.xml"></include>
+	<include file="ncpw/storage-struts.xml"></include>
+	<include file="ncpw/bizOpp-struts.xml"></include>
+	<include file="ncpw/infoOrder-admin-struts.xml"></include>
+	<include file="ncpw/account-struts.xml"></include>
+	<include file="ncpw/huazhang-struts.xml"></include>
+	<!--客户管理-->
+	<include file="ncpw/client-manage-struts.xml"></include>
+	<!-- chaxun-->
+	<include file="ncpw/cztest-struts.xml"></include>
+	<!-- 查询订单统计信息-->
+	<include file="ncpw/orderDetail-struts.xml"></include>
+	<!-- 查询账单信息-->
+	<include file="ncpw/account-struts.xml"></include>
+</struts>

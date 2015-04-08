@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+   <package name="addressManager" extends="struts-asn" namespace="/do">
+     <action name="addressList" 
+             class="com.bornsoft.asn.action.receivingAddress.AddressManagerAction"
+             method="findAddressInfo">
+       <result name="success" type="tilesmap">/do/addressManager/addressList.jsp</result> 
+     </action>
+     
+     <action name="deleteAddressInfo" 
+             class="com.bornsoft.asn.action.receivingAddress.AddressManagerAction"
+             method="deleteAddressInfo">
+       <result name="success" type="tilesmap">/do/addressManager/addressList.jsp</result> 
+     </action>
+     
+     
+     <action name="saveAddressInfo" 
+             class="com.bornsoft.asn.action.receivingAddress.AddressManagerAction"
+             method="saveAddressInfo">
+       <result name="success" type="tilesmap">/do/addressManager/addressList.jsp</result> 
+     </action>
+     
+    <action name="findAddressById" 
+             class="com.bornsoft.asn.action.receivingAddress.AddressManagerAction"
+             method="findAddressById">
+       <result name="success" type="tilesmap">/do/addressManager/modifyAddressInfo.jsp</result> 
+     </action>
+     
+     
+    <action name="updateAddressInfo" 
+             class="com.bornsoft.asn.action.receivingAddress.AddressManagerAction"
+             method="updateAddressInfo">
+       <result name="success" type="tilesmap">/do/addressManager/addressList.jsp</result> 
+     </action>
+     
+   </package>
+</struts>    

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	
+	<!--服务平台（嵌入电子商务模块），构建服务平台中的商品信息和供求信息-->
+	<package name="platfromService" extends="struts-asn" namespace="/front">
+		<action name="xxxxx" class="com.bornsoft.asn.action.platform.PlatformService" >
+			<result name="success" >/platform.jsp</result>
+		</action>
+	</package>
+
+
+	<!--电子商城首页-->
+	<package name="mallService" extends="struts-asn" namespace="/front/mall">
+		<action name="mallIndex" method="mallIndex" class="com.bornsoft.asn.action.platform.ElectronicMall" >
+			<result name="success" type="tilesmap">/front/mall/mallIndex.jsp</result>
+		</action>
+	</package>
+	
+	
+	<!--烟花爆竹频道-->
+	<package name="fireworksChannel" extends="struts-asn" namespace="/front/channel/yhbz">
+		<action name="home" class="com.bornsoft.asn.action.platform.FireworksChannel" method="yhbzHome">
+			<result name="success" type="tilesmap" >/front/channel/yhbz/content/yhbz.jsp</result>
+		</action>
+	</package>
+	
+	<!--专业社频道-->
+	<package name="technicalChannel" extends="struts-asn" namespace="/front/channel/zys">
+		<action name="home" class="com.bornsoft.asn.action.platform.TechnicalChannel" method="zysHome">
+			<result name="success" type="tilesmap">/front/channel/zys/content/zys.jsp</result>
+		</action>
+	</package>
+	
+	<!--农业频道（包括农资、农副产品、日用品）-->
+	<package name="nzChannel" extends="struts-asn" namespace="/front/channel/nz">
+		<action name="home" class="com.bornsoft.asn.action.platform.FarmingChannel" method="nzHome" >
+			<result name="success" type="tilesmap">/front/channel/nz/content/nz.jsp</result>
+		</action>
+	</package>
+	
+		<!--再生资源频道-->
+	<package name="rebornChannel" extends="struts-asn" namespace="/front/channel/zszy">
+		<action name="home" class="com.bornsoft.asn.action.platform.RebornChannel" method="zszyHome">
+			<result name="success" type="tilesmap">/front/channel/zszy/content/zszy.jsp</result>
+		</action>
+	</package>
+	
+</struts>   

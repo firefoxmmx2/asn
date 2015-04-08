@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+
+	<package name="bizOpp" extends="struts-asn" namespace="/do/customer/bizOpp">
+		<action name="toBizOppList" class="com.bornsoft.asn.action.customer.BizOppAction" method="toBizOppList">
+			<result name="success" type="tilesmap">/do/customer/bizOppList.jsp</result>
+			<result name="input" type="tilesmap">/do/customer/inputSaleSource.jsp</result>
+		</action>
+		<action name="toPriceLogList" class="com.bornsoft.asn.action.customer.BizOppAction" method="toPriceLogList">
+			<result name="success" type="tilesmap">/do/customer/priceLogList.jsp</result>
+			<result name="input" type="tilesmap">/do/customer/inputSaleSource.jsp</result>
+		</action>
+		<action name="toSaleSourceList" class="com.bornsoft.asn.action.customer.SaleSourceAction" method="toSaleSourceList">
+			<result name="success" type="tilesmap">/do/customer/saleSourceList.jsp</result>
+			<result name="input" type="tilesmap">/do/customer/inputSaleSource.jsp</result>
+		</action>
+		<action name="toCreateSaleSource" class="com.bornsoft.asn.action.customer.SaleSourceAction" method="toCreateSaleSource">
+			<result name="success" type="tilesmap">/do/customer/createSaleSource.jsp</result>
+			<result name="input" type="tilesmap">/do/customer/inputSaleSource.jsp</result>			
+		</action>
+		<action name="createSaleSource" class="com.bornsoft.asn.action.customer.SaleSourceAction" method="createSaleSource">		
+			<result name="success" type="chain">toSaleSourceList</result>
+			<result name="input" type="tilesmap">/do/customer/inputSaleSource.jsp</result>
+		</action>
+		<action name="viewSaleSource" class="com.bornsoft.asn.action.customer.SaleSourceAction" method="viewSaleSource">
+			<result name="success" type="tilesmap">/do/customer/viewSaleSource.jsp</result>
+			<result name="input" type="tilesmap">/do/customer/inputSaleSource.jsp</result>
+		</action>
+		<action name="downloadFile" class="com.bornsoft.asn.action.customer.SaleSourceAction" method="downloadFile">
+			<result name="success" type="stream">
+				<!-- 指定下载文件的文件类型 -->
+				<param name="contentType">application/octet-stream</param>
+				<!-- 指定由getDownloadFile()方法返回被下载文件的InputStream -->
+				<param name="inputName">downloadFile</param>
+				<param name="contentDisposition">attachment;filename=${fileName}</param>
+				<!-- 指定下载文件的缓冲大小 -->
+				<param name="bufferSize">4096</param>
+			</result>
+			<result name="input" type="tilesmap">/do/customer/inputSaleSource.jsp</result>
+		</action>
+		<action name="delSaleSource" class="com.bornsoft.asn.action.customer.SaleSourceAction" method="delSaleSource">
+			<result name="success" type="chain">toSaleSourceList</result>
+			<result name="input" type="tilesmap">/do/customer/inputSaleSource.jsp</result>
+		</action>
+		<action name="toModifySaleSource" class="com.bornsoft.asn.action.customer.SaleSourceAction" method="toModifySaleSource">
+			<result name="success" type="tilesmap">/do/customer/modifySaleSource.jsp</result>
+			<result name="input" type="tilesmap">/do/customer/inputSaleSource.jsp</result>
+		</action>
+		<action name="modifySaleSource" class="com.bornsoft.asn.action.customer.SaleSourceAction" method="modifySaleSource">
+			<result name="success" type="chain">toSaleSourceList</result>
+			<result name="input" type="tilesmap">/do/customer/inputSaleSource.jsp</result>
+		</action>
+	</package>
+
+</struts>    

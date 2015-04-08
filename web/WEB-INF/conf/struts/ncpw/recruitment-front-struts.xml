@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+<!--type="tilesmap"-->
+	<package name="recruitment-front" extends="struts-asn" namespace="/front/recr">
+		<action name="showRecruitmentList" class="com.bornsoft.asn.action.recruitment.RecruitmentAction" method="showRecruitmentList">
+			<result name="success" >/front/recruitment/recruitmentList.jsp</result>
+		</action>
+		<action name="showRecruitment" class="com.bornsoft.asn.action.recruitment.RecruitmentAction" method="showRecruitment">
+			<result name="success" >/front/recruitment/recruitment.jsp</result>
+			<result name="input" type="chain">showRecruitmentList</result>
+		</action>
+		<action name="toEmploy" class="com.bornsoft.asn.action.recruitment.RecruitmentAction" method="toEmploy">
+			<result name="success" >/front/recruitment/resume.jsp</result>
+			<result name="input" type="chain">showRecruitmentList</result>
+		</action>
+		<action name="createResume" class="com.bornsoft.asn.action.recruitment.RecruitmentAction" method="createResume">
+			<result name="success" >/front/recruitment/ok.jsp</result>
+		</action>
+	</package>
+
+</struts>   

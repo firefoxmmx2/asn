@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap>
+	<!-- 查询到账金额 -->
+	<select id="getInAccountSumMoney" parameterClass="Map" resultClass="float">
+		select sum(totalamount) from tbl_order_info where (orderstatus='JYC' or orderstatus='YFK' or orderstatus='YFH')
+		<dynamic>
+			<isNotEmpty prepend="and" property="startTime">
+				createtime>=to_timestamp('$startTime$', 'syyyy-mm-dd') 
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="endTime">
+				createtime<![CDATA[<=]]>to_timestamp('$endTime$', 'syyyy-mm-dd')
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<!-- 查询已支出金额 -->
+	<select id="getOutAccountSumMoney" parameterClass="Map" resultClass="float">
+		select sum(totalamount) from tbl_order_info where (orderstatus='JYC' or orderstatus='YFK')
+		 and memberid<![CDATA[<>]]>'1390'
+		<dynamic>
+			<isNotEmpty prepend="and" property="startTime">
+				createtime>=to_timestamp('$startTime$', 'syyyy-mm-dd') 
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="endTime">
+				createtime<![CDATA[<=]]>to_timestamp('$endTime$', 'syyyy-mm-dd')
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<!-- 应支出金额 -->
+	<select id="getUnOutAccountMoney" parameterClass="Map" resultClass="float">
+		select sum(totalamount) from tbl_order_info where orderstatus='YFH' and memberid<![CDATA[<>]]>'1390'
+		<dynamic>
+			<isNotEmpty prepend="and" property="startTime">
+				createtime>=to_timestamp('$startTime$', 'syyyy-mm-dd') 
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="endTime">
+				createtime<![CDATA[<=]]>to_timestamp('$endTime$', 'syyyy-mm-dd')
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<!-- 佣金 -->
+	<select id="getCommision" parameterClass="Map" resultClass="float">
+		select sum(totalamount) from tbl_order_info where is_payed='Y'
+		and memberid<![CDATA[<>]]>'1390'
+		<dynamic>
+			<isNotEmpty prepend="and" property="startTime">
+				createtime>=to_timestamp('$startTime$', 'syyyy-mm-dd') 
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="endTime">
+				createtime<![CDATA[<=]]>to_timestamp('$endTime$', 'syyyy-mm-dd')
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<!-- 未付款订单数 -->
+	<select id="getUnPayedOrders" parameterClass="Map" resultClass="int">
+		select count(*) from tbl_order_info where orderstatus='WFK'
+		<dynamic>
+			<isNotEmpty prepend="and" property="startTime">
+				createtime>=to_timestamp('$startTime$', 'syyyy-mm-dd') 
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="endTime">
+				createtime<![CDATA[<=]]>to_timestamp('$endTime$', 'syyyy-mm-dd')
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<!-- 已付款订单数 -->
+	<select id="getPayedOrders" parameterClass="Map" resultClass="int">
+		select count(*) from tbl_order_info where orderstatus='YFK'
+		<dynamic>
+			<isNotEmpty prepend="and" property="startTime">
+				createtime>=to_timestamp('$startTime$', 'syyyy-mm-dd') 
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="endTime">
+				createtime<![CDATA[<=]]>to_timestamp('$endTime$', 'syyyy-mm-dd')
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<!-- 已发货订单数 -->
+	<select id="getYfhOrders" parameterClass="Map" resultClass="int">
+		select count(*) from tbl_order_info where orderstatus='YFH'
+		<dynamic>
+			<isNotEmpty prepend="and" property="startTime">
+				createtime>=to_timestamp('$startTime$', 'syyyy-mm-dd') 
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="endTime">
+				createtime<![CDATA[<=]]>to_timestamp('$endTime$', 'syyyy-mm-dd')
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	
+	<!-- 已取消订单数 -->
+	<select id="getYqxOrders" parameterClass="Map" resultClass="int">
+		select count(*) from tbl_order_info where orderstatus='YQX'
+		<dynamic>
+			<isNotEmpty prepend="and" property="startTime">
+				createtime>=to_timestamp('$startTime$', 'syyyy-mm-dd') 
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="endTime">
+				createtime<![CDATA[<=]]>to_timestamp('$endTime$', 'syyyy-mm-dd')
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<!-- 已关闭订单数 -->
+	<select id="getYgbOrders" parameterClass="Map" resultClass="int">
+		select count(*) from tbl_order_info where orderstatus='YGB'
+		<dynamic>
+			<isNotEmpty prepend="and" property="startTime">
+				createtime>=to_timestamp('$startTime$', 'syyyy-mm-dd') 
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="endTime">
+				createtime<![CDATA[<=]]>to_timestamp('$endTime$', 'syyyy-mm-dd')
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<!-- 交易成功订单数 -->
+	<select id="getJycOrders" parameterClass="Map" resultClass="int">
+		select count(*) from tbl_order_info where orderstatus='JYC'
+		<dynamic>
+			<isNotEmpty prepend="and" property="startTime">
+				createtime>=to_timestamp('$startTime$', 'syyyy-mm-dd') 
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="endTime">
+				createtime<![CDATA[<=]]>to_timestamp('$endTime$', 'syyyy-mm-dd')
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<!-- 即时订单数 -->
+	<select id="getImmediatelyOrders" parameterClass="Map" resultClass="int">
+		select count(*) from tbl_order_info where memberid='1390'
+		<dynamic>
+			<isNotEmpty prepend="and" property="startTime">
+				createtime>=to_timestamp('$startTime$', 'syyyy-mm-dd') 
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="endTime">
+				createtime<![CDATA[<=]]>to_timestamp('$endTime$', 'syyyy-mm-dd')
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<!-- 担保订单数 -->
+	<select id="getAssureOrders" parameterClass="Map" resultClass="int">
+		select count(*) from tbl_order_info where memberid<![CDATA[<>]]>'1390'
+		<dynamic>
+			<isNotEmpty prepend="and" property="startTime">
+				createtime>=to_timestamp('$startTime$', 'syyyy-mm-dd') 
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="endTime">
+				createtime<![CDATA[<=]]>to_timestamp('$endTime$', 'syyyy-mm-dd')
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<!-- 已划账担保订单数 -->
+	<select id="getPayedAssureOrders" parameterClass="Map" resultClass="int">
+		select count(*) from tbl_order_info where memberid<![CDATA[<>]]>'1390' and is_payed='Y'
+		<dynamic>
+			<isNotEmpty prepend="and" property="startTime">
+				createtime>=to_timestamp('$startTime$', 'syyyy-mm-dd') 
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="endTime">
+				createtime<![CDATA[<=]]>to_timestamp('$endTime$', 'syyyy-mm-dd')
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<!-- 未划账担保订单数 -->
+	<select id="getUnPayedAssureOrders" parameterClass="Map" resultClass="int">
+		select count(*) from tbl_order_info where memberid<![CDATA[<>]]>'1390' and is_payed='N'
+		<dynamic>
+			<isNotEmpty prepend="and" property="startTime">
+				createtime>=to_timestamp('$startTime$', 'syyyy-mm-dd') 
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="endTime">
+				createtime<![CDATA[<=]]>to_timestamp('$endTime$', 'syyyy-mm-dd')
+			</isNotEmpty>
+		</dynamic>
+	</select>
+</sqlMap>

@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+     PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+     "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="Product">
+
+	<typeAlias alias="product" type="com.bornsoft.asn.bean.product.Product"/>
+	<resultMap class="product" id="ProductSupplyResultMap">
+		<result property="productId" column="product_id"/>
+		<result property="supplierId" column="supplier_id"/>
+		<result property="productName" column="product_name"/>
+		<result property="productNumber" column="product_number"/>
+		<result property="productStatus" column="product_status"/>
+		<result property="productUnit" column="product_unit"/>
+		<result property="price1" column="price1"/>
+		<result property="price1Range" column="price1_range"/>
+		<result property="price2" column="price2"/>
+		<result property="price2Range" column="price2_range"/>
+		<result property="price3" column="price3"/>
+		<result property="price3Range" column="price3_range"/>
+		<result property="productType" column="product_type"/>
+		<result property="smallPicPath" column="small_pic_path"/>
+		<result property="bigPicPath" column="big_pic_path"/>
+		<result property="webOrder" column="web_order"/>
+		<result property="startOrderCount" column="start_order_count"/>
+		<result property="wareCount" column="ware_count"/>
+		<result property="reservedCount" column="reserved_count"/>
+		<result property="saleCount" column="sale_count"/>
+		<result property="productDetail" column="product_detail"/>
+		<result property="wholesaleDetail" column="wholesale_detail"/>
+		<result property="transportDetail" column="transport_detail"/>
+		<result property="tradeType" column="trade_type"/>
+		<result property="productStartDate" column="product_start_date"/>
+		<result property="productModifyDate" column="product_modify_date"/>
+		<result property="productEndDate" column="product_end_date"/>
+		<result property="ipAddress" column="ip_address"/>
+		<result property="facade" column="facade"/>
+		<result property="lastViewTime" column="last_view_time"/>
+		<result property="viewCount" column="view_count"/>	
+		<result property="marketPrice" column="market_price"/>	
+	</resultMap>
+   
+ 
+   <!-- 得到产品的总数量 -->
+   <select id="getCount" resultClass="int" parameterClass="map">
+    	select count(*) as count from  tbl_product t1 
+           <isNotEmpty  property="areaCode">
+    	       <![CDATA[ ,tbl_member t2]]>
+    	   </isNotEmpty>
+    	
+    	<dynamic prepend="where">
+    		
+    	   <isNotEmpty prepend="and" property="code">
+    	     t1.product_type like '$code$%'
+    	   </isNotEmpty>
+    	   <isNotEmpty prepend="and" property="startPrice">
+    	      <![CDATA[t1.price1>=#startPrice#]]>
+    	   </isNotEmpty>
+    	   <isNotEmpty prepend="and" property="endPrice">
+    	      <![CDATA[t1.price1<=#endPrice#]]>
+    	   </isNotEmpty>
+    	   <isNotEmpty prepend="and" property="startOrder">
+    	      <![CDATA[t1.start_order_count<=#startOrder#]]>
+    	   </isNotEmpty>
+    	   <isNotEmpty prepend="and" property="postTime">
+    	       <![CDATA[t1.product_start_date>=sysdate-#postTime#]]>
+    	   </isNotEmpty>
+    	    <isNotEmpty prepend="and" property="areaCode">
+    	       <![CDATA[ t1.supplier_id=t2.member_id and t2.area like '$areaCode$%']]>
+    	   </isNotEmpty>
+    	    <isNotEmpty prepend="and" property="productName">
+    	       <![CDATA[ t1.product_name like '%$productName$%']]>
+    	   </isNotEmpty>
+    	   
+    	   <!-- //+++ 添加立面支持 -->
+    	   <isNotEmpty prepend="and" property="facade">
+    	   		<![CDATA[ t1.facade like '%$facade$%']]>
+    	   </isNotEmpty>
+    	</dynamic>
+    	and product_status='on' and PRODUCT_STATE = 'N'  and web_order='Y' and (censor=1 or censor=2)
+    	
+    </select>
+    <!--得到产品的总数量  -->
+    <!--分页排序-->
+    <select id="firstPage" parameterClass="product" resultMap="ProductSupplyResultMap">
+        <![CDATA[
+             select * from tbl_product where rownum<=$pagesize$ order by id desc
+           ]]>
+    </select>
+    <sql id="paginationStart">
+        <![CDATA[
+           select * from (select row_.*, rownum rn from (
+          ]]> 
+    </sql>
+    <sql id="paginationEnd">
+        <![CDATA[
+           )rn where rownum<=#end# ) where rn>=#start#
+          ]]>
+    </sql>
+    <!--分页排序-->
+    <select id="getAllProduct" parameterClass="map" resultMap="ProductSupplyResultMap">
+        <![CDATA[select * from (select A.*,rownum rn from (]]>
+        <![CDATA[select * from  tbl_product t1 ]]>
+         <isNotEmpty property="areaCode">
+    	       <![CDATA[ ,tbl_member t2]]>
+    	 </isNotEmpty>
+    	<dynamic prepend="where">
+    	   <isNotEmpty prepend="and" property="code">
+    	     t1.product_type like '$code$%'
+    	   </isNotEmpty>
+    	   <isNotEmpty prepend="and" property="startPrice">
+    	      <![CDATA[t1.price1>=#startPrice#]]>
+    	   </isNotEmpty>
+    	   <isNotEmpty prepend="and" property="endPrice">
+    	      <![CDATA[t1.price1<=#endPrice#]]>
+    	   </isNotEmpty>
+    	   <isNotEmpty prepend="and" property="startOrder">
+    	      <![CDATA[t1.start_order_count<=#startOrder#]]>
+    	   </isNotEmpty>
+    	   <isNotEmpty prepend="and" property="postTime">
+    	      <![CDATA[t1.product_start_date>=sysdate-#postTime#]]>
+    	   </isNotEmpty>
+    	   <isNotEmpty prepend="and" property="areaCode">
+    	       <![CDATA[ t1.supplier_id=t2.member_id and t2.area like '$areaCode$%']]>
+    	   </isNotEmpty>
+    	   <isNotEmpty prepend="and" property="productName">
+    	       <![CDATA[ t1.product_name like '%$productName$%']]>
+    	   </isNotEmpty>
+    	   <!-- //+++ 添加立面支持 -->
+    	   <isNotEmpty prepend="and" property="facade">
+    	   		<iterate conjunction=" and " property="facade">
+    	   			t1.facade like '%$facade[]$%'
+    	   		</iterate>
+    	   </isNotEmpty>
+    	</dynamic> 
+    	and product_status='on' and PRODUCT_STATE = 'N' and web_order='Y' and (censor=1 or censor=2)
+    	<![CDATA[order by  ]]>
+    	<isEqual property="priceOrder" compareValue="asc">
+    	      <![CDATA[t1.price1 asc,]]>
+    	</isEqual>
+    	<isEqual property="priceOrder" compareValue="desc">
+    	      <![CDATA[t1.price1 desc,]]>
+    	</isEqual>
+        <![CDATA[t1.product_id desc) A where rownum<=#end#) where rn>=#start#]]>
+    </select>
+    
+    <select id="otherPage" resultClass="product" parameterClass="map">
+        <include refid="paginationStart"/>
+        <![CDATA[
+            select * from  tbl_product
+        ]]>
+        <include refid="paginationEnd"/>
+    </select>
+    
+    
+    <select id ="hotProduct"  resultMap="ProductSupplyResultMap">
+       <![CDATA[select * from (select * from tbl_product where product_status='on' and web_order='Y' and (censor=1 or censor=2) order by product_id desc)where  rownum <=5]]>
+    </select>
+    
+    
+     <select id ="fronthotProduct" parameterClass="java.util.HashMap" resultMap="ProductSupplyResultMap">
+       select * from (
+       
+       	 select * from tbl_product t1
+       	 <isNotEmpty property="areaCode">
+    	       <![CDATA[ ,tbl_member t2]]>
+    	 </isNotEmpty>
+       
+       	 where t1.product_status='on' and t1.web_order='Y' and (t1.censor=1 or t1.censor=2)
+       	 <dynamic>
+       		<isNotEmpty property="productType" prepend="and"> 
+       			t1.product_type like '$productType$%'
+       		</isNotEmpty> 
+       		<isNotEmpty prepend="and" property="areaCode">
+    	       <![CDATA[ t1.supplier_id=t2.member_id and t2.area like '$areaCode$%']]>
+    	   </isNotEmpty>
+       	 </dynamic>
+         <![CDATA[order by sale_count desc )where rownum >= #startCount# and rownum <= #endCount#]]>
+    </select>
+    
+    <select id ="frontnewProduct" parameterClass="java.util.HashMap"  resultMap="ProductSupplyResultMap">
+       <![CDATA[select * from (select * from tbl_product where product_status='on' and web_order='Y' and (censor=1 or censor=2) order by product_id desc )where rownum >= #startCount# and rownum <= #endCount#]]>
+    </select>
+    
+    <!--根据区域ID，和产品分类进行展示首页产品-->
+    <select id ="frontnewProductx" parameterClass="java.util.HashMap"  resultMap="ProductSupplyResultMap">
+       	select * from (select * from tbl_product where product_status='on' and web_order='Y' and (censor=1 or censor=2)
+       	<dynamic>
+       		<isNotEmpty property="productType"> and product_type like '$productType$%'</isNotEmpty> 
+       		<isNotEmpty property="areaCode"> and supplier_id in (select member_id from tbl_member where area like '$areaCode$%' and approve_state='Completed')</isNotEmpty> 
+       	</dynamic>
+        <![CDATA[order by product_id desc )where rownum >= #startCount# and rownum <= #endCount#]]>
+    </select>
+    <select id ="frontnewProducty" parameterClass="java.util.HashMap"  resultMap="ProductSupplyResultMap">
+       	select * from (select * from tbl_product where product_status='on' and web_order='Y' and (censor=1 or censor=2)
+       	<dynamic>
+       		<isNotEmpty property="productType"> and product_type like '$productType$%'</isNotEmpty> 
+       		<isNotEmpty property="areaCode"> and supplier_id in (select member_id from tbl_member where area like '$areaCode$%' and approve_state='Completed')</isNotEmpty> 
+       	</dynamic>
+        <![CDATA[order by product_id asc )where rownum >= #startCount# and rownum <= #endCount#]]>
+    </select>
+    
+    <!--根据产品的类别查询其他同类别的商品  -->
+    <select id="randomProduct"  resultMap="ProductSupplyResultMap" parameterClass="map">
+     <![CDATA[select * from (select * from tbl_product t where t.product_status='on'  and (censor=1 or censor=2) and t.product_type=#typeCode# and product_id<>#proId#  order by dbms_random.value) where rownum <=7]]>
+    </select>
+    
+    <!--当前产品的供应商的其他产品  -->
+    <select id="otherProductBySupp" resultMap="ProductSupplyResultMap"  parameterClass="map">
+        <![CDATA[select * from ( select * from tbl_product t 
+                  where  t.product_status='on' and (censor=1 or censor=2) and  t.supplier_id=#supplierId# and t.product_id<>#proId# order by t.product_id desc) where rownum <= 10]]>
+    </select>
+    
+    <!-- //+++ 添加商品点击 by hooxin-->
+    <update id="insertPdtClick" parameterClass="long">
+    	UPDATE TBL_PRODUCT
+			SET VIEW_COUNT = VIEW_COUNT+1
+		WHERE PRODUCT_ID = #value#
+    	
+    </update>
+    
+    
+    <!-- ****************农产品集团热卖产品****cl******** -->
+    <select id ="ncp-fronthotProduct" parameterClass="java.util.HashMap" resultMap="ProductSupplyResultMap">
+       select * from (select s.*, rownum r from (
+       		select * from tbl_product where product_status='on' and web_order='Y' and (censor=1 or censor=2)       		
+       		<dynamic>
+       			<isNotEmpty property="productType">and product_type like '$productType$%'</isNotEmpty>
+       			<isEmpty property="productType">and (product_type like '0004%' or product_type like '0008%' or product_type like '0010%')</isEmpty>
+       		</dynamic>
+        	order by sale_count desc         	
+        ) s) 
+    	<![CDATA[		
+    	where r>=#startCount# and r<=#endCount#  
+	 	]]>  
+    </select>
+    
+    <select id="ncp-fronthotProductCount" parameterClass="java.util.HashMap" resultClass="Integer">
+    	select count(*) from tbl_product where product_status='on' and web_order='Y' and (censor=1 or censor=2)
+       		<dynamic>
+       			<isNotEmpty property="productType">and product_type like '$productType$%'</isNotEmpty>
+       			<isEmpty property="productType">and (product_type like '0004%' or product_type like '0008%' or product_type like '0010%')</isEmpty>
+       		</dynamic>
+    </select>
+    <!-- ****************农产品集团热卖产品*****cl******* -->
+    
+</sqlMap>

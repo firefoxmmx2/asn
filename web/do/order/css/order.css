@@ -1,0 +1,29 @@
+
+.step{font-size:14px; font-weight:700; color:#ed6e0f;}
+.step-content{font-size:14px; font-weight:700;}
+.step-line{border-bottom:1px #BABABA solid;}
+.st-li-all{border:1px #bababa solid;}
+.st-li-all2{border-bottom:1px #b5ceed solid;border-left:1px #b5ceed solid;border-right:1px #b5ceed solid;}
+.st-order{padding-left:10px; background:#e8f2fe;}
+.st-logistics{padding:10px; background:#EBEBEB;}
+#ship_product{border-right:1px #BABABA solid;}
+
+
+.line_lu{ background:#f1ffe6; border:1px solid #63a54d; font-size:14px;color:#3e3e3e; }
+.line_hui{ background:#f2f2f2; border:1px solid #dbdfe2;color:#3e3e3e;}
+.line_hui2{ border:1px solid #dbdfe2;color:#3e3e3e;}
+.wz14{ font-size:14px; border-bottom:3px solid #cbe4f8;}                   
+.mjly{ padding-left:10px; padding-top:20px;}       
+
+.line_hui2 a:link,#ship_product a:link{
+	color: #0033FF;
+	text-decoration: none;
+}
+.line_hui2 a:visited,#ship_product a:visited{
+	text-decoration: none;
+	color: #0033FF;
+}
+.line_hui2 a:hover,#ship_product a:hover{
+	text-decoration: underline;
+	color: #FF0000;
+}

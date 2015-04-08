@@ -1,0 +1,458 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" 
+
+"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="member">
+    <cacheModel id="memberCache" type="OSCACHE">
+        <flushInterval hours="24"/>
+        <flushOnExecute statement="addMember"/>
+        <flushOnExecute statement="delMember"/>
+        <flushOnExecute statement="updateMember"/>
+        <flushOnExecute statement="updateMemberLastLogin"/>
+        <flushOnExecute statement="updateMemberById"/>
+        <flushOnExecute statement="updateMemberById"/>
+    </cacheModel>
+	<typeAlias alias="Member" type="com.bornsoft.asn.bean.member.Member" />
+
+	<resultMap id="MemberResult" class="Member">
+		<result property="memberId" column="MEMBER_ID" />
+		<result property="memberType" column="MEMBER_TYPE" />
+		<result property="certType" column="CERT_TYPE" />
+		<result property="certId" column="CERT_ID" />
+		<result property="fullName" />
+		<result property="shortName" />
+		<result property="area" column="AREA" />
+		<result property="email" column="EMAIL" />
+		<result property="fixedPhone" column="FIXED_PHONE" />
+		<result property="mobilePhone" column="MOBILE_PHONE" />
+		<result property="zip" column="ZIP" />
+		<result property="address" column="ADDRESS" />
+		<result property="contactor" column="CONTACTOR" />
+		<result property="approveState" column="APPROVE_STATE" />
+		<result property="lockState" column="LOCK_STATE" />
+		<result property="registerTime" column="REGISTER_TIME" />
+		<result property="lastLoginTime" column="LAST_LOGIN_TIME" />
+		<result property="lastLoginIp" column="LAST_LOGIN_IP" />
+		<result property="ssoAccount" column="SSO_ACCOUNT" />
+		<result property="mailVerifyCode" column="MAIL_VERIFY_CODE" />
+		<result property="qq" column="QQ" />
+		<result property="notifyMail" column="NOTIFY_MAIL" />
+		<result property="notifySms" column="NOTIFY_SMS" />
+		
+		<!-- add cl 2010-12-16 账号类型-->
+		<result property="ssoType" column="sso_type"/>
+		
+	</resultMap>
+
+	<!-- 查询会员列表 -->
+	<select id="getMemberList" parameterClass="java.util.HashMap" cacheModel="memberCache"
+		resultMap="MemberResult">
+		select * from (select m.*, rownum r from (
+
+		select * from tbl_member
+		where APPROVE_STATE <![CDATA[ <> ]]> 'None' and
+			  CERT_TYPE is not null and 
+			  CERT_ID is not null
+		<dynamic>
+			<isNotEmpty property="memberType" prepend="and">
+				MEMBER_TYPE like
+				'%$memberType$%'
+    	 	</isNotEmpty>
+			<isNotEmpty property="fullName" prepend="and">
+				(FULL_NAME like
+				'%$fullName$%' or
+				SHORT_NAME like '%$fullName$%' or
+				SSO_ACCOUNT
+				like
+				'%$fullName$%')
+    	 	</isNotEmpty>
+			<isNotEmpty property="area" prepend="and">
+				AREA like '%$area$%'
+			</isNotEmpty>
+			<isNotEmpty property="approveState" prepend="and">
+				APPROVE_STATE
+				like '%$approveState$%'
+    	 	</isNotEmpty>
+		</dynamic>
+		order by MEMBER_ID desc
+
+		) m) 
+    		
+    	<![CDATA[	where r>=#startCount# and r<=#endCount# 
+    	 ]]>
+
+	</select>
+
+	<!-- 查询会员列表信息记录条数 -->
+	<select id="getMemberCount" resultClass="long" parameterClass="java.util.HashMap" cacheModel="memberCache">
+		select count(*)
+		from tbl_member
+		where APPROVE_STATE <![CDATA[ <> ]]> 'None' and
+			  CERT_TYPE is not null and 
+			  CERT_ID is not null
+		<dynamic>
+			<isNotEmpty property="memberType" prepend="and">
+				MEMBER_TYPE like
+				'%$memberType$%'
+    	 	</isNotEmpty>
+			<isNotEmpty property="fullName" prepend="and">
+				(FULL_NAME like
+				'%$fullName$%' or
+				SHORT_NAME like '%$fullName$%' or
+				SSO_ACCOUNT
+				like
+				'%$fullName$%')
+    	 	</isNotEmpty>
+			<isNotEmpty property="area" prepend="and">
+				AREA like '%$area$%'
+			</isNotEmpty>
+			<isNotEmpty property="approveState" prepend="and">
+				APPROVE_STATE
+				like '%$approveState$%'
+    	 	</isNotEmpty>
+		</dynamic>
+
+	</select>
+	
+	
+	
+	<!-- 查询会员列表                ************ 综合查询所有会员***********-->
+	<select id="getGeneralMemberList" parameterClass="java.util.HashMap" cacheModel="memberCache"
+		resultMap="MemberResult">
+		select * from (select m.*, rownum r from (
+
+		select * from tbl_member
+		where APPROVE_STATE <![CDATA[ <> ]]> 'None' 
+		<dynamic>
+			<isNotEmpty property="memberType" prepend="and">
+				MEMBER_TYPE like
+				'%$memberType$%'
+    	 	</isNotEmpty>
+			<isNotEmpty property="fullName" prepend="and">
+				(FULL_NAME like
+				'%$fullName$%' or
+				SHORT_NAME like '%$fullName$%' or
+				SSO_ACCOUNT
+				like
+				'%$fullName$%')
+    	 	</isNotEmpty>
+			<isNotEmpty property="area" prepend="and">
+				AREA like '%$area$%'
+			</isNotEmpty>
+			<isNotEmpty property="approveState" prepend="and">
+				APPROVE_STATE
+				like '%$approveState$%'
+    	 	</isNotEmpty>
+		</dynamic>
+		order by MEMBER_ID desc
+
+		) m) 
+    		
+    	<![CDATA[	where r>=#startCount# and r<=#endCount# 
+    	 ]]>
+
+	</select>
+
+	<!-- 查询会员列表信息记录条数   综合查询所有会员-->
+	<select id="getGeneralMemberCount" resultClass="long" parameterClass="java.util.HashMap" cacheModel="memberCache">
+		select count(*)
+		from tbl_member
+		where APPROVE_STATE <![CDATA[ <> ]]> 'None' 
+		<dynamic>
+			<isNotEmpty property="memberType" prepend="and">
+				MEMBER_TYPE like
+				'%$memberType$%'
+    	 	</isNotEmpty>
+			<isNotEmpty property="fullName" prepend="and">
+				(FULL_NAME like
+				'%$fullName$%' or
+				SHORT_NAME like '%$fullName$%' or
+				SSO_ACCOUNT
+				like
+				'%$fullName$%')
+    	 	</isNotEmpty>
+			<isNotEmpty property="area" prepend="and">
+				AREA like '%$area$%'
+			</isNotEmpty>
+			<isNotEmpty property="approveState" prepend="and">
+				APPROVE_STATE
+				like '%$approveState$%'
+    	 	</isNotEmpty>
+		</dynamic>
+
+	</select>
+	
+	
+
+	<!-- 按照ID查询单个会员 -->
+	<select id="getMemberById" parameterClass="long" resultMap="MemberResult" cacheModel="memberCache">
+		select *
+		from tbl_member
+		where member_id=#memberId#
+		and rownum&lt;=1
+
+	</select>
+
+	<!-- 按照SSO账号查询单个会员 -->
+	<select id="getMemberBySsoAccount" parameterClass="string" cacheModel="memberCache"
+		resultMap="MemberResult">
+		select *
+		from tbl_member
+		where sso_account=#ssoAccount#
+		and
+		rownum&lt;=1
+		 
+    </select>
+
+	<!-- 删除会员 -->
+	<delete id="delMember" parameterClass="long">
+		delete from tbl_member
+		where member_id = #menberId#
+    </delete>
+
+	<!-- 添加会员 -->
+	<insert id="addMember" parameterClass="Member">
+		insert into tbl_member(
+		MEMBER_ID,
+		MEMBER_TYPE,
+		CERT_TYPE,
+		CERT_ID,
+		FULL_NAME,
+		SHORT_NAME,
+		AREA,
+		EMAIL,
+		FIXED_PHONE,
+		MOBILE_PHONE,
+		ZIP,
+		ADDRESS,
+		CONTACTOR,
+		APPROVE_STATE,
+		LOCK_STATE,
+		REGISTER_TIME,
+		LAST_LOGIN_TIME,
+		LAST_LOGIN_IP,
+		SSO_ACCOUNT,
+		MAIL_VERIFY_CODE,
+		NOTIFY_MAIL,
+		NOTIFY_SMS,
+		QQ,
+		sso_type
+		)
+		values (
+		#memberId#,
+		#memberType#,
+		#certType#,
+		#certId#,
+		#fullName#,
+		#shortName#,
+		#area#,
+		#email#,
+		#fixedPhone#,
+		#mobilePhone#,
+		#zip#,
+		#address#,
+		#contactor#,
+		#approveState#,
+		#lockState#,
+		#registerTime#,
+		#lastLoginTime#,
+		#lastLoginIp#,
+		#ssoAccount#,
+		#mailVerifyCode#,
+		#notifyMail#,
+		#notifySms#,
+		#qq#,
+		#ssoType#
+		)
+	</insert>
+
+	<!-- 修改会员 -->
+	<update id="updateMember" parameterClass="Member">
+		update tbl_member set
+		<isNotNull property="fullName">
+			full_name =#fullName#,
+	     </isNotNull>
+		short_name =#shortName#
+		where member_id = #memberId#
+	</update>
+
+	<!-- 更新会员的上次登录信息 -->
+	<!-- -->
+	<update id="updateMemberLastLogin" parameterClass="java.util.HashMap">
+		update
+		tbl_member set
+		LAST_LOGIN_TIME=#lastLoginTime#,
+		LAST_LOGIN_IP=#lastLoginIp#
+		where MEMBER_ID = #memberId#	
+	</update>
+
+	<update id="updateMemberById" parameterClass="Member">
+		update tbl_member
+		set
+		CERT_TYPE = #certType#,
+		CERT_ID = #certId#,
+		FULL_NAME = #fullName#,
+		SHORT_NAME = #shortName#,
+		AREA = #area#,
+		EMAIL = #email#,
+		FIXED_PHONE =
+		#fixedPhone#,
+		MOBILE_PHONE = #mobilePhone#,
+		ZIP = #zip#,
+		ADDRESS =
+		#address#,
+		CONTACTOR = #contactor#,
+		NOTIFY_MAIL = #notifyMail#,
+		NOTIFY_SMS = #notifySms#,
+		QQ = #qq#
+		where MEMBER_ID = #memberId#
+	</update>
+
+	<select id="getAllenterprise" resultMap="MemberResult">
+		select * from tbl_member
+		where MEMBER_TYPE = 1
+	</select>
+
+	<select id="getEnterpriseByName" resultMap="MemberResult"
+		parameterClass="string">
+		select * from tbl_member
+		where MEMBER_TYPE = 1 and
+		(
+		FULL_NAME like '%$fullName$%' or
+		SHORT_NAME like '%$fullName$%'
+		)
+	</select>
+
+	<select id="getMemberByMailCode" parameterClass="string"
+		resultMap="MemberResult">
+		select * from tbl_member
+		where MAIL_VERIFY_CODE =
+		#mailVerifyCode#
+	</select>
+
+	<update id="updateApproveState" parameterClass="Member">
+		update tbl_member
+		set
+		APPROVE_STATE = #approveState#
+		where MEMBER_ID = #memberId#
+			
+	</update>
+
+	<update id="updateMailVerifyCode" parameterClass="Member">
+		update
+		tbl_member set
+		MAIL_VERIFY_CODE = #mailVerifyCode#
+		where MEMBER_ID =
+		#memberId#
+			
+	</update>
+
+	<update id="updateMail" parameterClass="Member">
+		update tbl_member set
+		EMAIL = #email#,
+		MAIL_VERIFY_CODE = #mailVerifyCode#
+		where MEMBER_ID =
+		#memberId#
+			
+	</update>
+
+	<select id="findMemberList" resultMap="MemberResult"
+		parameterClass="java.util.List">
+		select * from tbl_member where member_id in
+		<iterate conjunction="," close=")" open="(">
+			#value[]#
+			</iterate>
+	</select>
+
+	<!-- add 2010-04-01 cl 修改锁定状态 -->
+	<update id="updMemberLocked" parameterClass="java.util.HashMap">
+		update tbl_member
+		set
+		LOCK_STATE = #lockState#
+		where MEMBER_ID = #memberId#
+	</update>
+
+	<select id="getAllMember-sms" parameterClass="java.util.HashMap"
+		resultMap="MemberResult">
+
+		select * from (select tm.*, rownum r from (
+
+		select * from tbl_member
+		where MOBILE_PHONE is not null and
+		( FULL_NAME like '%$memberName$%' or
+		SHORT_NAME like '%$memberName$%' or
+		SSO_ACCOUNT like '%$memberName$%'
+		)
+		order by MEMBER_ID asc
+		) tm) 
+    	<![CDATA[
+    		where r>=#startCount# and r<=#endCount#
+    	 ]]>
+
+	</select>
+
+
+
+	<select id="getAllCountMember-sms" parameterClass="java.util.HashMap"
+		resultClass="Integer">
+		select count(*) from tbl_member
+		where MOBILE_PHONE is not
+		null and
+		( FULL_NAME like '%$memberName$%' or
+		SHORT_NAME like
+		'%$memberName$%' or
+		SSO_ACCOUNT like '%$memberName$%'
+		)
+			
+	</select>
+
+	<!-- add customer cache and getCustomer statement by hooxin -->
+	<cacheModel type="OSCACHE" id="customerCache">
+		<flushInterval hours="12" />
+		<flushOnExecute statement="addOrder" />
+		<flushOnExecute statement="updateOrderInfo" />
+	</cacheModel>
+	<select id="getCustomer" cacheModel="customerCache" resultMap="MemberResult"
+		parameterClass="map">
+		select x.* from (select a.*,row_number() over (order by
+		a.member_id
+		desc) num from (select distinct t.* from tbl_member t ,tbl_order_info
+		o where
+		t.member_id = o.memberid
+		<dynamic>
+			<isNotEmpty prepend="and" property="memberId">
+				o.SUPPLIERID =
+				#memberId#
+		 </isNotEmpty>
+		</dynamic>
+		) a ) x
+		<dynamic prepend="where">
+			<isNotEmpty property="start" prepend="and">
+				<isNotEmpty property="end">
+					num between #start# and #end#
+				</isNotEmpty>
+			</isNotEmpty>
+		</dynamic>
+	</select>
+
+	<select id="getCustomerCount" cacheModel="customerCache"
+		resultClass="Integer" parameterClass="map">
+		select count(*) from (select a.*,row_number() over (order by
+		a.member_id desc) num from (select distinct t.* from tbl_member t
+		,tbl_order_info o where
+		t.member_id = o.memberid
+		<dynamic>
+			<isNotEmpty prepend="and" property="memberId">
+				o.SUPPLIERID =
+				#memberId#
+		 </isNotEmpty>
+		</dynamic>
+		) a) x
+	</select>
+	<select id="getCustomerByMemberId" cacheModel="customerCache"
+		resultMap="MemberResult" parameterClass="Long">
+		select distinct t.* from
+		tbl_member t ,tbl_order_info o where t.member_id = o.memberid
+		o.SUPPLIERID = #value#
+	</select>
+</sqlMap>

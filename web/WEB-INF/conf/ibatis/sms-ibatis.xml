@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="asnsms">
+	<typeAlias alias="SmsSend" type="com.bornsoft.sms.bean.SmsSend"/>
+	<resultMap class="SmsSend" id="SmsSendResult">
+		<result property="id" column="ID"/>
+		<result property="mobileNo" column="MOBILE_NO"/>
+		<result property="sendContent" column="SEND_CONTENT"/>
+		<result property="createTime" column="CREATE_TIME"/>
+		<result property="sendTime" column="SEND_TIME"/>
+		<result property="smsStatus" column="SMS_STATUS"/>
+		<result property="isReply" column="IS_REPLY"/>
+		<result property="extNumber" column="EXT_NUMBER"/>
+		<result property="mobileType" column="MOBILE_TYPE"/>
+		<result property="sendType" column="SEND_TYPE"/>
+		<result property="setTime" column="SET_TIME"/>
+		<result property="createMan" column="CREATE_MAN"/>
+	</resultMap>
+	
+	<insert id="addSmsSend" parameterClass="SmsSend">
+		insert into tbl_sms_send(
+					ID,
+					MOBILE_NO,
+					SEND_CONTENT,
+					SMS_STATUS,
+					IS_REPLY,
+					EXT_NUMBER,
+					SEND_TYPE,
+					SET_TIME,
+					CREATE_MAN
+				)
+				values(
+					#id#,
+					#mobileNo#,
+					#sendContent#,
+					#smsStatus#,
+					#isReply#,
+					#extNumber#,
+					#sendType#,
+					#setTime#,
+					#createMan#
+				)
+	</insert>
+	
+
+	
+	<typeAlias alias="SmsReceive" type="com.bornsoft.sms.bean.SmsReceive"/>
+	<resultMap class="SmsReceive" id="SmsReceiveResult">
+		<result property="id" column="ID"/>
+		<result property="mobileNo" column="MOBILE_NO"/>
+		<result property="replyContent" column="REPLY_CONTENT"/>
+		<result property="extNumber" column="EXT_NUMBER"/>
+		<result property="isHandled" column="IS_HANDLED"/>
+		<result property="createTime" column="CREATE_TIME"/>
+		<result property="handleTime" column="HANDLE_TIME"/>
+	</resultMap>
+	
+	<insert id="addSmsReceive" parameterClass="SmsReceive">
+		insert into tbl_sms_send(
+					ID,
+					MOBILE_NO,
+					REPLY_CONTENT,
+					EXT_NUMBER
+				)
+				values(
+					#id#,
+					#mobileNo#,
+					#replyContent#,
+					#extNumber#
+				)
+	</insert>
+	
+	<select id="getSmsSend" parameterClass="java.util.HashMap" resultMap="SmsSendResult">
+		select * from (select m.*, rownum r from (	
+			select * from tbl_sms_send
+				where  <![CDATA[ SMS_STATUS != 'C' ]]>  
+				<dynamic>
+		    	 	<isNotEmpty property="mobileNo" prepend="and">
+		    	 		MOBILE_NO like '%$mobileNo$%'
+		    	 	</isNotEmpty>
+		    	 	<isNotEmpty property="sendType" prepend="and">
+		    	 		SEND_TYPE = #sendType#
+		    	 	</isNotEmpty>
+		    	 	<isNotEmpty property="smsStatus" prepend="and">
+		    	 		SMS_STATUS = #smsStatus#
+		    	 	</isNotEmpty>
+		    	 	<isNotEmpty property="isReply" prepend="and">
+		    	 		IS_REPLY = #isReply#
+		    	 	</isNotEmpty>
+		    	 	<isNotEmpty property="startTime" prepend="and">
+		    	 		CREATE_TIME >= to_timestamp('$startTime$'' 0:0:0', 'syyyy-mm-dd hh24:mi:ss')
+		    	 	</isNotEmpty>
+		    	 	<isNotEmpty property="endTime" prepend="and">
+		    	 		CREATE_TIME <![CDATA[ <= ]]> to_timestamp('$endTime$'' 0:0:0', 'syyyy-mm-dd hh24:mi:ss')
+		    	 	</isNotEmpty>
+		    	 </dynamic>
+				
+			order by ID desc
+		) m) 
+    		
+    	<![CDATA[	where r>=#startCount# and r<=#endCount#  ]]>     	 
+	</select>
+	
+	<select id="getSmsSendCount" parameterClass="java.util.HashMap" resultClass="Integer">
+		select count(*) from tbl_sms_send
+			<![CDATA[where SMS_STATUS != 'C' ]]> 
+			<dynamic>
+	    	 	<isNotEmpty property="mobileNo" prepend="and">
+	    	 		MOBILE_NO like '%$mobileNo$%'
+	    	 	</isNotEmpty>
+	    	 	<isNotEmpty property="sendType" prepend="and">
+	    	 		SEND_TYPE = #sendType#
+	    	 	</isNotEmpty>
+	    	 	<isNotEmpty property="smsStatus" prepend="and">
+	    	 		SMS_STATUS = #smsStatus#
+	    	 	</isNotEmpty>
+	    	 	<isNotEmpty property="isReply" prepend="and">
+	    	 		IS_REPLY = #isReply#
+	    	 	</isNotEmpty>
+	    	 	<isNotEmpty property="startTime" prepend="and">
+	    	 		CREATE_TIME >= to_timestamp('$startTime$'' 0:0:0', 'syyyy-mm-dd hh24:mi:ss')
+	    	 	</isNotEmpty>
+	    	 	<isNotEmpty property="endTime" prepend="and">
+	    	 		CREATE_TIME <![CDATA[ <= ]]> to_timestamp('$endTime$'' 0:0:0', 'syyyy-mm-dd hh24:mi:ss')
+	    	 	</isNotEmpty>
+	    	 </dynamic>
+	</select>
+	
+	<select id="getSmsDraft" parameterClass="java.util.HashMap" resultMap="SmsSendResult">
+		
+		select * from (select m.*, rownum r from (	
+			select * from tbl_sms_send
+				where SMS_STATUS = 'C'
+				<dynamic>
+		    	 	<isNotEmpty property="mobileNo" prepend="and">
+		    	 		MOBILE_NO like '%$mobileNo$%'
+		    	 	</isNotEmpty>
+		    	 	<isNotEmpty property="sendType" prepend="and">
+		    	 		SEND_TYPE = #sendType#
+		    	 	</isNotEmpty>	    	 	
+		    	 	<isNotEmpty property="isReply" prepend="and">
+		    	 		IS_REPLY = #isReply#
+		    	 	</isNotEmpty>
+		    	 	<isNotEmpty property="startTime" prepend="and">
+		    	 		CREATE_TIME >= to_timestamp('$startTime$'' 0:0:0', 'syyyy-mm-dd hh24:mi:ss')
+		    	 	</isNotEmpty>
+		    	 	<isNotEmpty property="endTime" prepend="and">
+		    	 		CREATE_TIME <![CDATA[ <= ]]> to_timestamp('$endTime$'' 0:0:0', 'syyyy-mm-dd hh24:mi:ss')
+		    	 	</isNotEmpty>
+		    	 </dynamic>
+			order by ID desc
+		) m) 
+    		
+    	<![CDATA[	where r>=#startCount# and r<=#endCount#  ]]> 
+	</select>
+	
+	<select id="getSmsDraftCount" parameterClass="java.util.HashMap" resultClass="Integer">
+		select count(*) from tbl_sms_send
+			where SMS_STATUS = 'C'
+			<dynamic>
+	    	 	<isNotEmpty property="mobileNo" prepend="and">
+	    	 		MOBILE_NO like '%$mobileNo$%'
+	    	 	</isNotEmpty>
+	    	 	<isNotEmpty property="sendType" prepend="and">
+	    	 		SEND_TYPE = #sendType#
+	    	 	</isNotEmpty>	    	 	
+	    	 	<isNotEmpty property="isReply" prepend="and">
+	    	 		IS_REPLY = #isReply#
+	    	 	</isNotEmpty>
+	    	 	<isNotEmpty property="startTime" prepend="and">
+	    	 		CREATE_TIME >= to_timestamp('$startTime$'' 0:0:0', 'syyyy-mm-dd hh24:mi:ss')
+	    	 	</isNotEmpty>
+	    	 	<isNotEmpty property="endTime" prepend="and">
+	    	 		CREATE_TIME <![CDATA[ <= ]]> to_timestamp('$endTime$'' 0:0:0', 'syyyy-mm-dd hh24:mi:ss')
+	    	 	</isNotEmpty>
+	    	 </dynamic>
+	</select>
+	
+	<select id="getSmsById" parameterClass="Long" resultMap="SmsSendResult">
+		select * from tbl_sms_send
+			where id = #smsId# 
+	</select>
+	
+	<delete id="deleteDraftSms" parameterClass="Long">
+		delete from tbl_sms_send
+			where id = #smsId#
+	</delete>
+
+</sqlMap>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+
+	<package name="infocf" extends="struts-asn" namespace="/front/infoc">
+		<action name="showInfoCenterList" class="com.bornsoft.asn.action.infoCenter.InfoCenterFrontAction" method="showInfoCenterList">
+			<result name="success" type="tilesmap">/front/infoCenter/infoCenterList.jsp</result>
+		</action>
+		<action name="showInfoCenter" class="com.bornsoft.asn.action.infoCenter.InfoCenterFrontAction" method="showInfoCenter">
+			<result name="success" type="tilesmap">/front/infoCenter/infoCenter.jsp</result>
+		</action>
+		
+		<!--企业店铺的信息列表-->
+		<action name="showInfoCenterListCompany" class="com.bornsoft.asn.action.infoCenter.InfoCenterFrontAction" method="showInfoCenterList">
+			<result name="success" >/front/infoCenter/infoCenterListCompany.jsp</result>
+		</action>
+		<action name="showInfoCenterCompany" class="com.bornsoft.asn.action.infoCenter.InfoCenterFrontAction" method="showInfoCenter">
+			<result name="success" >/front/infoCenter/infoCenterCompany.jsp</result>
+		</action>
+		
+	</package>
+
+</struts>   

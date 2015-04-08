@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+  
+<sqlMap>
+	<typeAlias alias="InfoCenter" type="com.bornsoft.asn.bean.infoCenter.InfoCenter"/>
+	<resultMap class="InfoCenter" id="InfoCenterMap">
+		<result property="id" column="id"/>
+		<result property="title" column="title"/>
+		<result property="content" column="content"/>
+		<result property="type" column="type"/>
+		<result property="createMan" column="create_man"/>
+		<result property="createTime" column="create_time"/>
+		<result property="status" column="status"/>
+	</resultMap>
+	
+	<insert id="insertInfoCenter" parameterClass="InfoCenter">
+		insert into TBL_INFO_CENTER (id,title,content,type,create_man,create_time,status) 
+		values(#id#,#title#,#content#,#type#,#createMan#,#createTime#,#status#)
+	</insert>
+	<delete id="deleteInfoCenterById" parameterClass="String">
+		delete from TBL_INFO_CENTER where id=#id#
+	</delete>
+	<update id="updateInfoCenter" parameterClass="InfoCenter">
+		update TBL_INFO_CENTER set title=#title#,
+		content=#content#,type=#type#,status=#status#
+		where id=#id#
+	</update>
+	<select id="getInfoCenterById" parameterClass="String" resultMap="InfoCenterMap">
+		select * from TBL_INFO_CENTER where id=#id#
+	</select>
+	<select id="getInfoList" parameterClass="java.util.HashMap" resultMap="InfoCenterMap">
+		select * from(select t.*,rownum r from ( select * from TBL_INFO_CENTER
+		<dynamic prepend="where">
+			<isNotNull prepend="and" property="title">
+				title=#title#
+			</isNotNull>
+			<isNotNull prepend="and" property="type">
+				type=#type#
+			</isNotNull>
+			<isNotNull prepend="and" property="status">
+				status=#status#
+			</isNotNull>
+			<isNotNull prepend="and" property="createMan">
+				create_man=#createMan#
+			</isNotNull>
+		</dynamic>
+		<![CDATA[
+		order by id desc )t) where r>=#startCount# and r<=#endCount# 
+		 ]]>
+	</select>
+	<select id="getInfoListCount" parameterClass="java.util.HashMap" resultClass="Integer">
+		select count(*) from TBL_INFO_CENTER
+		<dynamic prepend="where">
+			<isNotNull prepend="and" property="title">
+				title=#title#
+			</isNotNull>
+			<isNotNull prepend="and" property="type">
+				type=#type#
+			</isNotNull>
+			<isNotNull prepend="and" property="status">
+				status=#status#
+			</isNotNull>
+			<isNotNull prepend="and" property="createMan">
+				create_man=#createMan#
+			</isNotNull>
+		</dynamic>
+	</select>
+	<update id="setInfoCenterStatus" parameterClass="java.util.HashMap">
+		update TBL_INFO_CENTER set status=#status# where id=#id#
+	</update>
+</sqlMap>  
+   
+
+   
